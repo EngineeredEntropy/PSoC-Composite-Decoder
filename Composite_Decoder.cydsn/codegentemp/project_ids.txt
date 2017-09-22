@@ -1,0 +1,6 @@
+C:\Users\jrdia\OneDrive\Sync\Documents\GitHub\PSoC-Composite-Decoder\Composite_Decoder.cydsn\Composite_Decoder.cyprj|cc237df0-b156-4823-ba11-2c1077f92ce3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|8e5b1993-e369-4924-837c-fe8407362d0d
+C:\Users\jrdia\OneDrive\Sync\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|3ff1204f-f7df-4da8-b5d8-614dee83e624
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|58b47460-f7ad-4a30-9904-f7a976ce9de1
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|12fe4dcf-1c47-4420-8645-f5d834cdfef9
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|b5728705-0506-465d-b823-025617e2f7ab

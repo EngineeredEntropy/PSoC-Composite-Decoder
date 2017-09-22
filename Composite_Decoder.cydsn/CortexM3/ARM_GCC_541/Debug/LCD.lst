@@ -1,0 +1,2605 @@
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"LCD.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.writeBusLCD,"ax",%progbits
+  20              		.align	2
+  21              		.global	writeBusLCD
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	writeBusLCD, %function
+  25              	writeBusLCD:
+  26              	.LFB63:
+  27              		.file 1 "LCD.c"
+   1:LCD.c         **** /* ========================================
+   2:LCD.c         ****  *
+   3:LCD.c         ****  * Copyright YOUR COMPANY, THE YEAR
+   4:LCD.c         ****  * All Rights Reserved
+   5:LCD.c         ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:LCD.c         ****  *
+   7:LCD.c         ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:LCD.c         ****  * WHICH IS THE PROPERTY OF your company.
+   9:LCD.c         ****  *
+  10:LCD.c         ****  * ========================================
+  11:LCD.c         **** */
+  12:LCD.c         **** 
+  13:LCD.c         **** /* [] END OF FILE */
+  14:LCD.c         **** 
+  15:LCD.c         **** #include "LCD.h"
+  16:LCD.c         **** #include "project.h"
+  17:LCD.c         **** 
+  18:LCD.c         **** void writeBusLCD(uint8 value)
+  19:LCD.c         **** {
+  28              		.loc 1 19 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 08B5     		push	{r3, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  20:LCD.c         ****     LCD_Data_Reg_Write(value);
+  37              		.loc 1 20 0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 2
+
+
+  38 0002 FFF7FEFF 		bl	LCD_Data_Reg_Write
+  39              	.LVL1:
+  21:LCD.c         ****     LCD_WR_REG_Write(5);
+  40              		.loc 1 21 0
+  41 0006 0520     		movs	r0, #5
+  42 0008 FFF7FEFF 		bl	LCD_WR_REG_Write
+  43              	.LVL2:
+  22:LCD.c         ****     LCD_WR_REG_Write(7);
+  44              		.loc 1 22 0
+  45 000c 0720     		movs	r0, #7
+  46 000e FFF7FEFF 		bl	LCD_WR_REG_Write
+  47              	.LVL3:
+  48 0012 08BD     		pop	{r3, pc}
+  49              		.cfi_endproc
+  50              	.LFE63:
+  51              		.size	writeBusLCD, .-writeBusLCD
+  52              		.section	.text.writeComLCD,"ax",%progbits
+  53              		.align	2
+  54              		.global	writeComLCD
+  55              		.thumb
+  56              		.thumb_func
+  57              		.type	writeComLCD, %function
+  58              	writeComLCD:
+  59              	.LFB64:
+  23:LCD.c         **** }
+  24:LCD.c         **** 
+  25:LCD.c         **** void writeComLCD(uint8 value)
+  26:LCD.c         **** {
+  60              		.loc 1 26 0
+  61              		.cfi_startproc
+  62              		@ args = 0, pretend = 0, frame = 0
+  63              		@ frame_needed = 0, uses_anonymous_args = 0
+  64              	.LVL4:
+  65 0000 10B5     		push	{r4, lr}
+  66              		.cfi_def_cfa_offset 8
+  67              		.cfi_offset 4, -8
+  68              		.cfi_offset 14, -4
+  69 0002 0446     		mov	r4, r0
+  27:LCD.c         ****     LCD_RS_Write(0);
+  70              		.loc 1 27 0
+  71 0004 0020     		movs	r0, #0
+  72              	.LVL5:
+  73 0006 FFF7FEFF 		bl	LCD_RS_Write
+  74              	.LVL6:
+  28:LCD.c         ****     writeBusLCD(value);
+  75              		.loc 1 28 0
+  76 000a 2046     		mov	r0, r4
+  77 000c FFF7FEFF 		bl	writeBusLCD
+  78              	.LVL7:
+  79 0010 10BD     		pop	{r4, pc}
+  80              		.cfi_endproc
+  81              	.LFE64:
+  82              		.size	writeComLCD, .-writeComLCD
+  83 0012 00BF     		.section	.text.writeDataLCD,"ax",%progbits
+  84              		.align	2
+  85              		.global	writeDataLCD
+  86              		.thumb
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 3
+
+
+  87              		.thumb_func
+  88              		.type	writeDataLCD, %function
+  89              	writeDataLCD:
+  90              	.LFB65:
+  29:LCD.c         ****     
+  30:LCD.c         **** }
+  31:LCD.c         **** void writeDataLCD(uint8 value)
+  32:LCD.c         **** {
+  91              		.loc 1 32 0
+  92              		.cfi_startproc
+  93              		@ args = 0, pretend = 0, frame = 0
+  94              		@ frame_needed = 0, uses_anonymous_args = 0
+  95              	.LVL8:
+  96 0000 10B5     		push	{r4, lr}
+  97              		.cfi_def_cfa_offset 8
+  98              		.cfi_offset 4, -8
+  99              		.cfi_offset 14, -4
+ 100 0002 0446     		mov	r4, r0
+  33:LCD.c         ****     LCD_RS_Write(1);
+ 101              		.loc 1 33 0
+ 102 0004 0120     		movs	r0, #1
+ 103              	.LVL9:
+ 104 0006 FFF7FEFF 		bl	LCD_RS_Write
+ 105              	.LVL10:
+  34:LCD.c         ****     writeBusLCD(value);
+ 106              		.loc 1 34 0
+ 107 000a 2046     		mov	r0, r4
+ 108 000c FFF7FEFF 		bl	writeBusLCD
+ 109              	.LVL11:
+ 110 0010 10BD     		pop	{r4, pc}
+ 111              		.cfi_endproc
+ 112              	.LFE65:
+ 113              		.size	writeDataLCD, .-writeDataLCD
+ 114 0012 00BF     		.section	.text.Address_set,"ax",%progbits
+ 115              		.align	2
+ 116              		.global	Address_set
+ 117              		.thumb
+ 118              		.thumb_func
+ 119              		.type	Address_set, %function
+ 120              	Address_set:
+ 121              	.LFB66:
+  35:LCD.c         ****     
+  36:LCD.c         **** }
+  37:LCD.c         **** 
+  38:LCD.c         **** void Address_set(uint16 y1,uint16 x1,uint16 y2,uint16 x2)
+  39:LCD.c         **** {
+ 122              		.loc 1 39 0
+ 123              		.cfi_startproc
+ 124              		@ args = 0, pretend = 0, frame = 0
+ 125              		@ frame_needed = 0, uses_anonymous_args = 0
+ 126              	.LVL12:
+ 127 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 128              		.cfi_def_cfa_offset 24
+ 129              		.cfi_offset 3, -24
+ 130              		.cfi_offset 4, -20
+ 131              		.cfi_offset 5, -16
+ 132              		.cfi_offset 6, -12
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 4
+
+
+ 133              		.cfi_offset 7, -8
+ 134              		.cfi_offset 14, -4
+ 135 0002 0546     		mov	r5, r0
+ 136 0004 0F46     		mov	r7, r1
+ 137 0006 1446     		mov	r4, r2
+ 138 0008 1E46     		mov	r6, r3
+  40:LCD.c         ****     writeComLCD(0x2a);
+ 139              		.loc 1 40 0
+ 140 000a 2A20     		movs	r0, #42
+ 141              	.LVL13:
+ 142 000c FFF7FEFF 		bl	writeComLCD
+ 143              	.LVL14:
+  41:LCD.c         ****     writeDataLCD((x1>>8)&0xFF);
+ 144              		.loc 1 41 0
+ 145 0010 380A     		lsrs	r0, r7, #8
+ 146 0012 FFF7FEFF 		bl	writeDataLCD
+ 147              	.LVL15:
+  42:LCD.c         ****     writeDataLCD(x1&0xFF);
+ 148              		.loc 1 42 0
+ 149 0016 F8B2     		uxtb	r0, r7
+ 150 0018 FFF7FEFF 		bl	writeDataLCD
+ 151              	.LVL16:
+  43:LCD.c         ****     writeDataLCD((x2>>8)&0xFF);
+ 152              		.loc 1 43 0
+ 153 001c 300A     		lsrs	r0, r6, #8
+ 154 001e FFF7FEFF 		bl	writeDataLCD
+ 155              	.LVL17:
+  44:LCD.c         ****     writeDataLCD(x2&0xFF);
+ 156              		.loc 1 44 0
+ 157 0022 F0B2     		uxtb	r0, r6
+ 158 0024 FFF7FEFF 		bl	writeDataLCD
+ 159              	.LVL18:
+  45:LCD.c         ****     writeComLCD(0x2b);
+ 160              		.loc 1 45 0
+ 161 0028 2B20     		movs	r0, #43
+ 162 002a FFF7FEFF 		bl	writeComLCD
+ 163              	.LVL19:
+  46:LCD.c         ****     writeDataLCD((y1>>8)&0xFF);
+ 164              		.loc 1 46 0
+ 165 002e 280A     		lsrs	r0, r5, #8
+ 166 0030 FFF7FEFF 		bl	writeDataLCD
+ 167              	.LVL20:
+  47:LCD.c         ****     writeDataLCD(y1&0xFF);
+ 168              		.loc 1 47 0
+ 169 0034 E8B2     		uxtb	r0, r5
+ 170 0036 FFF7FEFF 		bl	writeDataLCD
+ 171              	.LVL21:
+  48:LCD.c         ****     writeDataLCD((y2>>8)&0xFF);
+ 172              		.loc 1 48 0
+ 173 003a 200A     		lsrs	r0, r4, #8
+ 174 003c FFF7FEFF 		bl	writeDataLCD
+ 175              	.LVL22:
+  49:LCD.c         ****     writeDataLCD(y2&0xFF);
+ 176              		.loc 1 49 0
+ 177 0040 E0B2     		uxtb	r0, r4
+ 178 0042 FFF7FEFF 		bl	writeDataLCD
+ 179              	.LVL23:
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 5
+
+
+  50:LCD.c         ****     writeComLCD(0x2c);     
+ 180              		.loc 1 50 0
+ 181 0046 2C20     		movs	r0, #44
+ 182 0048 FFF7FEFF 		bl	writeComLCD
+ 183              	.LVL24:
+ 184 004c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 185              		.cfi_endproc
+ 186              	.LFE66:
+ 187              		.size	Address_set, .-Address_set
+ 188 004e 00BF     		.section	.text.clearLCD,"ax",%progbits
+ 189              		.align	2
+ 190              		.global	clearLCD
+ 191              		.thumb
+ 192              		.thumb_func
+ 193              		.type	clearLCD, %function
+ 194              	clearLCD:
+ 195              	.LFB67:
+  51:LCD.c         **** }
+  52:LCD.c         **** void clearLCD(uint16 value)
+  53:LCD.c         **** {
+ 196              		.loc 1 53 0
+ 197              		.cfi_startproc
+ 198              		@ args = 0, pretend = 0, frame = 0
+ 199              		@ frame_needed = 0, uses_anonymous_args = 0
+ 200              	.LVL25:
+ 201 0000 70B5     		push	{r4, r5, r6, lr}
+ 202              		.cfi_def_cfa_offset 16
+ 203              		.cfi_offset 4, -16
+ 204              		.cfi_offset 5, -12
+ 205              		.cfi_offset 6, -8
+ 206              		.cfi_offset 14, -4
+ 207 0002 0546     		mov	r5, r0
+  54:LCD.c         ****     
+  55:LCD.c         ****  uint16 i,m;
+  56:LCD.c         ****     
+  57:LCD.c         ****  
+  58:LCD.c         ****   //writeComLCD(0x02c); //write_memory_start
+  59:LCD.c         ****   //digitalWrite(LCD_RS,HIGH);
+  60:LCD.c         ****     LCD_CS_Write(0);
+ 208              		.loc 1 60 0
+ 209 0004 0020     		movs	r0, #0
+ 210              	.LVL26:
+ 211 0006 FFF7FEFF 		bl	LCD_CS_Write
+ 212              	.LVL27:
+  61:LCD.c         ****     
+  62:LCD.c         ****   for(i=0;i<240;i++)
+ 213              		.loc 1 62 0
+ 214 000a 0026     		movs	r6, #0
+ 215 000c 0EE0     		b	.L10
+ 216              	.LVL28:
+ 217              	.L11:
+  63:LCD.c         ****     for(m=0;m<320;m++)
+  64:LCD.c         ****     {
+  65:LCD.c         ****       writeDataLCD((value>>8&0xFF));
+ 218              		.loc 1 65 0 discriminator 3
+ 219 000e 280A     		lsrs	r0, r5, #8
+ 220 0010 FFF7FEFF 		bl	writeDataLCD
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 6
+
+
+ 221              	.LVL29:
+  66:LCD.c         ****       writeDataLCD(value&0xFF);
+ 222              		.loc 1 66 0 discriminator 3
+ 223 0014 E8B2     		uxtb	r0, r5
+ 224 0016 FFF7FEFF 		bl	writeDataLCD
+ 225              	.LVL30:
+  63:LCD.c         ****     for(m=0;m<320;m++)
+ 226              		.loc 1 63 0 discriminator 3
+ 227 001a 0134     		adds	r4, r4, #1
+ 228              	.LVL31:
+ 229 001c A4B2     		uxth	r4, r4
+ 230              	.LVL32:
+ 231 001e 00E0     		b	.L12
+ 232              	.LVL33:
+ 233              	.L13:
+ 234 0020 0024     		movs	r4, #0
+ 235              	.L12:
+ 236              	.LVL34:
+  63:LCD.c         ****     for(m=0;m<320;m++)
+ 237              		.loc 1 63 0 is_stmt 0 discriminator 1
+ 238 0022 B4F5A07F 		cmp	r4, #320
+ 239 0026 F2D3     		bcc	.L11
+  62:LCD.c         ****     for(m=0;m<320;m++)
+ 240              		.loc 1 62 0 is_stmt 1 discriminator 2
+ 241 0028 0136     		adds	r6, r6, #1
+ 242              	.LVL35:
+ 243 002a B6B2     		uxth	r6, r6
+ 244              	.LVL36:
+ 245              	.L10:
+  62:LCD.c         ****     for(m=0;m<320;m++)
+ 246              		.loc 1 62 0 is_stmt 0 discriminator 1
+ 247 002c EF2E     		cmp	r6, #239
+ 248 002e F7D9     		bls	.L13
+  67:LCD.c         **** 
+  68:LCD.c         ****     }
+  69:LCD.c         ****     LCD_CS_Write(1);
+ 249              		.loc 1 69 0 is_stmt 1
+ 250 0030 0120     		movs	r0, #1
+ 251 0032 FFF7FEFF 		bl	LCD_CS_Write
+ 252              	.LVL37:
+ 253 0036 70BD     		pop	{r4, r5, r6, pc}
+ 254              		.cfi_endproc
+ 255              	.LFE67:
+ 256              		.size	clearLCD, .-clearLCD
+ 257              		.section	.text.initLCD,"ax",%progbits
+ 258              		.align	2
+ 259              		.global	initLCD
+ 260              		.thumb
+ 261              		.thumb_func
+ 262              		.type	initLCD, %function
+ 263              	initLCD:
+ 264              	.LFB68:
+  70:LCD.c         ****   //digitalWrite(LCD_CS,HIGH);  
+  71:LCD.c         ****     
+  72:LCD.c         **** }
+  73:LCD.c         **** void initLCD(void)
+  74:LCD.c         **** {
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 7
+
+
+ 265              		.loc 1 74 0
+ 266              		.cfi_startproc
+ 267              		@ args = 0, pretend = 0, frame = 0
+ 268              		@ frame_needed = 0, uses_anonymous_args = 0
+ 269 0000 08B5     		push	{r3, lr}
+ 270              		.cfi_def_cfa_offset 8
+ 271              		.cfi_offset 3, -8
+ 272              		.cfi_offset 14, -4
+  75:LCD.c         ****     LCD_RST_Write(1);
+ 273              		.loc 1 75 0
+ 274 0002 0120     		movs	r0, #1
+ 275 0004 FFF7FEFF 		bl	LCD_RST_Write
+ 276              	.LVL38:
+  76:LCD.c         ****     LCD_CS_Write(1);
+ 277              		.loc 1 76 0
+ 278 0008 0120     		movs	r0, #1
+ 279 000a FFF7FEFF 		bl	LCD_CS_Write
+ 280              	.LVL39:
+  77:LCD.c         ****     LCD_RS_Write(1);
+ 281              		.loc 1 77 0
+ 282 000e 0120     		movs	r0, #1
+ 283 0010 FFF7FEFF 		bl	LCD_RS_Write
+ 284              	.LVL40:
+  78:LCD.c         ****     LCD_WR_REG_Write(7);
+ 285              		.loc 1 78 0
+ 286 0014 0720     		movs	r0, #7
+ 287 0016 FFF7FEFF 		bl	LCD_WR_REG_Write
+ 288              	.LVL41:
+  79:LCD.c         ****     LCD_RD_Write(1);
+ 289              		.loc 1 79 0
+ 290 001a 0120     		movs	r0, #1
+ 291 001c FFF7FEFF 		bl	LCD_RD_Write
+ 292              	.LVL42:
+  80:LCD.c         ****     CyDelay(100);
+ 293              		.loc 1 80 0
+ 294 0020 6420     		movs	r0, #100
+ 295 0022 FFF7FEFF 		bl	CyDelay
+ 296              	.LVL43:
+  81:LCD.c         ****     
+  82:LCD.c         ****     LCD_RST_Write(1);
+ 297              		.loc 1 82 0
+ 298 0026 0120     		movs	r0, #1
+ 299 0028 FFF7FEFF 		bl	LCD_RST_Write
+ 300              	.LVL44:
+  83:LCD.c         ****     CyDelay(5);
+ 301              		.loc 1 83 0
+ 302 002c 0520     		movs	r0, #5
+ 303 002e FFF7FEFF 		bl	CyDelay
+ 304              	.LVL45:
+  84:LCD.c         ****     LCD_RST_Write(0);
+ 305              		.loc 1 84 0
+ 306 0032 0020     		movs	r0, #0
+ 307 0034 FFF7FEFF 		bl	LCD_RST_Write
+ 308              	.LVL46:
+  85:LCD.c         ****     CyDelay(15);
+ 309              		.loc 1 85 0
+ 310 0038 0F20     		movs	r0, #15
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 8
+
+
+ 311 003a FFF7FEFF 		bl	CyDelay
+ 312              	.LVL47:
+  86:LCD.c         ****     LCD_RST_Write(1);
+ 313              		.loc 1 86 0
+ 314 003e 0120     		movs	r0, #1
+ 315 0040 FFF7FEFF 		bl	LCD_RST_Write
+ 316              	.LVL48:
+  87:LCD.c         ****     CyDelay(15);
+ 317              		.loc 1 87 0
+ 318 0044 0F20     		movs	r0, #15
+ 319 0046 FFF7FEFF 		bl	CyDelay
+ 320              	.LVL49:
+  88:LCD.c         ****     LCD_CS_Write(1);
+ 321              		.loc 1 88 0
+ 322 004a 0120     		movs	r0, #1
+ 323 004c FFF7FEFF 		bl	LCD_CS_Write
+ 324              	.LVL50:
+  89:LCD.c         ****     LCD_WR_REG_Write(7);
+ 325              		.loc 1 89 0
+ 326 0050 0720     		movs	r0, #7
+ 327 0052 FFF7FEFF 		bl	LCD_WR_REG_Write
+ 328              	.LVL51:
+  90:LCD.c         ****     LCD_CS_Write(0);
+ 329              		.loc 1 90 0
+ 330 0056 0020     		movs	r0, #0
+ 331 0058 FFF7FEFF 		bl	LCD_CS_Write
+ 332              	.LVL52:
+  91:LCD.c         ****     
+  92:LCD.c         ****     writeComLCD(0xCB);  
+ 333              		.loc 1 92 0
+ 334 005c CB20     		movs	r0, #203
+ 335 005e FFF7FEFF 		bl	writeComLCD
+ 336              	.LVL53:
+  93:LCD.c         ****     writeDataLCD(0x39); 
+ 337              		.loc 1 93 0
+ 338 0062 3920     		movs	r0, #57
+ 339 0064 FFF7FEFF 		bl	writeDataLCD
+ 340              	.LVL54:
+  94:LCD.c         ****     writeDataLCD(0x2C); 
+ 341              		.loc 1 94 0
+ 342 0068 2C20     		movs	r0, #44
+ 343 006a FFF7FEFF 		bl	writeDataLCD
+ 344              	.LVL55:
+  95:LCD.c         ****     writeDataLCD(0x00); 
+ 345              		.loc 1 95 0
+ 346 006e 0020     		movs	r0, #0
+ 347 0070 FFF7FEFF 		bl	writeDataLCD
+ 348              	.LVL56:
+  96:LCD.c         ****     writeDataLCD(0x34); 
+ 349              		.loc 1 96 0
+ 350 0074 3420     		movs	r0, #52
+ 351 0076 FFF7FEFF 		bl	writeDataLCD
+ 352              	.LVL57:
+  97:LCD.c         ****     writeDataLCD(0x02); 
+ 353              		.loc 1 97 0
+ 354 007a 0220     		movs	r0, #2
+ 355 007c FFF7FEFF 		bl	writeDataLCD
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 9
+
+
+ 356              	.LVL58:
+  98:LCD.c         **** 
+  99:LCD.c         ****     writeComLCD(0xCF);  
+ 357              		.loc 1 99 0
+ 358 0080 CF20     		movs	r0, #207
+ 359 0082 FFF7FEFF 		bl	writeComLCD
+ 360              	.LVL59:
+ 100:LCD.c         ****     writeDataLCD(0x00); 
+ 361              		.loc 1 100 0
+ 362 0086 0020     		movs	r0, #0
+ 363 0088 FFF7FEFF 		bl	writeDataLCD
+ 364              	.LVL60:
+ 101:LCD.c         ****     writeDataLCD(0XC1); 
+ 365              		.loc 1 101 0
+ 366 008c C120     		movs	r0, #193
+ 367 008e FFF7FEFF 		bl	writeDataLCD
+ 368              	.LVL61:
+ 102:LCD.c         ****     writeDataLCD(0X30); 
+ 369              		.loc 1 102 0
+ 370 0092 3020     		movs	r0, #48
+ 371 0094 FFF7FEFF 		bl	writeDataLCD
+ 372              	.LVL62:
+ 103:LCD.c         **** 
+ 104:LCD.c         ****     writeComLCD(0xE8);  
+ 373              		.loc 1 104 0
+ 374 0098 E820     		movs	r0, #232
+ 375 009a FFF7FEFF 		bl	writeComLCD
+ 376              	.LVL63:
+ 105:LCD.c         ****     writeDataLCD(0x85); 
+ 377              		.loc 1 105 0
+ 378 009e 8520     		movs	r0, #133
+ 379 00a0 FFF7FEFF 		bl	writeDataLCD
+ 380              	.LVL64:
+ 106:LCD.c         ****     writeDataLCD(0x00); 
+ 381              		.loc 1 106 0
+ 382 00a4 0020     		movs	r0, #0
+ 383 00a6 FFF7FEFF 		bl	writeDataLCD
+ 384              	.LVL65:
+ 107:LCD.c         ****     writeDataLCD(0x78); 
+ 385              		.loc 1 107 0
+ 386 00aa 7820     		movs	r0, #120
+ 387 00ac FFF7FEFF 		bl	writeDataLCD
+ 388              	.LVL66:
+ 108:LCD.c         **** 
+ 109:LCD.c         ****     writeComLCD(0xEA);  
+ 389              		.loc 1 109 0
+ 390 00b0 EA20     		movs	r0, #234
+ 391 00b2 FFF7FEFF 		bl	writeComLCD
+ 392              	.LVL67:
+ 110:LCD.c         ****     writeDataLCD(0x00); 
+ 393              		.loc 1 110 0
+ 394 00b6 0020     		movs	r0, #0
+ 395 00b8 FFF7FEFF 		bl	writeDataLCD
+ 396              	.LVL68:
+ 111:LCD.c         ****     writeDataLCD(0x00); 
+ 397              		.loc 1 111 0
+ 398 00bc 0020     		movs	r0, #0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 10
+
+
+ 399 00be FFF7FEFF 		bl	writeDataLCD
+ 400              	.LVL69:
+ 112:LCD.c         ****  
+ 113:LCD.c         ****     writeComLCD(0xED);  
+ 401              		.loc 1 113 0
+ 402 00c2 ED20     		movs	r0, #237
+ 403 00c4 FFF7FEFF 		bl	writeComLCD
+ 404              	.LVL70:
+ 114:LCD.c         ****     writeDataLCD(0x64); 
+ 405              		.loc 1 114 0
+ 406 00c8 6420     		movs	r0, #100
+ 407 00ca FFF7FEFF 		bl	writeDataLCD
+ 408              	.LVL71:
+ 115:LCD.c         ****     writeDataLCD(0x03); 
+ 409              		.loc 1 115 0
+ 410 00ce 0320     		movs	r0, #3
+ 411 00d0 FFF7FEFF 		bl	writeDataLCD
+ 412              	.LVL72:
+ 116:LCD.c         ****     writeDataLCD(0X12); 
+ 413              		.loc 1 116 0
+ 414 00d4 1220     		movs	r0, #18
+ 415 00d6 FFF7FEFF 		bl	writeDataLCD
+ 416              	.LVL73:
+ 117:LCD.c         ****     writeDataLCD(0X81); 
+ 417              		.loc 1 117 0
+ 418 00da 8120     		movs	r0, #129
+ 419 00dc FFF7FEFF 		bl	writeDataLCD
+ 420              	.LVL74:
+ 118:LCD.c         **** 
+ 119:LCD.c         ****     writeComLCD(0xF7);  
+ 421              		.loc 1 119 0
+ 422 00e0 F720     		movs	r0, #247
+ 423 00e2 FFF7FEFF 		bl	writeComLCD
+ 424              	.LVL75:
+ 120:LCD.c         ****     writeDataLCD(0x20); 
+ 425              		.loc 1 120 0
+ 426 00e6 2020     		movs	r0, #32
+ 427 00e8 FFF7FEFF 		bl	writeDataLCD
+ 428              	.LVL76:
+ 121:LCD.c         ****   
+ 122:LCD.c         ****     writeComLCD(0xC0);    //Power control 
+ 429              		.loc 1 122 0
+ 430 00ec C020     		movs	r0, #192
+ 431 00ee FFF7FEFF 		bl	writeComLCD
+ 432              	.LVL77:
+ 123:LCD.c         ****     writeDataLCD(0x23);   //VRH[5:0] 
+ 433              		.loc 1 123 0
+ 434 00f2 2320     		movs	r0, #35
+ 435 00f4 FFF7FEFF 		bl	writeDataLCD
+ 436              	.LVL78:
+ 124:LCD.c         ****  
+ 125:LCD.c         ****     writeComLCD(0xC1);    //Power control 
+ 437              		.loc 1 125 0
+ 438 00f8 C120     		movs	r0, #193
+ 439 00fa FFF7FEFF 		bl	writeComLCD
+ 440              	.LVL79:
+ 126:LCD.c         ****     writeDataLCD(0x10);   //SAP[2:0];BT[3:0] 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 11
+
+
+ 441              		.loc 1 126 0
+ 442 00fe 1020     		movs	r0, #16
+ 443 0100 FFF7FEFF 		bl	writeDataLCD
+ 444              	.LVL80:
+ 127:LCD.c         **** 
+ 128:LCD.c         ****     writeComLCD(0xC5);    //VCM control 
+ 445              		.loc 1 128 0
+ 446 0104 C520     		movs	r0, #197
+ 447 0106 FFF7FEFF 		bl	writeComLCD
+ 448              	.LVL81:
+ 129:LCD.c         ****     writeDataLCD(0x3e);   //Contrast
+ 449              		.loc 1 129 0
+ 450 010a 3E20     		movs	r0, #62
+ 451 010c FFF7FEFF 		bl	writeDataLCD
+ 452              	.LVL82:
+ 130:LCD.c         ****     writeDataLCD(0x28); 
+ 453              		.loc 1 130 0
+ 454 0110 2820     		movs	r0, #40
+ 455 0112 FFF7FEFF 		bl	writeDataLCD
+ 456              	.LVL83:
+ 131:LCD.c         ****  
+ 132:LCD.c         ****     writeComLCD(0xC7);    //VCM control2 
+ 457              		.loc 1 132 0
+ 458 0116 C720     		movs	r0, #199
+ 459 0118 FFF7FEFF 		bl	writeComLCD
+ 460              	.LVL84:
+ 133:LCD.c         ****     writeDataLCD(0x86);   //--
+ 461              		.loc 1 133 0
+ 462 011c 8620     		movs	r0, #134
+ 463 011e FFF7FEFF 		bl	writeDataLCD
+ 464              	.LVL85:
+ 134:LCD.c         ****  
+ 135:LCD.c         ****     writeComLCD(0x36);    // Memory Access Control 
+ 465              		.loc 1 135 0
+ 466 0122 3620     		movs	r0, #54
+ 467 0124 FFF7FEFF 		bl	writeComLCD
+ 468              	.LVL86:
+ 136:LCD.c         ****     //writeDataLCD(0x48);  
+ 137:LCD.c         ****     writeDataLCD(0xE8);  
+ 469              		.loc 1 137 0
+ 470 0128 E820     		movs	r0, #232
+ 471 012a FFF7FEFF 		bl	writeDataLCD
+ 472              	.LVL87:
+ 138:LCD.c         **** 
+ 139:LCD.c         ****     writeComLCD(0x3A);    
+ 473              		.loc 1 139 0
+ 474 012e 3A20     		movs	r0, #58
+ 475 0130 FFF7FEFF 		bl	writeComLCD
+ 476              	.LVL88:
+ 140:LCD.c         ****     writeDataLCD(0x55); 
+ 477              		.loc 1 140 0
+ 478 0134 5520     		movs	r0, #85
+ 479 0136 FFF7FEFF 		bl	writeDataLCD
+ 480              	.LVL89:
+ 141:LCD.c         **** 
+ 142:LCD.c         ****     writeComLCD(0xB1);    
+ 481              		.loc 1 142 0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 12
+
+
+ 482 013a B120     		movs	r0, #177
+ 483 013c FFF7FEFF 		bl	writeComLCD
+ 484              	.LVL90:
+ 143:LCD.c         ****     writeDataLCD(0x00);  
+ 485              		.loc 1 143 0
+ 486 0140 0020     		movs	r0, #0
+ 487 0142 FFF7FEFF 		bl	writeDataLCD
+ 488              	.LVL91:
+ 144:LCD.c         ****     writeDataLCD(0x18); 
+ 489              		.loc 1 144 0
+ 490 0146 1820     		movs	r0, #24
+ 491 0148 FFF7FEFF 		bl	writeDataLCD
+ 492              	.LVL92:
+ 145:LCD.c         ****  
+ 146:LCD.c         ****     writeComLCD(0xB6);    // Display Function Control 
+ 493              		.loc 1 146 0
+ 494 014c B620     		movs	r0, #182
+ 495 014e FFF7FEFF 		bl	writeComLCD
+ 496              	.LVL93:
+ 147:LCD.c         ****     writeDataLCD(0x08); 
+ 497              		.loc 1 147 0
+ 498 0152 0820     		movs	r0, #8
+ 499 0154 FFF7FEFF 		bl	writeDataLCD
+ 500              	.LVL94:
+ 148:LCD.c         ****     writeDataLCD(0x82);
+ 501              		.loc 1 148 0
+ 502 0158 8220     		movs	r0, #130
+ 503 015a FFF7FEFF 		bl	writeDataLCD
+ 504              	.LVL95:
+ 149:LCD.c         ****     writeDataLCD(0x27);  
+ 505              		.loc 1 149 0
+ 506 015e 2720     		movs	r0, #39
+ 507 0160 FFF7FEFF 		bl	writeDataLCD
+ 508              	.LVL96:
+ 150:LCD.c         **** 
+ 151:LCD.c         ****     writeComLCD(0x11);    //Exit Sleep 
+ 509              		.loc 1 151 0
+ 510 0164 1120     		movs	r0, #17
+ 511 0166 FFF7FEFF 		bl	writeComLCD
+ 512              	.LVL97:
+ 152:LCD.c         ****     CyDelay(120); 
+ 513              		.loc 1 152 0
+ 514 016a 7820     		movs	r0, #120
+ 515 016c FFF7FEFF 		bl	CyDelay
+ 516              	.LVL98:
+ 153:LCD.c         **** 				
+ 154:LCD.c         ****     writeComLCD(0x29);    //Display on 
+ 517              		.loc 1 154 0
+ 518 0170 2920     		movs	r0, #41
+ 519 0172 FFF7FEFF 		bl	writeComLCD
+ 520              	.LVL99:
+ 155:LCD.c         ****     writeComLCD(0x2c);    
+ 521              		.loc 1 155 0
+ 522 0176 2C20     		movs	r0, #44
+ 523 0178 FFF7FEFF 		bl	writeComLCD
+ 524              	.LVL100:
+ 156:LCD.c         ****     
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 13
+
+
+ 157:LCD.c         ****     Address_set(0,0,240,320);
+ 525              		.loc 1 157 0
+ 526 017c 4FF4A073 		mov	r3, #320
+ 527 0180 F022     		movs	r2, #240
+ 528 0182 0021     		movs	r1, #0
+ 529 0184 0846     		mov	r0, r1
+ 530 0186 FFF7FEFF 		bl	Address_set
+ 531              	.LVL101:
+ 532 018a 08BD     		pop	{r3, pc}
+ 533              		.cfi_endproc
+ 534              	.LFE68:
+ 535              		.size	initLCD, .-initLCD
+ 536              		.text
+ 537              	.Letext0:
+ 538              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 539              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 540              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 541              		.file 5 "Generated_Source\\PSoC5/LCD_Data_Reg.h"
+ 542              		.file 6 "Generated_Source\\PSoC5/LCD_WR_REG.h"
+ 543              		.file 7 "Generated_Source\\PSoC5/LCD_RS.h"
+ 544              		.file 8 "Generated_Source\\PSoC5/LCD_CS.h"
+ 545              		.file 9 "Generated_Source\\PSoC5/LCD_RST.h"
+ 546              		.file 10 "Generated_Source\\PSoC5/LCD_RD.h"
+ 547              		.file 11 "Generated_Source\\PSoC5/CyLib.h"
+ 548              		.file 12 "Generated_Source\\PSoC5/core_cm3.h"
+ 549              		.section	.debug_info,"",%progbits
+ 550              	.Ldebug_info0:
+ 551 0000 B8080000 		.4byte	0x8b8
+ 552 0004 0400     		.2byte	0x4
+ 553 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 554 000a 04       		.byte	0x4
+ 555 000b 01       		.uleb128 0x1
+ 556 000c 82000000 		.4byte	.LASF32
+ 557 0010 0C       		.byte	0xc
+ 558 0011 4A000000 		.4byte	.LASF33
+ 559 0015 CE010000 		.4byte	.LASF34
+ 560 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 561 001d 00000000 		.4byte	0
+ 562 0021 00000000 		.4byte	.Ldebug_line0
+ 563 0025 02       		.uleb128 0x2
+ 564 0026 01       		.byte	0x1
+ 565 0027 06       		.byte	0x6
+ 566 0028 40020000 		.4byte	.LASF0
+ 567 002c 02       		.uleb128 0x2
+ 568 002d 01       		.byte	0x1
+ 569 002e 08       		.byte	0x8
+ 570 002f 74000000 		.4byte	.LASF1
+ 571 0033 02       		.uleb128 0x2
+ 572 0034 02       		.byte	0x2
+ 573 0035 05       		.byte	0x5
+ 574 0036 AB010000 		.4byte	.LASF2
+ 575 003a 02       		.uleb128 0x2
+ 576 003b 02       		.byte	0x2
+ 577 003c 07       		.byte	0x7
+ 578 003d 38010000 		.4byte	.LASF3
+ 579 0041 03       		.uleb128 0x3
+ 580 0042 27000000 		.4byte	.LASF9
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 14
+
+
+ 581 0046 02       		.byte	0x2
+ 582 0047 3F       		.byte	0x3f
+ 583 0048 4C000000 		.4byte	0x4c
+ 584 004c 02       		.uleb128 0x2
+ 585 004d 04       		.byte	0x4
+ 586 004e 05       		.byte	0x5
+ 587 004f 2B020000 		.4byte	.LASF4
+ 588 0053 02       		.uleb128 0x2
+ 589 0054 04       		.byte	0x4
+ 590 0055 07       		.byte	0x7
+ 591 0056 26010000 		.4byte	.LASF5
+ 592 005a 02       		.uleb128 0x2
+ 593 005b 08       		.byte	0x8
+ 594 005c 05       		.byte	0x5
+ 595 005d 00000000 		.4byte	.LASF6
+ 596 0061 02       		.uleb128 0x2
+ 597 0062 08       		.byte	0x8
+ 598 0063 07       		.byte	0x7
+ 599 0064 50000000 		.4byte	.LASF7
+ 600 0068 04       		.uleb128 0x4
+ 601 0069 04       		.byte	0x4
+ 602 006a 05       		.byte	0x5
+ 603 006b 696E7400 		.ascii	"int\000"
+ 604 006f 02       		.uleb128 0x2
+ 605 0070 04       		.byte	0x4
+ 606 0071 07       		.byte	0x7
+ 607 0072 66010000 		.4byte	.LASF8
+ 608 0076 03       		.uleb128 0x3
+ 609 0077 95010000 		.4byte	.LASF10
+ 610 007b 03       		.byte	0x3
+ 611 007c 2C       		.byte	0x2c
+ 612 007d 41000000 		.4byte	0x41
+ 613 0081 05       		.uleb128 0x5
+ 614 0082 C8010000 		.4byte	.LASF11
+ 615 0086 04       		.byte	0x4
+ 616 0087 9201     		.2byte	0x192
+ 617 0089 2C000000 		.4byte	0x2c
+ 618 008d 05       		.uleb128 0x5
+ 619 008e 5F010000 		.4byte	.LASF12
+ 620 0092 04       		.byte	0x4
+ 621 0093 9301     		.2byte	0x193
+ 622 0095 3A000000 		.4byte	0x3a
+ 623 0099 02       		.uleb128 0x2
+ 624 009a 04       		.byte	0x4
+ 625 009b 04       		.byte	0x4
+ 626 009c 1B000000 		.4byte	.LASF13
+ 627 00a0 02       		.uleb128 0x2
+ 628 00a1 08       		.byte	0x8
+ 629 00a2 04       		.byte	0x4
+ 630 00a3 58010000 		.4byte	.LASF14
+ 631 00a7 02       		.uleb128 0x2
+ 632 00a8 01       		.byte	0x1
+ 633 00a9 08       		.byte	0x8
+ 634 00aa A6010000 		.4byte	.LASF15
+ 635 00ae 02       		.uleb128 0x2
+ 636 00af 08       		.byte	0x8
+ 637 00b0 04       		.byte	0x4
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 15
+
+
+ 638 00b1 34020000 		.4byte	.LASF16
+ 639 00b5 02       		.uleb128 0x2
+ 640 00b6 04       		.byte	0x4
+ 641 00b7 07       		.byte	0x7
+ 642 00b8 9D010000 		.4byte	.LASF17
+ 643 00bc 06       		.uleb128 0x6
+ 644 00bd 73010000 		.4byte	.LASF18
+ 645 00c1 01       		.byte	0x1
+ 646 00c2 12       		.byte	0x12
+ 647 00c3 00000000 		.4byte	.LFB63
+ 648 00c7 14000000 		.4byte	.LFE63-.LFB63
+ 649 00cb 01       		.uleb128 0x1
+ 650 00cc 9C       		.byte	0x9c
+ 651 00cd 0C010000 		.4byte	0x10c
+ 652 00d1 07       		.uleb128 0x7
+ 653 00d2 21000000 		.4byte	.LASF20
+ 654 00d6 01       		.byte	0x1
+ 655 00d7 12       		.byte	0x12
+ 656 00d8 81000000 		.4byte	0x81
+ 657 00dc 00000000 		.4byte	.LLST0
+ 658 00e0 08       		.uleb128 0x8
+ 659 00e1 06000000 		.4byte	.LVL1
+ 660 00e5 6E080000 		.4byte	0x86e
+ 661 00e9 09       		.uleb128 0x9
+ 662 00ea 0C000000 		.4byte	.LVL2
+ 663 00ee 79080000 		.4byte	0x879
+ 664 00f2 FC000000 		.4byte	0xfc
+ 665 00f6 0A       		.uleb128 0xa
+ 666 00f7 01       		.uleb128 0x1
+ 667 00f8 50       		.byte	0x50
+ 668 00f9 01       		.uleb128 0x1
+ 669 00fa 35       		.byte	0x35
+ 670 00fb 00       		.byte	0
+ 671 00fc 0B       		.uleb128 0xb
+ 672 00fd 12000000 		.4byte	.LVL3
+ 673 0101 79080000 		.4byte	0x879
+ 674 0105 0A       		.uleb128 0xa
+ 675 0106 01       		.uleb128 0x1
+ 676 0107 50       		.byte	0x50
+ 677 0108 01       		.uleb128 0x1
+ 678 0109 37       		.byte	0x37
+ 679 010a 00       		.byte	0
+ 680 010b 00       		.byte	0
+ 681 010c 06       		.uleb128 0x6
+ 682 010d 3E000000 		.4byte	.LASF19
+ 683 0111 01       		.byte	0x1
+ 684 0112 19       		.byte	0x19
+ 685 0113 00000000 		.4byte	.LFB64
+ 686 0117 12000000 		.4byte	.LFE64-.LFB64
+ 687 011b 01       		.uleb128 0x1
+ 688 011c 9C       		.byte	0x9c
+ 689 011d 54010000 		.4byte	0x154
+ 690 0121 07       		.uleb128 0x7
+ 691 0122 21000000 		.4byte	.LASF20
+ 692 0126 01       		.byte	0x1
+ 693 0127 19       		.byte	0x19
+ 694 0128 81000000 		.4byte	0x81
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 16
+
+
+ 695 012c 21000000 		.4byte	.LLST1
+ 696 0130 09       		.uleb128 0x9
+ 697 0131 0A000000 		.4byte	.LVL6
+ 698 0135 84080000 		.4byte	0x884
+ 699 0139 43010000 		.4byte	0x143
+ 700 013d 0A       		.uleb128 0xa
+ 701 013e 01       		.uleb128 0x1
+ 702 013f 50       		.byte	0x50
+ 703 0140 01       		.uleb128 0x1
+ 704 0141 30       		.byte	0x30
+ 705 0142 00       		.byte	0
+ 706 0143 0B       		.uleb128 0xb
+ 707 0144 10000000 		.4byte	.LVL7
+ 708 0148 BC000000 		.4byte	0xbc
+ 709 014c 0A       		.uleb128 0xa
+ 710 014d 01       		.uleb128 0x1
+ 711 014e 50       		.byte	0x50
+ 712 014f 02       		.uleb128 0x2
+ 713 0150 74       		.byte	0x74
+ 714 0151 00       		.sleb128 0
+ 715 0152 00       		.byte	0
+ 716 0153 00       		.byte	0
+ 717 0154 06       		.uleb128 0x6
+ 718 0155 0E000000 		.4byte	.LASF21
+ 719 0159 01       		.byte	0x1
+ 720 015a 1F       		.byte	0x1f
+ 721 015b 00000000 		.4byte	.LFB65
+ 722 015f 12000000 		.4byte	.LFE65-.LFB65
+ 723 0163 01       		.uleb128 0x1
+ 724 0164 9C       		.byte	0x9c
+ 725 0165 9C010000 		.4byte	0x19c
+ 726 0169 07       		.uleb128 0x7
+ 727 016a 21000000 		.4byte	.LASF20
+ 728 016e 01       		.byte	0x1
+ 729 016f 1F       		.byte	0x1f
+ 730 0170 81000000 		.4byte	0x81
+ 731 0174 42000000 		.4byte	.LLST2
+ 732 0178 09       		.uleb128 0x9
+ 733 0179 0A000000 		.4byte	.LVL10
+ 734 017d 84080000 		.4byte	0x884
+ 735 0181 8B010000 		.4byte	0x18b
+ 736 0185 0A       		.uleb128 0xa
+ 737 0186 01       		.uleb128 0x1
+ 738 0187 50       		.byte	0x50
+ 739 0188 01       		.uleb128 0x1
+ 740 0189 31       		.byte	0x31
+ 741 018a 00       		.byte	0
+ 742 018b 0B       		.uleb128 0xb
+ 743 018c 10000000 		.4byte	.LVL11
+ 744 0190 BC000000 		.4byte	0xbc
+ 745 0194 0A       		.uleb128 0xa
+ 746 0195 01       		.uleb128 0x1
+ 747 0196 50       		.byte	0x50
+ 748 0197 02       		.uleb128 0x2
+ 749 0198 74       		.byte	0x74
+ 750 0199 00       		.sleb128 0
+ 751 019a 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 17
+
+
+ 752 019b 00       		.byte	0
+ 753 019c 06       		.uleb128 0x6
+ 754 019d 65020000 		.4byte	.LASF22
+ 755 01a1 01       		.byte	0x1
+ 756 01a2 26       		.byte	0x26
+ 757 01a3 00000000 		.4byte	.LFB66
+ 758 01a7 4E000000 		.4byte	.LFE66-.LFB66
+ 759 01ab 01       		.uleb128 0x1
+ 760 01ac 9C       		.byte	0x9c
+ 761 01ad CA020000 		.4byte	0x2ca
+ 762 01b1 0C       		.uleb128 0xc
+ 763 01b2 793100   		.ascii	"y1\000"
+ 764 01b5 01       		.byte	0x1
+ 765 01b6 26       		.byte	0x26
+ 766 01b7 8D000000 		.4byte	0x8d
+ 767 01bb 63000000 		.4byte	.LLST3
+ 768 01bf 0C       		.uleb128 0xc
+ 769 01c0 783100   		.ascii	"x1\000"
+ 770 01c3 01       		.byte	0x1
+ 771 01c4 26       		.byte	0x26
+ 772 01c5 8D000000 		.4byte	0x8d
+ 773 01c9 84000000 		.4byte	.LLST4
+ 774 01cd 0C       		.uleb128 0xc
+ 775 01ce 793200   		.ascii	"y2\000"
+ 776 01d1 01       		.byte	0x1
+ 777 01d2 26       		.byte	0x26
+ 778 01d3 8D000000 		.4byte	0x8d
+ 779 01d7 A5000000 		.4byte	.LLST5
+ 780 01db 0C       		.uleb128 0xc
+ 781 01dc 783200   		.ascii	"x2\000"
+ 782 01df 01       		.byte	0x1
+ 783 01e0 26       		.byte	0x26
+ 784 01e1 8D000000 		.4byte	0x8d
+ 785 01e5 C6000000 		.4byte	.LLST6
+ 786 01e9 09       		.uleb128 0x9
+ 787 01ea 10000000 		.4byte	.LVL14
+ 788 01ee 0C010000 		.4byte	0x10c
+ 789 01f2 FD010000 		.4byte	0x1fd
+ 790 01f6 0A       		.uleb128 0xa
+ 791 01f7 01       		.uleb128 0x1
+ 792 01f8 50       		.byte	0x50
+ 793 01f9 02       		.uleb128 0x2
+ 794 01fa 08       		.byte	0x8
+ 795 01fb 2A       		.byte	0x2a
+ 796 01fc 00       		.byte	0
+ 797 01fd 09       		.uleb128 0x9
+ 798 01fe 16000000 		.4byte	.LVL15
+ 799 0202 54010000 		.4byte	0x154
+ 800 0206 13020000 		.4byte	0x213
+ 801 020a 0A       		.uleb128 0xa
+ 802 020b 01       		.uleb128 0x1
+ 803 020c 50       		.byte	0x50
+ 804 020d 04       		.uleb128 0x4
+ 805 020e 77       		.byte	0x77
+ 806 020f 00       		.sleb128 0
+ 807 0210 38       		.byte	0x38
+ 808 0211 25       		.byte	0x25
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 18
+
+
+ 809 0212 00       		.byte	0
+ 810 0213 09       		.uleb128 0x9
+ 811 0214 1C000000 		.4byte	.LVL16
+ 812 0218 54010000 		.4byte	0x154
+ 813 021c 27020000 		.4byte	0x227
+ 814 0220 0A       		.uleb128 0xa
+ 815 0221 01       		.uleb128 0x1
+ 816 0222 50       		.byte	0x50
+ 817 0223 02       		.uleb128 0x2
+ 818 0224 77       		.byte	0x77
+ 819 0225 00       		.sleb128 0
+ 820 0226 00       		.byte	0
+ 821 0227 09       		.uleb128 0x9
+ 822 0228 22000000 		.4byte	.LVL17
+ 823 022c 54010000 		.4byte	0x154
+ 824 0230 3D020000 		.4byte	0x23d
+ 825 0234 0A       		.uleb128 0xa
+ 826 0235 01       		.uleb128 0x1
+ 827 0236 50       		.byte	0x50
+ 828 0237 04       		.uleb128 0x4
+ 829 0238 76       		.byte	0x76
+ 830 0239 00       		.sleb128 0
+ 831 023a 38       		.byte	0x38
+ 832 023b 25       		.byte	0x25
+ 833 023c 00       		.byte	0
+ 834 023d 09       		.uleb128 0x9
+ 835 023e 28000000 		.4byte	.LVL18
+ 836 0242 54010000 		.4byte	0x154
+ 837 0246 51020000 		.4byte	0x251
+ 838 024a 0A       		.uleb128 0xa
+ 839 024b 01       		.uleb128 0x1
+ 840 024c 50       		.byte	0x50
+ 841 024d 02       		.uleb128 0x2
+ 842 024e 76       		.byte	0x76
+ 843 024f 00       		.sleb128 0
+ 844 0250 00       		.byte	0
+ 845 0251 09       		.uleb128 0x9
+ 846 0252 2E000000 		.4byte	.LVL19
+ 847 0256 0C010000 		.4byte	0x10c
+ 848 025a 65020000 		.4byte	0x265
+ 849 025e 0A       		.uleb128 0xa
+ 850 025f 01       		.uleb128 0x1
+ 851 0260 50       		.byte	0x50
+ 852 0261 02       		.uleb128 0x2
+ 853 0262 08       		.byte	0x8
+ 854 0263 2B       		.byte	0x2b
+ 855 0264 00       		.byte	0
+ 856 0265 09       		.uleb128 0x9
+ 857 0266 34000000 		.4byte	.LVL20
+ 858 026a 54010000 		.4byte	0x154
+ 859 026e 7B020000 		.4byte	0x27b
+ 860 0272 0A       		.uleb128 0xa
+ 861 0273 01       		.uleb128 0x1
+ 862 0274 50       		.byte	0x50
+ 863 0275 04       		.uleb128 0x4
+ 864 0276 75       		.byte	0x75
+ 865 0277 00       		.sleb128 0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 19
+
+
+ 866 0278 38       		.byte	0x38
+ 867 0279 25       		.byte	0x25
+ 868 027a 00       		.byte	0
+ 869 027b 09       		.uleb128 0x9
+ 870 027c 3A000000 		.4byte	.LVL21
+ 871 0280 54010000 		.4byte	0x154
+ 872 0284 8F020000 		.4byte	0x28f
+ 873 0288 0A       		.uleb128 0xa
+ 874 0289 01       		.uleb128 0x1
+ 875 028a 50       		.byte	0x50
+ 876 028b 02       		.uleb128 0x2
+ 877 028c 75       		.byte	0x75
+ 878 028d 00       		.sleb128 0
+ 879 028e 00       		.byte	0
+ 880 028f 09       		.uleb128 0x9
+ 881 0290 40000000 		.4byte	.LVL22
+ 882 0294 54010000 		.4byte	0x154
+ 883 0298 A5020000 		.4byte	0x2a5
+ 884 029c 0A       		.uleb128 0xa
+ 885 029d 01       		.uleb128 0x1
+ 886 029e 50       		.byte	0x50
+ 887 029f 04       		.uleb128 0x4
+ 888 02a0 74       		.byte	0x74
+ 889 02a1 00       		.sleb128 0
+ 890 02a2 38       		.byte	0x38
+ 891 02a3 25       		.byte	0x25
+ 892 02a4 00       		.byte	0
+ 893 02a5 09       		.uleb128 0x9
+ 894 02a6 46000000 		.4byte	.LVL23
+ 895 02aa 54010000 		.4byte	0x154
+ 896 02ae B9020000 		.4byte	0x2b9
+ 897 02b2 0A       		.uleb128 0xa
+ 898 02b3 01       		.uleb128 0x1
+ 899 02b4 50       		.byte	0x50
+ 900 02b5 02       		.uleb128 0x2
+ 901 02b6 74       		.byte	0x74
+ 902 02b7 00       		.sleb128 0
+ 903 02b8 00       		.byte	0
+ 904 02b9 0B       		.uleb128 0xb
+ 905 02ba 4C000000 		.4byte	.LVL24
+ 906 02be 0C010000 		.4byte	0x10c
+ 907 02c2 0A       		.uleb128 0xa
+ 908 02c3 01       		.uleb128 0x1
+ 909 02c4 50       		.byte	0x50
+ 910 02c5 02       		.uleb128 0x2
+ 911 02c6 08       		.byte	0x8
+ 912 02c7 2C       		.byte	0x2c
+ 913 02c8 00       		.byte	0
+ 914 02c9 00       		.byte	0
+ 915 02ca 06       		.uleb128 0x6
+ 916 02cb 10010000 		.4byte	.LASF23
+ 917 02cf 01       		.byte	0x1
+ 918 02d0 34       		.byte	0x34
+ 919 02d1 00000000 		.4byte	.LFB67
+ 920 02d5 38000000 		.4byte	.LFE67-.LFB67
+ 921 02d9 01       		.uleb128 0x1
+ 922 02da 9C       		.byte	0x9c
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 20
+
+
+ 923 02db 55030000 		.4byte	0x355
+ 924 02df 07       		.uleb128 0x7
+ 925 02e0 21000000 		.4byte	.LASF20
+ 926 02e4 01       		.byte	0x1
+ 927 02e5 34       		.byte	0x34
+ 928 02e6 8D000000 		.4byte	0x8d
+ 929 02ea E7000000 		.4byte	.LLST7
+ 930 02ee 0D       		.uleb128 0xd
+ 931 02ef 6900     		.ascii	"i\000"
+ 932 02f1 01       		.byte	0x1
+ 933 02f2 37       		.byte	0x37
+ 934 02f3 8D000000 		.4byte	0x8d
+ 935 02f7 08010000 		.4byte	.LLST8
+ 936 02fb 0D       		.uleb128 0xd
+ 937 02fc 6D00     		.ascii	"m\000"
+ 938 02fe 01       		.byte	0x1
+ 939 02ff 37       		.byte	0x37
+ 940 0300 8D000000 		.4byte	0x8d
+ 941 0304 32010000 		.4byte	.LLST9
+ 942 0308 09       		.uleb128 0x9
+ 943 0309 0A000000 		.4byte	.LVL27
+ 944 030d 8F080000 		.4byte	0x88f
+ 945 0311 1B030000 		.4byte	0x31b
+ 946 0315 0A       		.uleb128 0xa
+ 947 0316 01       		.uleb128 0x1
+ 948 0317 50       		.byte	0x50
+ 949 0318 01       		.uleb128 0x1
+ 950 0319 30       		.byte	0x30
+ 951 031a 00       		.byte	0
+ 952 031b 09       		.uleb128 0x9
+ 953 031c 14000000 		.4byte	.LVL29
+ 954 0320 54010000 		.4byte	0x154
+ 955 0324 31030000 		.4byte	0x331
+ 956 0328 0A       		.uleb128 0xa
+ 957 0329 01       		.uleb128 0x1
+ 958 032a 50       		.byte	0x50
+ 959 032b 04       		.uleb128 0x4
+ 960 032c 75       		.byte	0x75
+ 961 032d 00       		.sleb128 0
+ 962 032e 38       		.byte	0x38
+ 963 032f 25       		.byte	0x25
+ 964 0330 00       		.byte	0
+ 965 0331 09       		.uleb128 0x9
+ 966 0332 1A000000 		.4byte	.LVL30
+ 967 0336 54010000 		.4byte	0x154
+ 968 033a 45030000 		.4byte	0x345
+ 969 033e 0A       		.uleb128 0xa
+ 970 033f 01       		.uleb128 0x1
+ 971 0340 50       		.byte	0x50
+ 972 0341 02       		.uleb128 0x2
+ 973 0342 75       		.byte	0x75
+ 974 0343 00       		.sleb128 0
+ 975 0344 00       		.byte	0
+ 976 0345 0B       		.uleb128 0xb
+ 977 0346 36000000 		.4byte	.LVL37
+ 978 034a 8F080000 		.4byte	0x88f
+ 979 034e 0A       		.uleb128 0xa
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 21
+
+
+ 980 034f 01       		.uleb128 0x1
+ 981 0350 50       		.byte	0x50
+ 982 0351 01       		.uleb128 0x1
+ 983 0352 31       		.byte	0x31
+ 984 0353 00       		.byte	0
+ 985 0354 00       		.byte	0
+ 986 0355 06       		.uleb128 0x6
+ 987 0356 8D010000 		.4byte	.LASF24
+ 988 035a 01       		.byte	0x1
+ 989 035b 49       		.byte	0x49
+ 990 035c 00000000 		.4byte	.LFB68
+ 991 0360 8C010000 		.4byte	.LFE68-.LFB68
+ 992 0364 01       		.uleb128 0x1
+ 993 0365 9C       		.byte	0x9c
+ 994 0366 5D080000 		.4byte	0x85d
+ 995 036a 09       		.uleb128 0x9
+ 996 036b 08000000 		.4byte	.LVL38
+ 997 036f 9A080000 		.4byte	0x89a
+ 998 0373 7D030000 		.4byte	0x37d
+ 999 0377 0A       		.uleb128 0xa
+ 1000 0378 01       		.uleb128 0x1
+ 1001 0379 50       		.byte	0x50
+ 1002 037a 01       		.uleb128 0x1
+ 1003 037b 31       		.byte	0x31
+ 1004 037c 00       		.byte	0
+ 1005 037d 09       		.uleb128 0x9
+ 1006 037e 0E000000 		.4byte	.LVL39
+ 1007 0382 8F080000 		.4byte	0x88f
+ 1008 0386 90030000 		.4byte	0x390
+ 1009 038a 0A       		.uleb128 0xa
+ 1010 038b 01       		.uleb128 0x1
+ 1011 038c 50       		.byte	0x50
+ 1012 038d 01       		.uleb128 0x1
+ 1013 038e 31       		.byte	0x31
+ 1014 038f 00       		.byte	0
+ 1015 0390 09       		.uleb128 0x9
+ 1016 0391 14000000 		.4byte	.LVL40
+ 1017 0395 84080000 		.4byte	0x884
+ 1018 0399 A3030000 		.4byte	0x3a3
+ 1019 039d 0A       		.uleb128 0xa
+ 1020 039e 01       		.uleb128 0x1
+ 1021 039f 50       		.byte	0x50
+ 1022 03a0 01       		.uleb128 0x1
+ 1023 03a1 31       		.byte	0x31
+ 1024 03a2 00       		.byte	0
+ 1025 03a3 09       		.uleb128 0x9
+ 1026 03a4 1A000000 		.4byte	.LVL41
+ 1027 03a8 79080000 		.4byte	0x879
+ 1028 03ac B6030000 		.4byte	0x3b6
+ 1029 03b0 0A       		.uleb128 0xa
+ 1030 03b1 01       		.uleb128 0x1
+ 1031 03b2 50       		.byte	0x50
+ 1032 03b3 01       		.uleb128 0x1
+ 1033 03b4 37       		.byte	0x37
+ 1034 03b5 00       		.byte	0
+ 1035 03b6 09       		.uleb128 0x9
+ 1036 03b7 20000000 		.4byte	.LVL42
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 22
+
+
+ 1037 03bb A5080000 		.4byte	0x8a5
+ 1038 03bf C9030000 		.4byte	0x3c9
+ 1039 03c3 0A       		.uleb128 0xa
+ 1040 03c4 01       		.uleb128 0x1
+ 1041 03c5 50       		.byte	0x50
+ 1042 03c6 01       		.uleb128 0x1
+ 1043 03c7 31       		.byte	0x31
+ 1044 03c8 00       		.byte	0
+ 1045 03c9 09       		.uleb128 0x9
+ 1046 03ca 26000000 		.4byte	.LVL43
+ 1047 03ce B0080000 		.4byte	0x8b0
+ 1048 03d2 DD030000 		.4byte	0x3dd
+ 1049 03d6 0A       		.uleb128 0xa
+ 1050 03d7 01       		.uleb128 0x1
+ 1051 03d8 50       		.byte	0x50
+ 1052 03d9 02       		.uleb128 0x2
+ 1053 03da 08       		.byte	0x8
+ 1054 03db 64       		.byte	0x64
+ 1055 03dc 00       		.byte	0
+ 1056 03dd 09       		.uleb128 0x9
+ 1057 03de 2C000000 		.4byte	.LVL44
+ 1058 03e2 9A080000 		.4byte	0x89a
+ 1059 03e6 F0030000 		.4byte	0x3f0
+ 1060 03ea 0A       		.uleb128 0xa
+ 1061 03eb 01       		.uleb128 0x1
+ 1062 03ec 50       		.byte	0x50
+ 1063 03ed 01       		.uleb128 0x1
+ 1064 03ee 31       		.byte	0x31
+ 1065 03ef 00       		.byte	0
+ 1066 03f0 09       		.uleb128 0x9
+ 1067 03f1 32000000 		.4byte	.LVL45
+ 1068 03f5 B0080000 		.4byte	0x8b0
+ 1069 03f9 03040000 		.4byte	0x403
+ 1070 03fd 0A       		.uleb128 0xa
+ 1071 03fe 01       		.uleb128 0x1
+ 1072 03ff 50       		.byte	0x50
+ 1073 0400 01       		.uleb128 0x1
+ 1074 0401 35       		.byte	0x35
+ 1075 0402 00       		.byte	0
+ 1076 0403 09       		.uleb128 0x9
+ 1077 0404 38000000 		.4byte	.LVL46
+ 1078 0408 9A080000 		.4byte	0x89a
+ 1079 040c 16040000 		.4byte	0x416
+ 1080 0410 0A       		.uleb128 0xa
+ 1081 0411 01       		.uleb128 0x1
+ 1082 0412 50       		.byte	0x50
+ 1083 0413 01       		.uleb128 0x1
+ 1084 0414 30       		.byte	0x30
+ 1085 0415 00       		.byte	0
+ 1086 0416 09       		.uleb128 0x9
+ 1087 0417 3E000000 		.4byte	.LVL47
+ 1088 041b B0080000 		.4byte	0x8b0
+ 1089 041f 29040000 		.4byte	0x429
+ 1090 0423 0A       		.uleb128 0xa
+ 1091 0424 01       		.uleb128 0x1
+ 1092 0425 50       		.byte	0x50
+ 1093 0426 01       		.uleb128 0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 23
+
+
+ 1094 0427 3F       		.byte	0x3f
+ 1095 0428 00       		.byte	0
+ 1096 0429 09       		.uleb128 0x9
+ 1097 042a 44000000 		.4byte	.LVL48
+ 1098 042e 9A080000 		.4byte	0x89a
+ 1099 0432 3C040000 		.4byte	0x43c
+ 1100 0436 0A       		.uleb128 0xa
+ 1101 0437 01       		.uleb128 0x1
+ 1102 0438 50       		.byte	0x50
+ 1103 0439 01       		.uleb128 0x1
+ 1104 043a 31       		.byte	0x31
+ 1105 043b 00       		.byte	0
+ 1106 043c 09       		.uleb128 0x9
+ 1107 043d 4A000000 		.4byte	.LVL49
+ 1108 0441 B0080000 		.4byte	0x8b0
+ 1109 0445 4F040000 		.4byte	0x44f
+ 1110 0449 0A       		.uleb128 0xa
+ 1111 044a 01       		.uleb128 0x1
+ 1112 044b 50       		.byte	0x50
+ 1113 044c 01       		.uleb128 0x1
+ 1114 044d 3F       		.byte	0x3f
+ 1115 044e 00       		.byte	0
+ 1116 044f 09       		.uleb128 0x9
+ 1117 0450 50000000 		.4byte	.LVL50
+ 1118 0454 8F080000 		.4byte	0x88f
+ 1119 0458 62040000 		.4byte	0x462
+ 1120 045c 0A       		.uleb128 0xa
+ 1121 045d 01       		.uleb128 0x1
+ 1122 045e 50       		.byte	0x50
+ 1123 045f 01       		.uleb128 0x1
+ 1124 0460 31       		.byte	0x31
+ 1125 0461 00       		.byte	0
+ 1126 0462 09       		.uleb128 0x9
+ 1127 0463 56000000 		.4byte	.LVL51
+ 1128 0467 79080000 		.4byte	0x879
+ 1129 046b 75040000 		.4byte	0x475
+ 1130 046f 0A       		.uleb128 0xa
+ 1131 0470 01       		.uleb128 0x1
+ 1132 0471 50       		.byte	0x50
+ 1133 0472 01       		.uleb128 0x1
+ 1134 0473 37       		.byte	0x37
+ 1135 0474 00       		.byte	0
+ 1136 0475 09       		.uleb128 0x9
+ 1137 0476 5C000000 		.4byte	.LVL52
+ 1138 047a 8F080000 		.4byte	0x88f
+ 1139 047e 88040000 		.4byte	0x488
+ 1140 0482 0A       		.uleb128 0xa
+ 1141 0483 01       		.uleb128 0x1
+ 1142 0484 50       		.byte	0x50
+ 1143 0485 01       		.uleb128 0x1
+ 1144 0486 30       		.byte	0x30
+ 1145 0487 00       		.byte	0
+ 1146 0488 09       		.uleb128 0x9
+ 1147 0489 62000000 		.4byte	.LVL53
+ 1148 048d 0C010000 		.4byte	0x10c
+ 1149 0491 9C040000 		.4byte	0x49c
+ 1150 0495 0A       		.uleb128 0xa
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 24
+
+
+ 1151 0496 01       		.uleb128 0x1
+ 1152 0497 50       		.byte	0x50
+ 1153 0498 02       		.uleb128 0x2
+ 1154 0499 09       		.byte	0x9
+ 1155 049a CB       		.byte	0xcb
+ 1156 049b 00       		.byte	0
+ 1157 049c 09       		.uleb128 0x9
+ 1158 049d 68000000 		.4byte	.LVL54
+ 1159 04a1 54010000 		.4byte	0x154
+ 1160 04a5 B0040000 		.4byte	0x4b0
+ 1161 04a9 0A       		.uleb128 0xa
+ 1162 04aa 01       		.uleb128 0x1
+ 1163 04ab 50       		.byte	0x50
+ 1164 04ac 02       		.uleb128 0x2
+ 1165 04ad 08       		.byte	0x8
+ 1166 04ae 39       		.byte	0x39
+ 1167 04af 00       		.byte	0
+ 1168 04b0 09       		.uleb128 0x9
+ 1169 04b1 6E000000 		.4byte	.LVL55
+ 1170 04b5 54010000 		.4byte	0x154
+ 1171 04b9 C4040000 		.4byte	0x4c4
+ 1172 04bd 0A       		.uleb128 0xa
+ 1173 04be 01       		.uleb128 0x1
+ 1174 04bf 50       		.byte	0x50
+ 1175 04c0 02       		.uleb128 0x2
+ 1176 04c1 08       		.byte	0x8
+ 1177 04c2 2C       		.byte	0x2c
+ 1178 04c3 00       		.byte	0
+ 1179 04c4 09       		.uleb128 0x9
+ 1180 04c5 74000000 		.4byte	.LVL56
+ 1181 04c9 54010000 		.4byte	0x154
+ 1182 04cd D7040000 		.4byte	0x4d7
+ 1183 04d1 0A       		.uleb128 0xa
+ 1184 04d2 01       		.uleb128 0x1
+ 1185 04d3 50       		.byte	0x50
+ 1186 04d4 01       		.uleb128 0x1
+ 1187 04d5 30       		.byte	0x30
+ 1188 04d6 00       		.byte	0
+ 1189 04d7 09       		.uleb128 0x9
+ 1190 04d8 7A000000 		.4byte	.LVL57
+ 1191 04dc 54010000 		.4byte	0x154
+ 1192 04e0 EB040000 		.4byte	0x4eb
+ 1193 04e4 0A       		.uleb128 0xa
+ 1194 04e5 01       		.uleb128 0x1
+ 1195 04e6 50       		.byte	0x50
+ 1196 04e7 02       		.uleb128 0x2
+ 1197 04e8 08       		.byte	0x8
+ 1198 04e9 34       		.byte	0x34
+ 1199 04ea 00       		.byte	0
+ 1200 04eb 09       		.uleb128 0x9
+ 1201 04ec 80000000 		.4byte	.LVL58
+ 1202 04f0 54010000 		.4byte	0x154
+ 1203 04f4 FE040000 		.4byte	0x4fe
+ 1204 04f8 0A       		.uleb128 0xa
+ 1205 04f9 01       		.uleb128 0x1
+ 1206 04fa 50       		.byte	0x50
+ 1207 04fb 01       		.uleb128 0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 25
+
+
+ 1208 04fc 32       		.byte	0x32
+ 1209 04fd 00       		.byte	0
+ 1210 04fe 09       		.uleb128 0x9
+ 1211 04ff 86000000 		.4byte	.LVL59
+ 1212 0503 0C010000 		.4byte	0x10c
+ 1213 0507 12050000 		.4byte	0x512
+ 1214 050b 0A       		.uleb128 0xa
+ 1215 050c 01       		.uleb128 0x1
+ 1216 050d 50       		.byte	0x50
+ 1217 050e 02       		.uleb128 0x2
+ 1218 050f 09       		.byte	0x9
+ 1219 0510 CF       		.byte	0xcf
+ 1220 0511 00       		.byte	0
+ 1221 0512 09       		.uleb128 0x9
+ 1222 0513 8C000000 		.4byte	.LVL60
+ 1223 0517 54010000 		.4byte	0x154
+ 1224 051b 25050000 		.4byte	0x525
+ 1225 051f 0A       		.uleb128 0xa
+ 1226 0520 01       		.uleb128 0x1
+ 1227 0521 50       		.byte	0x50
+ 1228 0522 01       		.uleb128 0x1
+ 1229 0523 30       		.byte	0x30
+ 1230 0524 00       		.byte	0
+ 1231 0525 09       		.uleb128 0x9
+ 1232 0526 92000000 		.4byte	.LVL61
+ 1233 052a 54010000 		.4byte	0x154
+ 1234 052e 39050000 		.4byte	0x539
+ 1235 0532 0A       		.uleb128 0xa
+ 1236 0533 01       		.uleb128 0x1
+ 1237 0534 50       		.byte	0x50
+ 1238 0535 02       		.uleb128 0x2
+ 1239 0536 09       		.byte	0x9
+ 1240 0537 C1       		.byte	0xc1
+ 1241 0538 00       		.byte	0
+ 1242 0539 09       		.uleb128 0x9
+ 1243 053a 98000000 		.4byte	.LVL62
+ 1244 053e 54010000 		.4byte	0x154
+ 1245 0542 4D050000 		.4byte	0x54d
+ 1246 0546 0A       		.uleb128 0xa
+ 1247 0547 01       		.uleb128 0x1
+ 1248 0548 50       		.byte	0x50
+ 1249 0549 02       		.uleb128 0x2
+ 1250 054a 08       		.byte	0x8
+ 1251 054b 30       		.byte	0x30
+ 1252 054c 00       		.byte	0
+ 1253 054d 09       		.uleb128 0x9
+ 1254 054e 9E000000 		.4byte	.LVL63
+ 1255 0552 0C010000 		.4byte	0x10c
+ 1256 0556 61050000 		.4byte	0x561
+ 1257 055a 0A       		.uleb128 0xa
+ 1258 055b 01       		.uleb128 0x1
+ 1259 055c 50       		.byte	0x50
+ 1260 055d 02       		.uleb128 0x2
+ 1261 055e 09       		.byte	0x9
+ 1262 055f E8       		.byte	0xe8
+ 1263 0560 00       		.byte	0
+ 1264 0561 09       		.uleb128 0x9
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 26
+
+
+ 1265 0562 A4000000 		.4byte	.LVL64
+ 1266 0566 54010000 		.4byte	0x154
+ 1267 056a 75050000 		.4byte	0x575
+ 1268 056e 0A       		.uleb128 0xa
+ 1269 056f 01       		.uleb128 0x1
+ 1270 0570 50       		.byte	0x50
+ 1271 0571 02       		.uleb128 0x2
+ 1272 0572 09       		.byte	0x9
+ 1273 0573 85       		.byte	0x85
+ 1274 0574 00       		.byte	0
+ 1275 0575 09       		.uleb128 0x9
+ 1276 0576 AA000000 		.4byte	.LVL65
+ 1277 057a 54010000 		.4byte	0x154
+ 1278 057e 88050000 		.4byte	0x588
+ 1279 0582 0A       		.uleb128 0xa
+ 1280 0583 01       		.uleb128 0x1
+ 1281 0584 50       		.byte	0x50
+ 1282 0585 01       		.uleb128 0x1
+ 1283 0586 30       		.byte	0x30
+ 1284 0587 00       		.byte	0
+ 1285 0588 09       		.uleb128 0x9
+ 1286 0589 B0000000 		.4byte	.LVL66
+ 1287 058d 54010000 		.4byte	0x154
+ 1288 0591 9C050000 		.4byte	0x59c
+ 1289 0595 0A       		.uleb128 0xa
+ 1290 0596 01       		.uleb128 0x1
+ 1291 0597 50       		.byte	0x50
+ 1292 0598 02       		.uleb128 0x2
+ 1293 0599 08       		.byte	0x8
+ 1294 059a 78       		.byte	0x78
+ 1295 059b 00       		.byte	0
+ 1296 059c 09       		.uleb128 0x9
+ 1297 059d B6000000 		.4byte	.LVL67
+ 1298 05a1 0C010000 		.4byte	0x10c
+ 1299 05a5 B0050000 		.4byte	0x5b0
+ 1300 05a9 0A       		.uleb128 0xa
+ 1301 05aa 01       		.uleb128 0x1
+ 1302 05ab 50       		.byte	0x50
+ 1303 05ac 02       		.uleb128 0x2
+ 1304 05ad 09       		.byte	0x9
+ 1305 05ae EA       		.byte	0xea
+ 1306 05af 00       		.byte	0
+ 1307 05b0 09       		.uleb128 0x9
+ 1308 05b1 BC000000 		.4byte	.LVL68
+ 1309 05b5 54010000 		.4byte	0x154
+ 1310 05b9 C3050000 		.4byte	0x5c3
+ 1311 05bd 0A       		.uleb128 0xa
+ 1312 05be 01       		.uleb128 0x1
+ 1313 05bf 50       		.byte	0x50
+ 1314 05c0 01       		.uleb128 0x1
+ 1315 05c1 30       		.byte	0x30
+ 1316 05c2 00       		.byte	0
+ 1317 05c3 09       		.uleb128 0x9
+ 1318 05c4 C2000000 		.4byte	.LVL69
+ 1319 05c8 54010000 		.4byte	0x154
+ 1320 05cc D6050000 		.4byte	0x5d6
+ 1321 05d0 0A       		.uleb128 0xa
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 27
+
+
+ 1322 05d1 01       		.uleb128 0x1
+ 1323 05d2 50       		.byte	0x50
+ 1324 05d3 01       		.uleb128 0x1
+ 1325 05d4 30       		.byte	0x30
+ 1326 05d5 00       		.byte	0
+ 1327 05d6 09       		.uleb128 0x9
+ 1328 05d7 C8000000 		.4byte	.LVL70
+ 1329 05db 0C010000 		.4byte	0x10c
+ 1330 05df EA050000 		.4byte	0x5ea
+ 1331 05e3 0A       		.uleb128 0xa
+ 1332 05e4 01       		.uleb128 0x1
+ 1333 05e5 50       		.byte	0x50
+ 1334 05e6 02       		.uleb128 0x2
+ 1335 05e7 09       		.byte	0x9
+ 1336 05e8 ED       		.byte	0xed
+ 1337 05e9 00       		.byte	0
+ 1338 05ea 09       		.uleb128 0x9
+ 1339 05eb CE000000 		.4byte	.LVL71
+ 1340 05ef 54010000 		.4byte	0x154
+ 1341 05f3 FE050000 		.4byte	0x5fe
+ 1342 05f7 0A       		.uleb128 0xa
+ 1343 05f8 01       		.uleb128 0x1
+ 1344 05f9 50       		.byte	0x50
+ 1345 05fa 02       		.uleb128 0x2
+ 1346 05fb 08       		.byte	0x8
+ 1347 05fc 64       		.byte	0x64
+ 1348 05fd 00       		.byte	0
+ 1349 05fe 09       		.uleb128 0x9
+ 1350 05ff D4000000 		.4byte	.LVL72
+ 1351 0603 54010000 		.4byte	0x154
+ 1352 0607 11060000 		.4byte	0x611
+ 1353 060b 0A       		.uleb128 0xa
+ 1354 060c 01       		.uleb128 0x1
+ 1355 060d 50       		.byte	0x50
+ 1356 060e 01       		.uleb128 0x1
+ 1357 060f 33       		.byte	0x33
+ 1358 0610 00       		.byte	0
+ 1359 0611 09       		.uleb128 0x9
+ 1360 0612 DA000000 		.4byte	.LVL73
+ 1361 0616 54010000 		.4byte	0x154
+ 1362 061a 24060000 		.4byte	0x624
+ 1363 061e 0A       		.uleb128 0xa
+ 1364 061f 01       		.uleb128 0x1
+ 1365 0620 50       		.byte	0x50
+ 1366 0621 01       		.uleb128 0x1
+ 1367 0622 42       		.byte	0x42
+ 1368 0623 00       		.byte	0
+ 1369 0624 09       		.uleb128 0x9
+ 1370 0625 E0000000 		.4byte	.LVL74
+ 1371 0629 54010000 		.4byte	0x154
+ 1372 062d 38060000 		.4byte	0x638
+ 1373 0631 0A       		.uleb128 0xa
+ 1374 0632 01       		.uleb128 0x1
+ 1375 0633 50       		.byte	0x50
+ 1376 0634 02       		.uleb128 0x2
+ 1377 0635 09       		.byte	0x9
+ 1378 0636 81       		.byte	0x81
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 28
+
+
+ 1379 0637 00       		.byte	0
+ 1380 0638 09       		.uleb128 0x9
+ 1381 0639 E6000000 		.4byte	.LVL75
+ 1382 063d 0C010000 		.4byte	0x10c
+ 1383 0641 4C060000 		.4byte	0x64c
+ 1384 0645 0A       		.uleb128 0xa
+ 1385 0646 01       		.uleb128 0x1
+ 1386 0647 50       		.byte	0x50
+ 1387 0648 02       		.uleb128 0x2
+ 1388 0649 09       		.byte	0x9
+ 1389 064a F7       		.byte	0xf7
+ 1390 064b 00       		.byte	0
+ 1391 064c 09       		.uleb128 0x9
+ 1392 064d EC000000 		.4byte	.LVL76
+ 1393 0651 54010000 		.4byte	0x154
+ 1394 0655 60060000 		.4byte	0x660
+ 1395 0659 0A       		.uleb128 0xa
+ 1396 065a 01       		.uleb128 0x1
+ 1397 065b 50       		.byte	0x50
+ 1398 065c 02       		.uleb128 0x2
+ 1399 065d 08       		.byte	0x8
+ 1400 065e 20       		.byte	0x20
+ 1401 065f 00       		.byte	0
+ 1402 0660 09       		.uleb128 0x9
+ 1403 0661 F2000000 		.4byte	.LVL77
+ 1404 0665 0C010000 		.4byte	0x10c
+ 1405 0669 74060000 		.4byte	0x674
+ 1406 066d 0A       		.uleb128 0xa
+ 1407 066e 01       		.uleb128 0x1
+ 1408 066f 50       		.byte	0x50
+ 1409 0670 02       		.uleb128 0x2
+ 1410 0671 09       		.byte	0x9
+ 1411 0672 C0       		.byte	0xc0
+ 1412 0673 00       		.byte	0
+ 1413 0674 09       		.uleb128 0x9
+ 1414 0675 F8000000 		.4byte	.LVL78
+ 1415 0679 54010000 		.4byte	0x154
+ 1416 067d 88060000 		.4byte	0x688
+ 1417 0681 0A       		.uleb128 0xa
+ 1418 0682 01       		.uleb128 0x1
+ 1419 0683 50       		.byte	0x50
+ 1420 0684 02       		.uleb128 0x2
+ 1421 0685 08       		.byte	0x8
+ 1422 0686 23       		.byte	0x23
+ 1423 0687 00       		.byte	0
+ 1424 0688 09       		.uleb128 0x9
+ 1425 0689 FE000000 		.4byte	.LVL79
+ 1426 068d 0C010000 		.4byte	0x10c
+ 1427 0691 9C060000 		.4byte	0x69c
+ 1428 0695 0A       		.uleb128 0xa
+ 1429 0696 01       		.uleb128 0x1
+ 1430 0697 50       		.byte	0x50
+ 1431 0698 02       		.uleb128 0x2
+ 1432 0699 09       		.byte	0x9
+ 1433 069a C1       		.byte	0xc1
+ 1434 069b 00       		.byte	0
+ 1435 069c 09       		.uleb128 0x9
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 29
+
+
+ 1436 069d 04010000 		.4byte	.LVL80
+ 1437 06a1 54010000 		.4byte	0x154
+ 1438 06a5 AF060000 		.4byte	0x6af
+ 1439 06a9 0A       		.uleb128 0xa
+ 1440 06aa 01       		.uleb128 0x1
+ 1441 06ab 50       		.byte	0x50
+ 1442 06ac 01       		.uleb128 0x1
+ 1443 06ad 40       		.byte	0x40
+ 1444 06ae 00       		.byte	0
+ 1445 06af 09       		.uleb128 0x9
+ 1446 06b0 0A010000 		.4byte	.LVL81
+ 1447 06b4 0C010000 		.4byte	0x10c
+ 1448 06b8 C3060000 		.4byte	0x6c3
+ 1449 06bc 0A       		.uleb128 0xa
+ 1450 06bd 01       		.uleb128 0x1
+ 1451 06be 50       		.byte	0x50
+ 1452 06bf 02       		.uleb128 0x2
+ 1453 06c0 09       		.byte	0x9
+ 1454 06c1 C5       		.byte	0xc5
+ 1455 06c2 00       		.byte	0
+ 1456 06c3 09       		.uleb128 0x9
+ 1457 06c4 10010000 		.4byte	.LVL82
+ 1458 06c8 54010000 		.4byte	0x154
+ 1459 06cc D7060000 		.4byte	0x6d7
+ 1460 06d0 0A       		.uleb128 0xa
+ 1461 06d1 01       		.uleb128 0x1
+ 1462 06d2 50       		.byte	0x50
+ 1463 06d3 02       		.uleb128 0x2
+ 1464 06d4 08       		.byte	0x8
+ 1465 06d5 3E       		.byte	0x3e
+ 1466 06d6 00       		.byte	0
+ 1467 06d7 09       		.uleb128 0x9
+ 1468 06d8 16010000 		.4byte	.LVL83
+ 1469 06dc 54010000 		.4byte	0x154
+ 1470 06e0 EB060000 		.4byte	0x6eb
+ 1471 06e4 0A       		.uleb128 0xa
+ 1472 06e5 01       		.uleb128 0x1
+ 1473 06e6 50       		.byte	0x50
+ 1474 06e7 02       		.uleb128 0x2
+ 1475 06e8 08       		.byte	0x8
+ 1476 06e9 28       		.byte	0x28
+ 1477 06ea 00       		.byte	0
+ 1478 06eb 09       		.uleb128 0x9
+ 1479 06ec 1C010000 		.4byte	.LVL84
+ 1480 06f0 0C010000 		.4byte	0x10c
+ 1481 06f4 FF060000 		.4byte	0x6ff
+ 1482 06f8 0A       		.uleb128 0xa
+ 1483 06f9 01       		.uleb128 0x1
+ 1484 06fa 50       		.byte	0x50
+ 1485 06fb 02       		.uleb128 0x2
+ 1486 06fc 09       		.byte	0x9
+ 1487 06fd C7       		.byte	0xc7
+ 1488 06fe 00       		.byte	0
+ 1489 06ff 09       		.uleb128 0x9
+ 1490 0700 22010000 		.4byte	.LVL85
+ 1491 0704 54010000 		.4byte	0x154
+ 1492 0708 13070000 		.4byte	0x713
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 30
+
+
+ 1493 070c 0A       		.uleb128 0xa
+ 1494 070d 01       		.uleb128 0x1
+ 1495 070e 50       		.byte	0x50
+ 1496 070f 02       		.uleb128 0x2
+ 1497 0710 09       		.byte	0x9
+ 1498 0711 86       		.byte	0x86
+ 1499 0712 00       		.byte	0
+ 1500 0713 09       		.uleb128 0x9
+ 1501 0714 28010000 		.4byte	.LVL86
+ 1502 0718 0C010000 		.4byte	0x10c
+ 1503 071c 27070000 		.4byte	0x727
+ 1504 0720 0A       		.uleb128 0xa
+ 1505 0721 01       		.uleb128 0x1
+ 1506 0722 50       		.byte	0x50
+ 1507 0723 02       		.uleb128 0x2
+ 1508 0724 08       		.byte	0x8
+ 1509 0725 36       		.byte	0x36
+ 1510 0726 00       		.byte	0
+ 1511 0727 09       		.uleb128 0x9
+ 1512 0728 2E010000 		.4byte	.LVL87
+ 1513 072c 54010000 		.4byte	0x154
+ 1514 0730 3B070000 		.4byte	0x73b
+ 1515 0734 0A       		.uleb128 0xa
+ 1516 0735 01       		.uleb128 0x1
+ 1517 0736 50       		.byte	0x50
+ 1518 0737 02       		.uleb128 0x2
+ 1519 0738 09       		.byte	0x9
+ 1520 0739 E8       		.byte	0xe8
+ 1521 073a 00       		.byte	0
+ 1522 073b 09       		.uleb128 0x9
+ 1523 073c 34010000 		.4byte	.LVL88
+ 1524 0740 0C010000 		.4byte	0x10c
+ 1525 0744 4F070000 		.4byte	0x74f
+ 1526 0748 0A       		.uleb128 0xa
+ 1527 0749 01       		.uleb128 0x1
+ 1528 074a 50       		.byte	0x50
+ 1529 074b 02       		.uleb128 0x2
+ 1530 074c 08       		.byte	0x8
+ 1531 074d 3A       		.byte	0x3a
+ 1532 074e 00       		.byte	0
+ 1533 074f 09       		.uleb128 0x9
+ 1534 0750 3A010000 		.4byte	.LVL89
+ 1535 0754 54010000 		.4byte	0x154
+ 1536 0758 63070000 		.4byte	0x763
+ 1537 075c 0A       		.uleb128 0xa
+ 1538 075d 01       		.uleb128 0x1
+ 1539 075e 50       		.byte	0x50
+ 1540 075f 02       		.uleb128 0x2
+ 1541 0760 08       		.byte	0x8
+ 1542 0761 55       		.byte	0x55
+ 1543 0762 00       		.byte	0
+ 1544 0763 09       		.uleb128 0x9
+ 1545 0764 40010000 		.4byte	.LVL90
+ 1546 0768 0C010000 		.4byte	0x10c
+ 1547 076c 77070000 		.4byte	0x777
+ 1548 0770 0A       		.uleb128 0xa
+ 1549 0771 01       		.uleb128 0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 31
+
+
+ 1550 0772 50       		.byte	0x50
+ 1551 0773 02       		.uleb128 0x2
+ 1552 0774 09       		.byte	0x9
+ 1553 0775 B1       		.byte	0xb1
+ 1554 0776 00       		.byte	0
+ 1555 0777 09       		.uleb128 0x9
+ 1556 0778 46010000 		.4byte	.LVL91
+ 1557 077c 54010000 		.4byte	0x154
+ 1558 0780 8A070000 		.4byte	0x78a
+ 1559 0784 0A       		.uleb128 0xa
+ 1560 0785 01       		.uleb128 0x1
+ 1561 0786 50       		.byte	0x50
+ 1562 0787 01       		.uleb128 0x1
+ 1563 0788 30       		.byte	0x30
+ 1564 0789 00       		.byte	0
+ 1565 078a 09       		.uleb128 0x9
+ 1566 078b 4C010000 		.4byte	.LVL92
+ 1567 078f 54010000 		.4byte	0x154
+ 1568 0793 9D070000 		.4byte	0x79d
+ 1569 0797 0A       		.uleb128 0xa
+ 1570 0798 01       		.uleb128 0x1
+ 1571 0799 50       		.byte	0x50
+ 1572 079a 01       		.uleb128 0x1
+ 1573 079b 48       		.byte	0x48
+ 1574 079c 00       		.byte	0
+ 1575 079d 09       		.uleb128 0x9
+ 1576 079e 52010000 		.4byte	.LVL93
+ 1577 07a2 0C010000 		.4byte	0x10c
+ 1578 07a6 B1070000 		.4byte	0x7b1
+ 1579 07aa 0A       		.uleb128 0xa
+ 1580 07ab 01       		.uleb128 0x1
+ 1581 07ac 50       		.byte	0x50
+ 1582 07ad 02       		.uleb128 0x2
+ 1583 07ae 09       		.byte	0x9
+ 1584 07af B6       		.byte	0xb6
+ 1585 07b0 00       		.byte	0
+ 1586 07b1 09       		.uleb128 0x9
+ 1587 07b2 58010000 		.4byte	.LVL94
+ 1588 07b6 54010000 		.4byte	0x154
+ 1589 07ba C4070000 		.4byte	0x7c4
+ 1590 07be 0A       		.uleb128 0xa
+ 1591 07bf 01       		.uleb128 0x1
+ 1592 07c0 50       		.byte	0x50
+ 1593 07c1 01       		.uleb128 0x1
+ 1594 07c2 38       		.byte	0x38
+ 1595 07c3 00       		.byte	0
+ 1596 07c4 09       		.uleb128 0x9
+ 1597 07c5 5E010000 		.4byte	.LVL95
+ 1598 07c9 54010000 		.4byte	0x154
+ 1599 07cd D8070000 		.4byte	0x7d8
+ 1600 07d1 0A       		.uleb128 0xa
+ 1601 07d2 01       		.uleb128 0x1
+ 1602 07d3 50       		.byte	0x50
+ 1603 07d4 02       		.uleb128 0x2
+ 1604 07d5 09       		.byte	0x9
+ 1605 07d6 82       		.byte	0x82
+ 1606 07d7 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 32
+
+
+ 1607 07d8 09       		.uleb128 0x9
+ 1608 07d9 64010000 		.4byte	.LVL96
+ 1609 07dd 54010000 		.4byte	0x154
+ 1610 07e1 EC070000 		.4byte	0x7ec
+ 1611 07e5 0A       		.uleb128 0xa
+ 1612 07e6 01       		.uleb128 0x1
+ 1613 07e7 50       		.byte	0x50
+ 1614 07e8 02       		.uleb128 0x2
+ 1615 07e9 08       		.byte	0x8
+ 1616 07ea 27       		.byte	0x27
+ 1617 07eb 00       		.byte	0
+ 1618 07ec 09       		.uleb128 0x9
+ 1619 07ed 6A010000 		.4byte	.LVL97
+ 1620 07f1 0C010000 		.4byte	0x10c
+ 1621 07f5 FF070000 		.4byte	0x7ff
+ 1622 07f9 0A       		.uleb128 0xa
+ 1623 07fa 01       		.uleb128 0x1
+ 1624 07fb 50       		.byte	0x50
+ 1625 07fc 01       		.uleb128 0x1
+ 1626 07fd 41       		.byte	0x41
+ 1627 07fe 00       		.byte	0
+ 1628 07ff 09       		.uleb128 0x9
+ 1629 0800 70010000 		.4byte	.LVL98
+ 1630 0804 B0080000 		.4byte	0x8b0
+ 1631 0808 13080000 		.4byte	0x813
+ 1632 080c 0A       		.uleb128 0xa
+ 1633 080d 01       		.uleb128 0x1
+ 1634 080e 50       		.byte	0x50
+ 1635 080f 02       		.uleb128 0x2
+ 1636 0810 08       		.byte	0x8
+ 1637 0811 78       		.byte	0x78
+ 1638 0812 00       		.byte	0
+ 1639 0813 09       		.uleb128 0x9
+ 1640 0814 76010000 		.4byte	.LVL99
+ 1641 0818 0C010000 		.4byte	0x10c
+ 1642 081c 27080000 		.4byte	0x827
+ 1643 0820 0A       		.uleb128 0xa
+ 1644 0821 01       		.uleb128 0x1
+ 1645 0822 50       		.byte	0x50
+ 1646 0823 02       		.uleb128 0x2
+ 1647 0824 08       		.byte	0x8
+ 1648 0825 29       		.byte	0x29
+ 1649 0826 00       		.byte	0
+ 1650 0827 09       		.uleb128 0x9
+ 1651 0828 7C010000 		.4byte	.LVL100
+ 1652 082c 0C010000 		.4byte	0x10c
+ 1653 0830 3B080000 		.4byte	0x83b
+ 1654 0834 0A       		.uleb128 0xa
+ 1655 0835 01       		.uleb128 0x1
+ 1656 0836 50       		.byte	0x50
+ 1657 0837 02       		.uleb128 0x2
+ 1658 0838 08       		.byte	0x8
+ 1659 0839 2C       		.byte	0x2c
+ 1660 083a 00       		.byte	0
+ 1661 083b 0B       		.uleb128 0xb
+ 1662 083c 8A010000 		.4byte	.LVL101
+ 1663 0840 9C010000 		.4byte	0x19c
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 33
+
+
+ 1664 0844 0A       		.uleb128 0xa
+ 1665 0845 01       		.uleb128 0x1
+ 1666 0846 50       		.byte	0x50
+ 1667 0847 01       		.uleb128 0x1
+ 1668 0848 30       		.byte	0x30
+ 1669 0849 0A       		.uleb128 0xa
+ 1670 084a 01       		.uleb128 0x1
+ 1671 084b 51       		.byte	0x51
+ 1672 084c 01       		.uleb128 0x1
+ 1673 084d 30       		.byte	0x30
+ 1674 084e 0A       		.uleb128 0xa
+ 1675 084f 01       		.uleb128 0x1
+ 1676 0850 52       		.byte	0x52
+ 1677 0851 02       		.uleb128 0x2
+ 1678 0852 08       		.byte	0x8
+ 1679 0853 F0       		.byte	0xf0
+ 1680 0854 0A       		.uleb128 0xa
+ 1681 0855 01       		.uleb128 0x1
+ 1682 0856 53       		.byte	0x53
+ 1683 0857 03       		.uleb128 0x3
+ 1684 0858 0A       		.byte	0xa
+ 1685 0859 4001     		.2byte	0x140
+ 1686 085b 00       		.byte	0
+ 1687 085c 00       		.byte	0
+ 1688 085d 0E       		.uleb128 0xe
+ 1689 085e 4B010000 		.4byte	.LASF35
+ 1690 0862 0C       		.byte	0xc
+ 1691 0863 1207     		.2byte	0x712
+ 1692 0865 69080000 		.4byte	0x869
+ 1693 0869 0F       		.uleb128 0xf
+ 1694 086a 76000000 		.4byte	0x76
+ 1695 086e 10       		.uleb128 0x10
+ 1696 086f B5010000 		.4byte	.LASF25
+ 1697 0873 B5010000 		.4byte	.LASF25
+ 1698 0877 05       		.byte	0x5
+ 1699 0878 2F       		.byte	0x2f
+ 1700 0879 10       		.uleb128 0x10
+ 1701 087a 4C020000 		.4byte	.LASF26
+ 1702 087e 4C020000 		.4byte	.LASF26
+ 1703 0882 06       		.byte	0x6
+ 1704 0883 2F       		.byte	0x2f
+ 1705 0884 10       		.uleb128 0x10
+ 1706 0885 67000000 		.4byte	.LASF27
+ 1707 0889 67000000 		.4byte	.LASF27
+ 1708 088d 07       		.byte	0x7
+ 1709 088e 26       		.byte	0x26
+ 1710 088f 10       		.uleb128 0x10
+ 1711 0890 31000000 		.4byte	.LASF28
+ 1712 0894 31000000 		.4byte	.LASF28
+ 1713 0898 08       		.byte	0x8
+ 1714 0899 26       		.byte	0x26
+ 1715 089a 10       		.uleb128 0x10
+ 1716 089b 7F010000 		.4byte	.LASF29
+ 1717 089f 7F010000 		.4byte	.LASF29
+ 1718 08a3 09       		.byte	0x9
+ 1719 08a4 26       		.byte	0x26
+ 1720 08a5 10       		.uleb128 0x10
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 34
+
+
+ 1721 08a6 19010000 		.4byte	.LASF30
+ 1722 08aa 19010000 		.4byte	.LASF30
+ 1723 08ae 0A       		.byte	0xa
+ 1724 08af 26       		.byte	0x26
+ 1725 08b0 10       		.uleb128 0x10
+ 1726 08b1 5D020000 		.4byte	.LASF31
+ 1727 08b5 5D020000 		.4byte	.LASF31
+ 1728 08b9 0B       		.byte	0xb
+ 1729 08ba 76       		.byte	0x76
+ 1730 08bb 00       		.byte	0
+ 1731              		.section	.debug_abbrev,"",%progbits
+ 1732              	.Ldebug_abbrev0:
+ 1733 0000 01       		.uleb128 0x1
+ 1734 0001 11       		.uleb128 0x11
+ 1735 0002 01       		.byte	0x1
+ 1736 0003 25       		.uleb128 0x25
+ 1737 0004 0E       		.uleb128 0xe
+ 1738 0005 13       		.uleb128 0x13
+ 1739 0006 0B       		.uleb128 0xb
+ 1740 0007 03       		.uleb128 0x3
+ 1741 0008 0E       		.uleb128 0xe
+ 1742 0009 1B       		.uleb128 0x1b
+ 1743 000a 0E       		.uleb128 0xe
+ 1744 000b 55       		.uleb128 0x55
+ 1745 000c 17       		.uleb128 0x17
+ 1746 000d 11       		.uleb128 0x11
+ 1747 000e 01       		.uleb128 0x1
+ 1748 000f 10       		.uleb128 0x10
+ 1749 0010 17       		.uleb128 0x17
+ 1750 0011 00       		.byte	0
+ 1751 0012 00       		.byte	0
+ 1752 0013 02       		.uleb128 0x2
+ 1753 0014 24       		.uleb128 0x24
+ 1754 0015 00       		.byte	0
+ 1755 0016 0B       		.uleb128 0xb
+ 1756 0017 0B       		.uleb128 0xb
+ 1757 0018 3E       		.uleb128 0x3e
+ 1758 0019 0B       		.uleb128 0xb
+ 1759 001a 03       		.uleb128 0x3
+ 1760 001b 0E       		.uleb128 0xe
+ 1761 001c 00       		.byte	0
+ 1762 001d 00       		.byte	0
+ 1763 001e 03       		.uleb128 0x3
+ 1764 001f 16       		.uleb128 0x16
+ 1765 0020 00       		.byte	0
+ 1766 0021 03       		.uleb128 0x3
+ 1767 0022 0E       		.uleb128 0xe
+ 1768 0023 3A       		.uleb128 0x3a
+ 1769 0024 0B       		.uleb128 0xb
+ 1770 0025 3B       		.uleb128 0x3b
+ 1771 0026 0B       		.uleb128 0xb
+ 1772 0027 49       		.uleb128 0x49
+ 1773 0028 13       		.uleb128 0x13
+ 1774 0029 00       		.byte	0
+ 1775 002a 00       		.byte	0
+ 1776 002b 04       		.uleb128 0x4
+ 1777 002c 24       		.uleb128 0x24
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 35
+
+
+ 1778 002d 00       		.byte	0
+ 1779 002e 0B       		.uleb128 0xb
+ 1780 002f 0B       		.uleb128 0xb
+ 1781 0030 3E       		.uleb128 0x3e
+ 1782 0031 0B       		.uleb128 0xb
+ 1783 0032 03       		.uleb128 0x3
+ 1784 0033 08       		.uleb128 0x8
+ 1785 0034 00       		.byte	0
+ 1786 0035 00       		.byte	0
+ 1787 0036 05       		.uleb128 0x5
+ 1788 0037 16       		.uleb128 0x16
+ 1789 0038 00       		.byte	0
+ 1790 0039 03       		.uleb128 0x3
+ 1791 003a 0E       		.uleb128 0xe
+ 1792 003b 3A       		.uleb128 0x3a
+ 1793 003c 0B       		.uleb128 0xb
+ 1794 003d 3B       		.uleb128 0x3b
+ 1795 003e 05       		.uleb128 0x5
+ 1796 003f 49       		.uleb128 0x49
+ 1797 0040 13       		.uleb128 0x13
+ 1798 0041 00       		.byte	0
+ 1799 0042 00       		.byte	0
+ 1800 0043 06       		.uleb128 0x6
+ 1801 0044 2E       		.uleb128 0x2e
+ 1802 0045 01       		.byte	0x1
+ 1803 0046 3F       		.uleb128 0x3f
+ 1804 0047 19       		.uleb128 0x19
+ 1805 0048 03       		.uleb128 0x3
+ 1806 0049 0E       		.uleb128 0xe
+ 1807 004a 3A       		.uleb128 0x3a
+ 1808 004b 0B       		.uleb128 0xb
+ 1809 004c 3B       		.uleb128 0x3b
+ 1810 004d 0B       		.uleb128 0xb
+ 1811 004e 27       		.uleb128 0x27
+ 1812 004f 19       		.uleb128 0x19
+ 1813 0050 11       		.uleb128 0x11
+ 1814 0051 01       		.uleb128 0x1
+ 1815 0052 12       		.uleb128 0x12
+ 1816 0053 06       		.uleb128 0x6
+ 1817 0054 40       		.uleb128 0x40
+ 1818 0055 18       		.uleb128 0x18
+ 1819 0056 9742     		.uleb128 0x2117
+ 1820 0058 19       		.uleb128 0x19
+ 1821 0059 01       		.uleb128 0x1
+ 1822 005a 13       		.uleb128 0x13
+ 1823 005b 00       		.byte	0
+ 1824 005c 00       		.byte	0
+ 1825 005d 07       		.uleb128 0x7
+ 1826 005e 05       		.uleb128 0x5
+ 1827 005f 00       		.byte	0
+ 1828 0060 03       		.uleb128 0x3
+ 1829 0061 0E       		.uleb128 0xe
+ 1830 0062 3A       		.uleb128 0x3a
+ 1831 0063 0B       		.uleb128 0xb
+ 1832 0064 3B       		.uleb128 0x3b
+ 1833 0065 0B       		.uleb128 0xb
+ 1834 0066 49       		.uleb128 0x49
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 36
+
+
+ 1835 0067 13       		.uleb128 0x13
+ 1836 0068 02       		.uleb128 0x2
+ 1837 0069 17       		.uleb128 0x17
+ 1838 006a 00       		.byte	0
+ 1839 006b 00       		.byte	0
+ 1840 006c 08       		.uleb128 0x8
+ 1841 006d 898201   		.uleb128 0x4109
+ 1842 0070 00       		.byte	0
+ 1843 0071 11       		.uleb128 0x11
+ 1844 0072 01       		.uleb128 0x1
+ 1845 0073 31       		.uleb128 0x31
+ 1846 0074 13       		.uleb128 0x13
+ 1847 0075 00       		.byte	0
+ 1848 0076 00       		.byte	0
+ 1849 0077 09       		.uleb128 0x9
+ 1850 0078 898201   		.uleb128 0x4109
+ 1851 007b 01       		.byte	0x1
+ 1852 007c 11       		.uleb128 0x11
+ 1853 007d 01       		.uleb128 0x1
+ 1854 007e 31       		.uleb128 0x31
+ 1855 007f 13       		.uleb128 0x13
+ 1856 0080 01       		.uleb128 0x1
+ 1857 0081 13       		.uleb128 0x13
+ 1858 0082 00       		.byte	0
+ 1859 0083 00       		.byte	0
+ 1860 0084 0A       		.uleb128 0xa
+ 1861 0085 8A8201   		.uleb128 0x410a
+ 1862 0088 00       		.byte	0
+ 1863 0089 02       		.uleb128 0x2
+ 1864 008a 18       		.uleb128 0x18
+ 1865 008b 9142     		.uleb128 0x2111
+ 1866 008d 18       		.uleb128 0x18
+ 1867 008e 00       		.byte	0
+ 1868 008f 00       		.byte	0
+ 1869 0090 0B       		.uleb128 0xb
+ 1870 0091 898201   		.uleb128 0x4109
+ 1871 0094 01       		.byte	0x1
+ 1872 0095 11       		.uleb128 0x11
+ 1873 0096 01       		.uleb128 0x1
+ 1874 0097 31       		.uleb128 0x31
+ 1875 0098 13       		.uleb128 0x13
+ 1876 0099 00       		.byte	0
+ 1877 009a 00       		.byte	0
+ 1878 009b 0C       		.uleb128 0xc
+ 1879 009c 05       		.uleb128 0x5
+ 1880 009d 00       		.byte	0
+ 1881 009e 03       		.uleb128 0x3
+ 1882 009f 08       		.uleb128 0x8
+ 1883 00a0 3A       		.uleb128 0x3a
+ 1884 00a1 0B       		.uleb128 0xb
+ 1885 00a2 3B       		.uleb128 0x3b
+ 1886 00a3 0B       		.uleb128 0xb
+ 1887 00a4 49       		.uleb128 0x49
+ 1888 00a5 13       		.uleb128 0x13
+ 1889 00a6 02       		.uleb128 0x2
+ 1890 00a7 17       		.uleb128 0x17
+ 1891 00a8 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 37
+
+
+ 1892 00a9 00       		.byte	0
+ 1893 00aa 0D       		.uleb128 0xd
+ 1894 00ab 34       		.uleb128 0x34
+ 1895 00ac 00       		.byte	0
+ 1896 00ad 03       		.uleb128 0x3
+ 1897 00ae 08       		.uleb128 0x8
+ 1898 00af 3A       		.uleb128 0x3a
+ 1899 00b0 0B       		.uleb128 0xb
+ 1900 00b1 3B       		.uleb128 0x3b
+ 1901 00b2 0B       		.uleb128 0xb
+ 1902 00b3 49       		.uleb128 0x49
+ 1903 00b4 13       		.uleb128 0x13
+ 1904 00b5 02       		.uleb128 0x2
+ 1905 00b6 17       		.uleb128 0x17
+ 1906 00b7 00       		.byte	0
+ 1907 00b8 00       		.byte	0
+ 1908 00b9 0E       		.uleb128 0xe
+ 1909 00ba 34       		.uleb128 0x34
+ 1910 00bb 00       		.byte	0
+ 1911 00bc 03       		.uleb128 0x3
+ 1912 00bd 0E       		.uleb128 0xe
+ 1913 00be 3A       		.uleb128 0x3a
+ 1914 00bf 0B       		.uleb128 0xb
+ 1915 00c0 3B       		.uleb128 0x3b
+ 1916 00c1 05       		.uleb128 0x5
+ 1917 00c2 49       		.uleb128 0x49
+ 1918 00c3 13       		.uleb128 0x13
+ 1919 00c4 3F       		.uleb128 0x3f
+ 1920 00c5 19       		.uleb128 0x19
+ 1921 00c6 3C       		.uleb128 0x3c
+ 1922 00c7 19       		.uleb128 0x19
+ 1923 00c8 00       		.byte	0
+ 1924 00c9 00       		.byte	0
+ 1925 00ca 0F       		.uleb128 0xf
+ 1926 00cb 35       		.uleb128 0x35
+ 1927 00cc 00       		.byte	0
+ 1928 00cd 49       		.uleb128 0x49
+ 1929 00ce 13       		.uleb128 0x13
+ 1930 00cf 00       		.byte	0
+ 1931 00d0 00       		.byte	0
+ 1932 00d1 10       		.uleb128 0x10
+ 1933 00d2 2E       		.uleb128 0x2e
+ 1934 00d3 00       		.byte	0
+ 1935 00d4 3F       		.uleb128 0x3f
+ 1936 00d5 19       		.uleb128 0x19
+ 1937 00d6 3C       		.uleb128 0x3c
+ 1938 00d7 19       		.uleb128 0x19
+ 1939 00d8 6E       		.uleb128 0x6e
+ 1940 00d9 0E       		.uleb128 0xe
+ 1941 00da 03       		.uleb128 0x3
+ 1942 00db 0E       		.uleb128 0xe
+ 1943 00dc 3A       		.uleb128 0x3a
+ 1944 00dd 0B       		.uleb128 0xb
+ 1945 00de 3B       		.uleb128 0x3b
+ 1946 00df 0B       		.uleb128 0xb
+ 1947 00e0 00       		.byte	0
+ 1948 00e1 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 38
+
+
+ 1949 00e2 00       		.byte	0
+ 1950              		.section	.debug_loc,"",%progbits
+ 1951              	.Ldebug_loc0:
+ 1952              	.LLST0:
+ 1953 0000 00000000 		.4byte	.LVL0
+ 1954 0004 05000000 		.4byte	.LVL1-1
+ 1955 0008 0100     		.2byte	0x1
+ 1956 000a 50       		.byte	0x50
+ 1957 000b 05000000 		.4byte	.LVL1-1
+ 1958 000f 14000000 		.4byte	.LFE63
+ 1959 0013 0400     		.2byte	0x4
+ 1960 0015 F3       		.byte	0xf3
+ 1961 0016 01       		.uleb128 0x1
+ 1962 0017 50       		.byte	0x50
+ 1963 0018 9F       		.byte	0x9f
+ 1964 0019 00000000 		.4byte	0
+ 1965 001d 00000000 		.4byte	0
+ 1966              	.LLST1:
+ 1967 0021 00000000 		.4byte	.LVL4
+ 1968 0025 06000000 		.4byte	.LVL5
+ 1969 0029 0100     		.2byte	0x1
+ 1970 002b 50       		.byte	0x50
+ 1971 002c 06000000 		.4byte	.LVL5
+ 1972 0030 12000000 		.4byte	.LFE64
+ 1973 0034 0400     		.2byte	0x4
+ 1974 0036 F3       		.byte	0xf3
+ 1975 0037 01       		.uleb128 0x1
+ 1976 0038 50       		.byte	0x50
+ 1977 0039 9F       		.byte	0x9f
+ 1978 003a 00000000 		.4byte	0
+ 1979 003e 00000000 		.4byte	0
+ 1980              	.LLST2:
+ 1981 0042 00000000 		.4byte	.LVL8
+ 1982 0046 06000000 		.4byte	.LVL9
+ 1983 004a 0100     		.2byte	0x1
+ 1984 004c 50       		.byte	0x50
+ 1985 004d 06000000 		.4byte	.LVL9
+ 1986 0051 12000000 		.4byte	.LFE65
+ 1987 0055 0400     		.2byte	0x4
+ 1988 0057 F3       		.byte	0xf3
+ 1989 0058 01       		.uleb128 0x1
+ 1990 0059 50       		.byte	0x50
+ 1991 005a 9F       		.byte	0x9f
+ 1992 005b 00000000 		.4byte	0
+ 1993 005f 00000000 		.4byte	0
+ 1994              	.LLST3:
+ 1995 0063 00000000 		.4byte	.LVL12
+ 1996 0067 0C000000 		.4byte	.LVL13
+ 1997 006b 0100     		.2byte	0x1
+ 1998 006d 50       		.byte	0x50
+ 1999 006e 0C000000 		.4byte	.LVL13
+ 2000 0072 4E000000 		.4byte	.LFE66
+ 2001 0076 0400     		.2byte	0x4
+ 2002 0078 F3       		.byte	0xf3
+ 2003 0079 01       		.uleb128 0x1
+ 2004 007a 50       		.byte	0x50
+ 2005 007b 9F       		.byte	0x9f
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 39
+
+
+ 2006 007c 00000000 		.4byte	0
+ 2007 0080 00000000 		.4byte	0
+ 2008              	.LLST4:
+ 2009 0084 00000000 		.4byte	.LVL12
+ 2010 0088 0F000000 		.4byte	.LVL14-1
+ 2011 008c 0100     		.2byte	0x1
+ 2012 008e 51       		.byte	0x51
+ 2013 008f 0F000000 		.4byte	.LVL14-1
+ 2014 0093 4E000000 		.4byte	.LFE66
+ 2015 0097 0400     		.2byte	0x4
+ 2016 0099 F3       		.byte	0xf3
+ 2017 009a 01       		.uleb128 0x1
+ 2018 009b 51       		.byte	0x51
+ 2019 009c 9F       		.byte	0x9f
+ 2020 009d 00000000 		.4byte	0
+ 2021 00a1 00000000 		.4byte	0
+ 2022              	.LLST5:
+ 2023 00a5 00000000 		.4byte	.LVL12
+ 2024 00a9 0F000000 		.4byte	.LVL14-1
+ 2025 00ad 0100     		.2byte	0x1
+ 2026 00af 52       		.byte	0x52
+ 2027 00b0 0F000000 		.4byte	.LVL14-1
+ 2028 00b4 4E000000 		.4byte	.LFE66
+ 2029 00b8 0400     		.2byte	0x4
+ 2030 00ba F3       		.byte	0xf3
+ 2031 00bb 01       		.uleb128 0x1
+ 2032 00bc 52       		.byte	0x52
+ 2033 00bd 9F       		.byte	0x9f
+ 2034 00be 00000000 		.4byte	0
+ 2035 00c2 00000000 		.4byte	0
+ 2036              	.LLST6:
+ 2037 00c6 00000000 		.4byte	.LVL12
+ 2038 00ca 0F000000 		.4byte	.LVL14-1
+ 2039 00ce 0100     		.2byte	0x1
+ 2040 00d0 53       		.byte	0x53
+ 2041 00d1 0F000000 		.4byte	.LVL14-1
+ 2042 00d5 4E000000 		.4byte	.LFE66
+ 2043 00d9 0400     		.2byte	0x4
+ 2044 00db F3       		.byte	0xf3
+ 2045 00dc 01       		.uleb128 0x1
+ 2046 00dd 53       		.byte	0x53
+ 2047 00de 9F       		.byte	0x9f
+ 2048 00df 00000000 		.4byte	0
+ 2049 00e3 00000000 		.4byte	0
+ 2050              	.LLST7:
+ 2051 00e7 00000000 		.4byte	.LVL25
+ 2052 00eb 06000000 		.4byte	.LVL26
+ 2053 00ef 0100     		.2byte	0x1
+ 2054 00f1 50       		.byte	0x50
+ 2055 00f2 06000000 		.4byte	.LVL26
+ 2056 00f6 38000000 		.4byte	.LFE67
+ 2057 00fa 0400     		.2byte	0x4
+ 2058 00fc F3       		.byte	0xf3
+ 2059 00fd 01       		.uleb128 0x1
+ 2060 00fe 50       		.byte	0x50
+ 2061 00ff 9F       		.byte	0x9f
+ 2062 0100 00000000 		.4byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 40
+
+
+ 2063 0104 00000000 		.4byte	0
+ 2064              	.LLST8:
+ 2065 0108 0A000000 		.4byte	.LVL27
+ 2066 010c 0E000000 		.4byte	.LVL28
+ 2067 0110 0200     		.2byte	0x2
+ 2068 0112 30       		.byte	0x30
+ 2069 0113 9F       		.byte	0x9f
+ 2070 0114 0E000000 		.4byte	.LVL28
+ 2071 0118 2A000000 		.4byte	.LVL35
+ 2072 011c 0100     		.2byte	0x1
+ 2073 011e 56       		.byte	0x56
+ 2074 011f 2C000000 		.4byte	.LVL36
+ 2075 0123 38000000 		.4byte	.LFE67
+ 2076 0127 0100     		.2byte	0x1
+ 2077 0129 56       		.byte	0x56
+ 2078 012a 00000000 		.4byte	0
+ 2079 012e 00000000 		.4byte	0
+ 2080              	.LLST9:
+ 2081 0132 0E000000 		.4byte	.LVL28
+ 2082 0136 1C000000 		.4byte	.LVL31
+ 2083 013a 0100     		.2byte	0x1
+ 2084 013c 54       		.byte	0x54
+ 2085 013d 1E000000 		.4byte	.LVL32
+ 2086 0141 20000000 		.4byte	.LVL33
+ 2087 0145 0100     		.2byte	0x1
+ 2088 0147 54       		.byte	0x54
+ 2089 0148 22000000 		.4byte	.LVL34
+ 2090 014c 2C000000 		.4byte	.LVL36
+ 2091 0150 0100     		.2byte	0x1
+ 2092 0152 54       		.byte	0x54
+ 2093 0153 00000000 		.4byte	0
+ 2094 0157 00000000 		.4byte	0
+ 2095              		.section	.debug_aranges,"",%progbits
+ 2096 0000 44000000 		.4byte	0x44
+ 2097 0004 0200     		.2byte	0x2
+ 2098 0006 00000000 		.4byte	.Ldebug_info0
+ 2099 000a 04       		.byte	0x4
+ 2100 000b 00       		.byte	0
+ 2101 000c 0000     		.2byte	0
+ 2102 000e 0000     		.2byte	0
+ 2103 0010 00000000 		.4byte	.LFB63
+ 2104 0014 14000000 		.4byte	.LFE63-.LFB63
+ 2105 0018 00000000 		.4byte	.LFB64
+ 2106 001c 12000000 		.4byte	.LFE64-.LFB64
+ 2107 0020 00000000 		.4byte	.LFB65
+ 2108 0024 12000000 		.4byte	.LFE65-.LFB65
+ 2109 0028 00000000 		.4byte	.LFB66
+ 2110 002c 4E000000 		.4byte	.LFE66-.LFB66
+ 2111 0030 00000000 		.4byte	.LFB67
+ 2112 0034 38000000 		.4byte	.LFE67-.LFB67
+ 2113 0038 00000000 		.4byte	.LFB68
+ 2114 003c 8C010000 		.4byte	.LFE68-.LFB68
+ 2115 0040 00000000 		.4byte	0
+ 2116 0044 00000000 		.4byte	0
+ 2117              		.section	.debug_ranges,"",%progbits
+ 2118              	.Ldebug_ranges0:
+ 2119 0000 00000000 		.4byte	.LFB63
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 41
+
+
+ 2120 0004 14000000 		.4byte	.LFE63
+ 2121 0008 00000000 		.4byte	.LFB64
+ 2122 000c 12000000 		.4byte	.LFE64
+ 2123 0010 00000000 		.4byte	.LFB65
+ 2124 0014 12000000 		.4byte	.LFE65
+ 2125 0018 00000000 		.4byte	.LFB66
+ 2126 001c 4E000000 		.4byte	.LFE66
+ 2127 0020 00000000 		.4byte	.LFB67
+ 2128 0024 38000000 		.4byte	.LFE67
+ 2129 0028 00000000 		.4byte	.LFB68
+ 2130 002c 8C010000 		.4byte	.LFE68
+ 2131 0030 00000000 		.4byte	0
+ 2132 0034 00000000 		.4byte	0
+ 2133              		.section	.debug_line,"",%progbits
+ 2134              	.Ldebug_line0:
+ 2135 0000 81020000 		.section	.debug_str,"MS",%progbits,1
+ 2135      0200A901 
+ 2135      00000201 
+ 2135      FB0E0D00 
+ 2135      01010101 
+ 2136              	.LASF6:
+ 2137 0000 6C6F6E67 		.ascii	"long long int\000"
+ 2137      206C6F6E 
+ 2137      6720696E 
+ 2137      7400
+ 2138              	.LASF21:
+ 2139 000e 77726974 		.ascii	"writeDataLCD\000"
+ 2139      65446174 
+ 2139      614C4344 
+ 2139      00
+ 2140              	.LASF13:
+ 2141 001b 666C6F61 		.ascii	"float\000"
+ 2141      7400
+ 2142              	.LASF20:
+ 2143 0021 76616C75 		.ascii	"value\000"
+ 2143      6500
+ 2144              	.LASF9:
+ 2145 0027 5F5F696E 		.ascii	"__int32_t\000"
+ 2145      7433325F 
+ 2145      7400
+ 2146              	.LASF28:
+ 2147 0031 4C43445F 		.ascii	"LCD_CS_Write\000"
+ 2147      43535F57 
+ 2147      72697465 
+ 2147      00
+ 2148              	.LASF19:
+ 2149 003e 77726974 		.ascii	"writeComLCD\000"
+ 2149      65436F6D 
+ 2149      4C434400 
+ 2150              	.LASF33:
+ 2151 004a 4C43442E 		.ascii	"LCD.c\000"
+ 2151      6300
+ 2152              	.LASF7:
+ 2153 0050 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2153      206C6F6E 
+ 2153      6720756E 
+ 2153      7369676E 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 42
+
+
+ 2153      65642069 
+ 2154              	.LASF27:
+ 2155 0067 4C43445F 		.ascii	"LCD_RS_Write\000"
+ 2155      52535F57 
+ 2155      72697465 
+ 2155      00
+ 2156              	.LASF1:
+ 2157 0074 756E7369 		.ascii	"unsigned char\000"
+ 2157      676E6564 
+ 2157      20636861 
+ 2157      7200
+ 2158              	.LASF32:
+ 2159 0082 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2159      43313120 
+ 2159      352E342E 
+ 2159      31203230 
+ 2159      31363036 
+ 2160 00b5 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2160      20726576 
+ 2160      6973696F 
+ 2160      6E203233 
+ 2160      37373135 
+ 2161 00e8 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2161      66756E63 
+ 2161      74696F6E 
+ 2161      2D736563 
+ 2161      74696F6E 
+ 2162              	.LASF23:
+ 2163 0110 636C6561 		.ascii	"clearLCD\000"
+ 2163      724C4344 
+ 2163      00
+ 2164              	.LASF30:
+ 2165 0119 4C43445F 		.ascii	"LCD_RD_Write\000"
+ 2165      52445F57 
+ 2165      72697465 
+ 2165      00
+ 2166              	.LASF5:
+ 2167 0126 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2167      20756E73 
+ 2167      69676E65 
+ 2167      6420696E 
+ 2167      7400
+ 2168              	.LASF3:
+ 2169 0138 73686F72 		.ascii	"short unsigned int\000"
+ 2169      7420756E 
+ 2169      7369676E 
+ 2169      65642069 
+ 2169      6E7400
+ 2170              	.LASF35:
+ 2171 014b 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2171      52784275 
+ 2171      66666572 
+ 2171      00
+ 2172              	.LASF14:
+ 2173 0158 646F7562 		.ascii	"double\000"
+ 2173      6C6500
+ 2174              	.LASF12:
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 43
+
+
+ 2175 015f 75696E74 		.ascii	"uint16\000"
+ 2175      313600
+ 2176              	.LASF8:
+ 2177 0166 756E7369 		.ascii	"unsigned int\000"
+ 2177      676E6564 
+ 2177      20696E74 
+ 2177      00
+ 2178              	.LASF18:
+ 2179 0173 77726974 		.ascii	"writeBusLCD\000"
+ 2179      65427573 
+ 2179      4C434400 
+ 2180              	.LASF29:
+ 2181 017f 4C43445F 		.ascii	"LCD_RST_Write\000"
+ 2181      5253545F 
+ 2181      57726974 
+ 2181      6500
+ 2182              	.LASF24:
+ 2183 018d 696E6974 		.ascii	"initLCD\000"
+ 2183      4C434400 
+ 2184              	.LASF10:
+ 2185 0195 696E7433 		.ascii	"int32_t\000"
+ 2185      325F7400 
+ 2186              	.LASF17:
+ 2187 019d 73697A65 		.ascii	"sizetype\000"
+ 2187      74797065 
+ 2187      00
+ 2188              	.LASF15:
+ 2189 01a6 63686172 		.ascii	"char\000"
+ 2189      00
+ 2190              	.LASF2:
+ 2191 01ab 73686F72 		.ascii	"short int\000"
+ 2191      7420696E 
+ 2191      7400
+ 2192              	.LASF25:
+ 2193 01b5 4C43445F 		.ascii	"LCD_Data_Reg_Write\000"
+ 2193      44617461 
+ 2193      5F526567 
+ 2193      5F577269 
+ 2193      746500
+ 2194              	.LASF11:
+ 2195 01c8 75696E74 		.ascii	"uint8\000"
+ 2195      3800
+ 2196              	.LASF34:
+ 2197 01ce 433A5C55 		.ascii	"C:\\Users\\jrdia\\OneDrive\\Sync\\Documents\\GitHub"
+ 2197      73657273 
+ 2197      5C6A7264 
+ 2197      69615C4F 
+ 2197      6E654472 
+ 2198 01fb 5C50536F 		.ascii	"\\PSoC-Composite-Decoder\\Composite_Decoder.cydsn\000"
+ 2198      432D436F 
+ 2198      6D706F73 
+ 2198      6974652D 
+ 2198      4465636F 
+ 2199              	.LASF4:
+ 2200 022b 6C6F6E67 		.ascii	"long int\000"
+ 2200      20696E74 
+ 2200      00
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\ccosc5FV.s 			page 44
+
+
+ 2201              	.LASF16:
+ 2202 0234 6C6F6E67 		.ascii	"long double\000"
+ 2202      20646F75 
+ 2202      626C6500 
+ 2203              	.LASF0:
+ 2204 0240 7369676E 		.ascii	"signed char\000"
+ 2204      65642063 
+ 2204      68617200 
+ 2205              	.LASF26:
+ 2206 024c 4C43445F 		.ascii	"LCD_WR_REG_Write\000"
+ 2206      57525F52 
+ 2206      45475F57 
+ 2206      72697465 
+ 2206      00
+ 2207              	.LASF31:
+ 2208 025d 43794465 		.ascii	"CyDelay\000"
+ 2208      6C617900 
+ 2209              	.LASF22:
+ 2210 0265 41646472 		.ascii	"Address_set\000"
+ 2210      6573735F 
+ 2210      73657400 
+ 2211              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,10 @@
+C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/CortexM3/ARM_GCC_541/Debug/CyBootAsmGnu.o : C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
+
+C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
+
+C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
+
+C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
+
+C:/Users/jrdia/OneDrive/Sync/Documents/Projects/Moving\ 5DOF/PSoC\ Code/5DOF_Controller/5DOF_Controller.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
+

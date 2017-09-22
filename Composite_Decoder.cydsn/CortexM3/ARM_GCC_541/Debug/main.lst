@@ -1,0 +1,3375 @@
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.pixelInt,"ax",%progbits
+  20              		.align	2
+  21              		.global	pixelInt
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	pixelInt, %function
+  25              	pixelInt:
+  26              	.LFB64:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** #include "LCD.h"
+  14:main.c        **** #include "iprintf.h"
+  15:main.c        **** 
+  16:main.c        ****     #define W 320
+  17:main.c        **** #define H 240
+  18:main.c        ****     
+  19:main.c        **** uint16 lcdValue = 0xFF;
+  20:main.c        **** 
+  21:main.c        **** uint8 lcdPixels[9600];
+  22:main.c        **** uint8 temp;
+  23:main.c        **** 
+  24:main.c        **** 
+  25:main.c        **** int getPixel(unsigned int x, unsigned int y)
+  26:main.c        **** {
+  27:main.c        ****     int pixel = (lcdPixels[(y*W/8+x/8)]>>(x%8))&0x01;
+  28:main.c        ****     return(pixel);
+  29:main.c        **** }
+  30:main.c        **** 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 2
+
+
+  31:main.c        **** #define TABLE_LENGTH 10   	 
+  32:main.c        **** #define DMA_BYTES_PER_BURST 1
+  33:main.c        **** #define DMA_REQUEST_PER_BURST 1
+  34:main.c        ****  
+  35:main.c        **** const uint8 sineTable[TABLE_LENGTH] = {0,0xFF,0,0xFF,0,0xFF,0,0xff};	
+  36:main.c        **** 
+  37:main.c        **** uint8 DMA_Chan;               /* The DMA Channel */
+  38:main.c        **** uint8 DMA_TD[3];	          /* The DMA Transaction Descriptor (TD) */  	
+  39:main.c        **** uint8 ShiftReg_DMA_Chan;
+  40:main.c        **** uint8 ShiftReg_DMA_TD[4];  
+  41:main.c        **** 
+  42:main.c        **** 
+  43:main.c        **** void pixelInt(void)
+  44:main.c        **** {
+  28              		.loc 1 44 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  45:main.c        ****     Pixel_ShiftReg_GetIntStatus();
+  36              		.loc 1 45 0
+  37 0002 FFF7FEFF 		bl	Pixel_ShiftReg_GetIntStatus
+  38              	.LVL0:
+  39 0006 08BD     		pop	{r3, pc}
+  40              		.cfi_endproc
+  41              	.LFE64:
+  42              		.size	pixelInt, .-pixelInt
+  43              		.section	.text.vsyncISR,"ax",%progbits
+  44              		.align	2
+  45              		.global	vsyncISR
+  46              		.thumb
+  47              		.thumb_func
+  48              		.type	vsyncISR, %function
+  49              	vsyncISR:
+  50              	.LFB65:
+  46:main.c        ****     
+  47:main.c        **** }
+  48:main.c        **** 
+  49:main.c        **** void vsyncISR(void)
+  50:main.c        **** {
+  51              		.loc 1 50 0
+  52              		.cfi_startproc
+  53              		@ args = 0, pretend = 0, frame = 0
+  54              		@ frame_needed = 0, uses_anonymous_args = 0
+  55 0000 10B5     		push	{r4, lr}
+  56              		.cfi_def_cfa_offset 8
+  57              		.cfi_offset 4, -8
+  58              		.cfi_offset 14, -4
+  51:main.c        ****     
+  52:main.c        ****       CyDmaChSetRequest(ShiftReg_DMA_Chan, CY_DMA_CPU_TERM_CHAIN);   // Terminate the entire chain 
+  59              		.loc 1 52 0
+  60 0002 0421     		movs	r1, #4
+  61 0004 0A4B     		ldr	r3, .L6
+  62 0006 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 3
+
+
+  63 0008 FFF7FEFF 		bl	CyDmaChSetRequest
+  64              	.LVL1:
+  65              	.L4:
+  53:main.c        ****    
+  54:main.c        ****      while(CyDmaChGetRequest(ShiftReg_DMA_Chan));                                               // 
+  66              		.loc 1 54 0 discriminator 1
+  67 000c 084B     		ldr	r3, .L6
+  68 000e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  69 0010 FFF7FEFF 		bl	CyDmaChGetRequest
+  70              	.LVL2:
+  71 0014 0028     		cmp	r0, #0
+  72 0016 F9D1     		bne	.L4
+  55:main.c        ****    
+  56:main.c        ****      CyDmaChEnable(ShiftReg_DMA_Chan, 1); 
+  73              		.loc 1 56 0
+  74 0018 054C     		ldr	r4, .L6
+  75 001a 0121     		movs	r1, #1
+  76 001c 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+  77 001e FFF7FEFF 		bl	CyDmaChEnable
+  78              	.LVL3:
+  57:main.c        ****     CyDmaChSetInitialTd(ShiftReg_DMA_Chan, ShiftReg_DMA_TD[3]);// Re-enable the DMA channel.   
+  79              		.loc 1 57 0
+  80 0022 044B     		ldr	r3, .L6+4
+  81 0024 D978     		ldrb	r1, [r3, #3]	@ zero_extendqisi2
+  82 0026 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+  83 0028 FFF7FEFF 		bl	CyDmaChSetInitialTd
+  84              	.LVL4:
+  85 002c 10BD     		pop	{r4, pc}
+  86              	.L7:
+  87 002e 00BF     		.align	2
+  88              	.L6:
+  89 0030 00000000 		.word	ShiftReg_DMA_Chan
+  90 0034 00000000 		.word	ShiftReg_DMA_TD
+  91              		.cfi_endproc
+  92              	.LFE65:
+  93              		.size	vsyncISR, .-vsyncISR
+  94              		.section	.text.getPixel,"ax",%progbits
+  95              		.align	2
+  96              		.global	getPixel
+  97              		.thumb
+  98              		.thumb_func
+  99              		.type	getPixel, %function
+ 100              	getPixel:
+ 101              	.LFB63:
+  26:main.c        ****     int pixel = (lcdPixels[(y*W/8+x/8)]>>(x%8))&0x01;
+ 102              		.loc 1 26 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 0
+ 105              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106              		@ link register save eliminated.
+ 107              	.LVL5:
+  27:main.c        ****     return(pixel);
+ 108              		.loc 1 27 0
+ 109 0000 01EB8101 		add	r1, r1, r1, lsl #2
+ 110              	.LVL6:
+ 111 0004 8A01     		lsls	r2, r1, #6
+ 112 0006 C308     		lsrs	r3, r0, #3
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 4
+
+
+ 113 0008 03EBD203 		add	r3, r3, r2, lsr #3
+ 114 000c 044A     		ldr	r2, .L9
+ 115 000e D35C     		ldrb	r3, [r2, r3]	@ zero_extendqisi2
+ 116 0010 00F00700 		and	r0, r0, #7
+ 117              	.LVL7:
+ 118 0014 43FA00F0 		asr	r0, r3, r0
+ 119              	.LVL8:
+  29:main.c        **** 
+ 120              		.loc 1 29 0
+ 121 0018 00F00100 		and	r0, r0, #1
+ 122              	.LVL9:
+ 123 001c 7047     		bx	lr
+ 124              	.L10:
+ 125 001e 00BF     		.align	2
+ 126              	.L9:
+ 127 0020 00000000 		.word	lcdPixels
+ 128              		.cfi_endproc
+ 129              	.LFE63:
+ 130              		.size	getPixel, .-getPixel
+ 131              		.section	.text.main,"ax",%progbits
+ 132              		.align	2
+ 133              		.global	main
+ 134              		.thumb
+ 135              		.thumb_func
+ 136              		.type	main, %function
+ 137              	main:
+ 138              	.LFB66:
+  58:main.c        **** }
+  59:main.c        **** 
+  60:main.c        **** int midX;
+  61:main.c        **** int midY;
+  62:main.c        **** 
+  63:main.c        **** int main(void)
+  64:main.c        **** {
+ 139              		.loc 1 64 0
+ 140              		.cfi_startproc
+ 141              		@ args = 0, pretend = 0, frame = 0
+ 142              		@ frame_needed = 0, uses_anonymous_args = 0
+ 143 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 144              		.cfi_def_cfa_offset 32
+ 145              		.cfi_offset 4, -32
+ 146              		.cfi_offset 5, -28
+ 147              		.cfi_offset 6, -24
+ 148              		.cfi_offset 7, -20
+ 149              		.cfi_offset 8, -16
+ 150              		.cfi_offset 9, -12
+ 151              		.cfi_offset 10, -8
+ 152              		.cfi_offset 14, -4
+  65:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 153              		.loc 1 65 0
+ 154              		.syntax unified
+ 155              	@ 65 "main.c" 1
+ 156 0004 62B6     		CPSIE   i
+ 157              	@ 0 "" 2
+  66:main.c        **** 
+  67:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  68:main.c        **** 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 5
+
+
+  69:main.c        ****     initLCD();
+ 158              		.loc 1 69 0
+ 159              		.thumb
+ 160              		.syntax unified
+ 161 0006 FFF7FEFF 		bl	initLCD
+ 162              	.LVL10:
+  70:main.c        ****     
+  71:main.c        ****     
+  72:main.c        ****     /* Defines for LCD_DMA */
+  73:main.c        **** //#define LCD_DMA_BYTES_PER_BURST 1
+  74:main.c        **** //#define LCD_DMA_REQUEST_PER_BURST 1
+  75:main.c        **** //#define TABLE_LENGTH 9600
+  76:main.c        **** //#define LCD_DMA_SRC_BASE (CYDEV_SRAM_BASE)
+  77:main.c        **** //#define LCD_DMA_DST_BASE (CYDEV_PERIPH_BASE)
+  78:main.c        **** 
+  79:main.c        **** /* Variable declarations for LCD_DMA */
+  80:main.c        **** /* Move these variable declarations to the top of the function */
+  81:main.c        **** //uint8 LCD_DMA_Chan;
+  82:main.c        **** //uint8 LCD_DMA_TD[1];
+  83:main.c        **** 
+  84:main.c        **** /* DMA Configuration for LCD_DMA */
+  85:main.c        **** //LCD_DMA_Chan = LCD_SHIFT_DMA_DmaInitialize(LCD_DMA_BYTES_PER_BURST, LCD_DMA_REQUEST_PER_BURST, HI
+  86:main.c        **** //LCD_DMA_TD[0] = CyDmaTdAllocate();
+  87:main.c        **** //TD1
+  88:main.c        **** //CY_DMA_TD_INC_SRC_ADR
+  89:main.c        **** //CyDmaTdSetConfiguration(LCD_DMA_TD[0], 1, LCD_DMA_TD[0], 0 | LCD_SHIFT_DMA__TD_TERMOUT_EN);
+  90:main.c        **** //CyDmaTdSetAddress(LCD_DMA_TD[0], LO16((uint32)&lcdValue), LO16((uint32)LCD_ShiftReg_IN_FIFO_VAL_L
+  91:main.c        **** 
+  92:main.c        **** 
+  93:main.c        **** //CyDmaChSetInitialTd(LCD_DMA_Chan, LCD_DMA_TD[0]);
+  94:main.c        **** 
+  95:main.c        **** //CyDmaChEnable(LCD_DMA_Chan, 1);
+  96:main.c        **** 
+  97:main.c        **** 
+  98:main.c        **** 
+  99:main.c        **** LCD_CS_Write(0);
+ 163              		.loc 1 99 0
+ 164 000a 0020     		movs	r0, #0
+ 165 000c FFF7FEFF 		bl	LCD_CS_Write
+ 166              	.LVL11:
+ 100:main.c        **** LCD_RS_Write(1);
+ 167              		.loc 1 100 0
+ 168 0010 0120     		movs	r0, #1
+ 169 0012 FFF7FEFF 		bl	LCD_RS_Write
+ 170              	.LVL12:
+ 101:main.c        **** LCD_WR_REG_Write(0);
+ 171              		.loc 1 101 0
+ 172 0016 0020     		movs	r0, #0
+ 173 0018 FFF7FEFF 		bl	LCD_WR_REG_Write
+ 174              	.LVL13:
+ 102:main.c        **** CyDelay(100);
+ 175              		.loc 1 102 0
+ 176 001c 6420     		movs	r0, #100
+ 177 001e FFF7FEFF 		bl	CyDelay
+ 178              	.LVL14:
+ 179              	.LBB2:
+ 103:main.c        ****         //clearLCD(0xf800);
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 6
+
+
+ 104:main.c        ****         //CyDelay(1000);
+ 105:main.c        ****         //clearLCD(0x07E0);
+ 106:main.c        ****         //CyDelay(1000);
+ 107:main.c        ****         //clearLCD(0x001F);
+ 108:main.c        ****         //CyDelay(1000);
+ 109:main.c        **** 
+ 110:main.c        ****         for(int i=0;i<9600;i++)
+ 180              		.loc 1 110 0
+ 181 0022 0023     		movs	r3, #0
+ 182 0024 03E0     		b	.L12
+ 183              	.LVL15:
+ 184              	.L13:
+ 111:main.c        ****         {
+ 112:main.c        ****             //int ind=(i-1);
+ 113:main.c        ****             //if(ind<0)
+ 114:main.c        ****             //    ind=9599;
+ 115:main.c        ****             //if(i<(320/8))
+ 116:main.c        ****             //    lcdPixels[ind]=0xFF;
+ 117:main.c        ****             //else
+ 118:main.c        ****             //    lcdPixels[ind]=0;
+ 119:main.c        ****                 
+ 120:main.c        ****             //temp = lcdPixels[i];
+ 121:main.c        ****         lcdPixels[i]=0xFF;
+ 185              		.loc 1 121 0 discriminator 3
+ 186 0026 FF21     		movs	r1, #255
+ 187 0028 A94A     		ldr	r2, .L39
+ 188 002a D154     		strb	r1, [r2, r3]
+ 110:main.c        ****         {
+ 189              		.loc 1 110 0 discriminator 3
+ 190 002c 0133     		adds	r3, r3, #1
+ 191              	.LVL16:
+ 192              	.L12:
+ 110:main.c        ****         {
+ 193              		.loc 1 110 0 is_stmt 0 discriminator 1
+ 194 002e B3F5165F 		cmp	r3, #9600
+ 195 0032 F8DB     		blt	.L13
+ 196              	.LBE2:
+ 122:main.c        ****         }
+ 123:main.c        ****         //lcdPixels[9599] = 0x00;
+ 124:main.c        ****         //lcdPixels[0]=0xFF;
+ 125:main.c        ****         //while(1);
+ 126:main.c        **** LCD_CS_Write(0);
+ 197              		.loc 1 126 0 is_stmt 1
+ 198 0034 0020     		movs	r0, #0
+ 199 0036 FFF7FEFF 		bl	LCD_CS_Write
+ 200              	.LVL17:
+ 127:main.c        **** LCD_RS_Write(1);
+ 201              		.loc 1 127 0
+ 202 003a 0120     		movs	r0, #1
+ 203 003c FFF7FEFF 		bl	LCD_RS_Write
+ 204              	.LVL18:
+ 128:main.c        **** LCD_WR_REG_Write(0);
+ 205              		.loc 1 128 0
+ 206 0040 0020     		movs	r0, #0
+ 207 0042 FFF7FEFF 		bl	LCD_WR_REG_Write
+ 208              	.LVL19:
+ 129:main.c        **** 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 7
+
+
+ 130:main.c        **** //LCD_ShiftReg_Start();
+ 131:main.c        **** 
+ 132:main.c        **** 
+ 133:main.c        **** 
+ 134:main.c        ****     /* Defines for LCD_SHIFT_DMA */
+ 135:main.c        **** //#define LCD_SHIFT_DMA_BYTES_PER_BURST 1
+ 136:main.c        **** //#define LCD_SHIFT_DMA_REQUEST_PER_BURST 1
+ 137:main.c        **** //#define LCD_SHIFT_DMA_SRC_BASE (CYDEV_SRAM_BASE)
+ 138:main.c        **** //#define LCD_SHIFT_DMA_DST_BASE (CYDEV_PERIPH_BASE)
+ 139:main.c        **** 
+ 140:main.c        **** /* Variable declarations for LCD_SHIFT_DMA */
+ 141:main.c        **** /* Move these variable declarations to the top of the function */
+ 142:main.c        **** //uint8 LCD_SHIFT_DMA_Chan;
+ 143:main.c        **** //uint8 LCD_SHIFT_DMA_TD[1];
+ 144:main.c        **** 
+ 145:main.c        **** /* DMA Configuration for LCD_SHIFT_DMA */
+ 146:main.c        **** //LCD_SHIFT_DMA_Chan = LCD_SHIFT_DMA_DmaInitialize(LCD_SHIFT_DMA_BYTES_PER_BURST, LCD_SHIFT_DMA_REQ
+ 147:main.c        **** //    HI16(LCD_SHIFT_DMA_SRC_BASE), HI16(LCD_SHIFT_DMA_DST_BASE));
+ 148:main.c        **** //LCD_SHIFT_DMA_TD[0] = CyDmaTdAllocate();
+ 149:main.c        **** //CyDmaTdSetConfiguration(LCD_SHIFT_DMA_TD[0], 1, LCD_SHIFT_DMA_TD[0], LCD_SHIFT_DMA__TD_TERMOUT_EN
+ 150:main.c        **** //CyDmaTdSetAddress(LCD_SHIFT_DMA_TD[0], LO16((uint32)&lcdPixels[0]), LO16((uint32)LCD_Data_Reg_Con
+ 151:main.c        **** //CyDmaChSetInitialTd(LCD_SHIFT_DMA_Chan, LCD_SHIFT_DMA_TD[0]);
+ 152:main.c        **** //CyDmaChEnable(LCD_SHIFT_DMA_Chan, 1);
+ 153:main.c        **** 
+ 154:main.c        **** 
+ 155:main.c        **** 
+ 156:main.c        **** ShiftReg_1_Start();
+ 209              		.loc 1 156 0
+ 210 0046 FFF7FEFF 		bl	ShiftReg_1_Start
+ 211              	.LVL20:
+ 157:main.c        ****     PWM_1_Start();
+ 212              		.loc 1 157 0
+ 213 004a FFF7FEFF 		bl	PWM_1_Start
+ 214              	.LVL21:
+ 158:main.c        **** 
+ 159:main.c        ****     DMA_Chan = DMA_DmaInitialize( 1, 1, HI16(  lcdPixels ), HI16(CYDEV_PERIPH_BASE) );
+ 215              		.loc 1 159 0
+ 216 004e A04D     		ldr	r5, .L39
+ 217 0050 4FEA1549 		lsr	r9, r5, #16
+ 218 0054 4FF48043 		mov	r3, #16384
+ 219 0058 4A46     		mov	r2, r9
+ 220 005a 0121     		movs	r1, #1
+ 221 005c 0846     		mov	r0, r1
+ 222 005e FFF7FEFF 		bl	DMA_DmaInitialize
+ 223              	.LVL22:
+ 224 0062 DFF8A882 		ldr	r8, .L39+60
+ 225 0066 88F80000 		strb	r0, [r8]
+ 160:main.c        ****     DMA_TD[0] = CyDmaTdAllocate(); 
+ 226              		.loc 1 160 0
+ 227 006a FFF7FEFF 		bl	CyDmaTdAllocate
+ 228              	.LVL23:
+ 229 006e 994C     		ldr	r4, .L39+4
+ 230 0070 2070     		strb	r0, [r4]
+ 161:main.c        ****     DMA_TD[1] = CyDmaTdAllocate(); 
+ 231              		.loc 1 161 0
+ 232 0072 FFF7FEFF 		bl	CyDmaTdAllocate
+ 233              	.LVL24:
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 8
+
+
+ 234 0076 6070     		strb	r0, [r4, #1]
+ 162:main.c        ****     DMA_TD[2] = CyDmaTdAllocate(); 
+ 235              		.loc 1 162 0
+ 236 0078 FFF7FEFF 		bl	CyDmaTdAllocate
+ 237              	.LVL25:
+ 238 007c A070     		strb	r0, [r4, #2]
+ 163:main.c        ****     
+ 164:main.c        ****  	CyDmaTdSetConfiguration(DMA_TD[0], (4095   ), DMA_TD[1], TD_INC_SRC_ADR  ); 	 
+ 239              		.loc 1 164 0
+ 240 007e 0123     		movs	r3, #1
+ 241 0080 6278     		ldrb	r2, [r4, #1]	@ zero_extendqisi2
+ 242 0082 40F6FF71 		movw	r1, #4095
+ 243 0086 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 244 0088 FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 245              	.LVL26:
+ 165:main.c        ****     CyDmaTdSetAddress(DMA_TD[0], LO16((uint32)lcdPixels), LO16((uint32)ShiftReg_1_IN_FIFO_VAL_LSB_P
+ 246              		.loc 1 165 0
+ 247 008c ADB2     		uxth	r5, r5
+ 248 008e 46F24A52 		movw	r2, #25930
+ 249 0092 2946     		mov	r1, r5
+ 250 0094 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 251 0096 FFF7FEFF 		bl	CyDmaTdSetAddress
+ 252              	.LVL27:
+ 166:main.c        **** 
+ 167:main.c        ****     CyDmaTdSetConfiguration(DMA_TD[1], (4095   ), DMA_TD[2], TD_INC_SRC_ADR  ); 	 
+ 253              		.loc 1 167 0
+ 254 009a 0123     		movs	r3, #1
+ 255 009c A278     		ldrb	r2, [r4, #2]	@ zero_extendqisi2
+ 256 009e 40F6FF71 		movw	r1, #4095
+ 257 00a2 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 258 00a4 FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 259              	.LVL28:
+ 168:main.c        ****     CyDmaTdSetAddress(DMA_TD[1], LO16((uint32)lcdPixels+4095), LO16((uint32)ShiftReg_1_IN_FIFO_VAL_
+ 260              		.loc 1 168 0
+ 261 00a8 05F6FF77 		addw	r7, r5, #4095
+ 262 00ac BFB2     		uxth	r7, r7
+ 263 00ae 46F24A52 		movw	r2, #25930
+ 264 00b2 3946     		mov	r1, r7
+ 265 00b4 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 266 00b6 FFF7FEFF 		bl	CyDmaTdSetAddress
+ 267              	.LVL29:
+ 169:main.c        **** 
+ 170:main.c        ****     CyDmaTdSetConfiguration(DMA_TD[2], (1410   ), DMA_TD[0], TD_INC_SRC_ADR |DMA__TD_TERMOUT_EN ); 
+ 268              		.loc 1 170 0
+ 269 00ba 0523     		movs	r3, #5
+ 270 00bc 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 271 00be 40F28251 		movw	r1, #1410
+ 272 00c2 A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2
+ 273 00c4 FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 274              	.LVL30:
+ 171:main.c        ****     CyDmaTdSetAddress(DMA_TD[2], LO16((uint32)lcdPixels+8190), LO16((uint32)ShiftReg_1_IN_FIFO_VAL_
+ 275              		.loc 1 171 0
+ 276 00c8 05F5FF53 		add	r3, r5, #8160
+ 277 00cc 1E33     		adds	r3, r3, #30
+ 278 00ce 9EB2     		uxth	r6, r3
+ 279 00d0 46F24A52 		movw	r2, #25930
+ 280 00d4 3146     		mov	r1, r6
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 9
+
+
+ 281 00d6 A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2
+ 282 00d8 FFF7FEFF 		bl	CyDmaTdSetAddress
+ 283              	.LVL31:
+ 172:main.c        **** 
+ 173:main.c        ****                                                                     // ShiftReg_1_IN_FIFO_VAL_LSB_P
+ 174:main.c        **** 															        // ShiftReg_1_SHIFT_REG_LSB_PTR   
+ 175:main.c        **** 																	// ShiftReg_1_SHIFT_REG_VALUE_LSB_PTR
+ 176:main.c        **** 																	// ShiftReg_1_OUT_FIFO_VAL_LSB_PTR
+ 177:main.c        ****     CyDmaChSetInitialTd(DMA_Chan, DMA_TD[0]); 	
+ 284              		.loc 1 177 0
+ 285 00dc 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 286 00de 98F80000 		ldrb	r0, [r8]	@ zero_extendqisi2
+ 287 00e2 FFF7FEFF 		bl	CyDmaChSetInitialTd
+ 288              	.LVL32:
+ 178:main.c        ****     CyDmaChEnable(DMA_Chan, 1); 
+ 289              		.loc 1 178 0
+ 290 00e6 0121     		movs	r1, #1
+ 291 00e8 98F80000 		ldrb	r0, [r8]	@ zero_extendqisi2
+ 292 00ec FFF7FEFF 		bl	CyDmaChEnable
+ 293              	.LVL33:
+ 179:main.c        ****     
+ 180:main.c        ****   CyDelay(100);
+ 294              		.loc 1 180 0
+ 295 00f0 6420     		movs	r0, #100
+ 296 00f2 FFF7FEFF 		bl	CyDelay
+ 297              	.LVL34:
+ 181:main.c        **** LCD_Data_Reg_Write(0);
+ 298              		.loc 1 181 0
+ 299 00f6 0020     		movs	r0, #0
+ 300 00f8 FFF7FEFF 		bl	LCD_Data_Reg_Write
+ 301              	.LVL35:
+ 182:main.c        **** LCD_WR_REG_Write(8);
+ 302              		.loc 1 182 0
+ 303 00fc 0820     		movs	r0, #8
+ 304 00fe FFF7FEFF 		bl	LCD_WR_REG_Write
+ 305              	.LVL36:
+ 183:main.c        **** LCD_WR_REG_Write(0);
+ 306              		.loc 1 183 0
+ 307 0102 0020     		movs	r0, #0
+ 308 0104 FFF7FEFF 		bl	LCD_WR_REG_Write
+ 309              	.LVL37:
+ 184:main.c        **** LCD_WR_REG_Write(8);
+ 310              		.loc 1 184 0
+ 311 0108 0820     		movs	r0, #8
+ 312 010a FFF7FEFF 		bl	LCD_WR_REG_Write
+ 313              	.LVL38:
+ 185:main.c        **** //lcdPixels[9599]=0xFF;
+ 186:main.c        ****     
+ 187:main.c        **** Trigger_Reference_Start();
+ 314              		.loc 1 187 0
+ 315 010e FFF7FEFF 		bl	Trigger_Reference_Start
+ 316              	.LVL39:
+ 188:main.c        **** Trigger_Comp_Start();
+ 317              		.loc 1 188 0
+ 318 0112 FFF7FEFF 		bl	Trigger_Comp_Start
+ 319              	.LVL40:
+ 189:main.c        **** 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 10
+
+
+ 190:main.c        **** Pixel_ISR_StartEx(pixelInt);
+ 320              		.loc 1 190 0
+ 321 0116 7048     		ldr	r0, .L39+8
+ 322 0118 FFF7FEFF 		bl	Pixel_ISR_StartEx
+ 323              	.LVL41:
+ 191:main.c        **** Pixel_ShiftReg_Start();
+ 324              		.loc 1 191 0
+ 325 011c FFF7FEFF 		bl	Pixel_ShiftReg_Start
+ 326              	.LVL42:
+ 192:main.c        **** Pixel_ShiftReg_1_Start();
+ 327              		.loc 1 192 0
+ 328 0120 FFF7FEFF 		bl	Pixel_ShiftReg_1_Start
+ 329              	.LVL43:
+ 193:main.c        **** Pixel_ShiftReg_GetIntStatus();
+ 330              		.loc 1 193 0
+ 331 0124 FFF7FEFF 		bl	Pixel_ShiftReg_GetIntStatus
+ 332              	.LVL44:
+ 194:main.c        **** //CyDelay(1000);
+ 195:main.c        **** 
+ 196:main.c        **** 
+ 197:main.c        ****  #define A_DMA_SRC_BASE (CYDEV_PERIPH_BASE) 
+ 198:main.c        ****     #define A_DMA_DST_BASE (&pixelValues)
+ 199:main.c        ****     #define A_DMA_BYTES_PER_BURST 1
+ 200:main.c        ****     #define A_DMA_REQUEST_PER_BURST 1
+ 201:main.c        ****     #define A_TABLE_LENGTH 1
+ 202:main.c        **** 
+ 203:main.c        **** 
+ 204:main.c        **** 
+ 205:main.c        ****     /* Step1 : DmaInitialize - Initialize the DMA channel
+ 206:main.c        **** 	 * Bytes per burst = 1, (8 bit data transferred to VDAC one at a time)
+ 207:main.c        **** 	 * Request per burst = 1 (this will cause transfer of the bytes only with every new request)
+ 208:main.c        **** 	 * High byte of source address = Upper 16 bits of Flash Base address for PSoC 3,
+ 209:main.c        **** 	                               = HI16(&sineTable) for PSoC 5
+ 210:main.c        ****      * High byte of destination address =  Upper 16 bits of peripheral base address */
+ 211:main.c        ****     ShiftReg_DMA_Chan = ShiftReg_DMA_DmaInitialize(DMA_BYTES_PER_BURST, DMA_REQUEST_PER_BURST, HI16
+ 333              		.loc 1 211 0
+ 334 0128 4B46     		mov	r3, r9
+ 335 012a 4FF48042 		mov	r2, #16384
+ 336 012e 0121     		movs	r1, #1
+ 337 0130 0846     		mov	r0, r1
+ 338 0132 FFF7FEFF 		bl	ShiftReg_DMA_DmaInitialize
+ 339              	.LVL45:
+ 340 0136 DFF8A881 		ldr	r8, .L39+16
+ 341 013a 88F80000 		strb	r0, [r8]
+ 212:main.c        **** 	
+ 213:main.c        ****     /* Step2 :CyDmaTdAllocate - Allocate TD */
+ 214:main.c        ****     ShiftReg_DMA_TD[0] = CyDmaTdAllocate();  								 
+ 342              		.loc 1 214 0
+ 343 013e FFF7FEFF 		bl	CyDmaTdAllocate
+ 344              	.LVL46:
+ 345 0142 664C     		ldr	r4, .L39+12
+ 346 0144 2070     		strb	r0, [r4]
+ 215:main.c        ****     
+ 216:main.c        ****     ShiftReg_DMA_TD[1] = CyDmaTdAllocate();  								 
+ 347              		.loc 1 216 0
+ 348 0146 FFF7FEFF 		bl	CyDmaTdAllocate
+ 349              	.LVL47:
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 11
+
+
+ 350 014a 6070     		strb	r0, [r4, #1]
+ 217:main.c        ****     
+ 218:main.c        ****     ShiftReg_DMA_TD[2] = CyDmaTdAllocate();  								 
+ 351              		.loc 1 218 0
+ 352 014c FFF7FEFF 		bl	CyDmaTdAllocate
+ 353              	.LVL48:
+ 354 0150 A070     		strb	r0, [r4, #2]
+ 219:main.c        ****     
+ 220:main.c        ****         ShiftReg_DMA_TD[3] = CyDmaTdAllocate();  								 
+ 355              		.loc 1 220 0
+ 356 0152 FFF7FEFF 		bl	CyDmaTdAllocate
+ 357              	.LVL49:
+ 358 0156 E070     		strb	r0, [r4, #3]
+ 359              	.LVL50:
+ 221:main.c        ****     
+ 222:main.c        ****     
+ 223:main.c        ****     /* Step3 :CyDmaTdSetConfiguration - Configures the TD:
+ 224:main.c        **** 	 * tdHandle = DMA_TD[0] - TD handle previously returned by CyDmaTdAlloc()
+ 225:main.c        **** 	 * Transfer count = table_length (number of bytes to transfer for a sine wave)
+ 226:main.c        **** 	 * Next Td = DMA_TD[0] ; loop back to the same TD to generate a continous sien wave 
+ 227:main.c        **** 	 * Configuration = The source address is incremented after every burst transfer
+ 228:main.c        **** 	 */
+ 229:main.c        ****         
+ 230:main.c        ****         int offset = 5;
+ 231:main.c        ****     CyDmaTdSetConfiguration(ShiftReg_DMA_TD[0], 4095, ShiftReg_DMA_TD[1], CY_DMA_TD_INC_DST_ADR); 	
+ 360              		.loc 1 231 0
+ 361 0158 0223     		movs	r3, #2
+ 362 015a 6278     		ldrb	r2, [r4, #1]	@ zero_extendqisi2
+ 363 015c 40F6FF71 		movw	r1, #4095
+ 364 0160 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 365 0162 FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 366              	.LVL51:
+ 232:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[0], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 367              		.loc 1 232 0
+ 368 0166 2A46     		mov	r2, r5
+ 369 0168 46F25D41 		movw	r1, #25693
+ 370 016c 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 371 016e FFF7FEFF 		bl	CyDmaTdSetAddress
+ 372              	.LVL52:
+ 233:main.c        ****         
+ 234:main.c        ****     CyDmaTdSetConfiguration(ShiftReg_DMA_TD[1], 4095, ShiftReg_DMA_TD[2], CY_DMA_TD_INC_DST_ADR ); 
+ 373              		.loc 1 234 0
+ 374 0172 0223     		movs	r3, #2
+ 375 0174 A278     		ldrb	r2, [r4, #2]	@ zero_extendqisi2
+ 376 0176 40F6FF71 		movw	r1, #4095
+ 377 017a 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 378 017c FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 379              	.LVL53:
+ 235:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[1], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 380              		.loc 1 235 0
+ 381 0180 3A46     		mov	r2, r7
+ 382 0182 46F25D41 		movw	r1, #25693
+ 383 0186 6078     		ldrb	r0, [r4, #1]	@ zero_extendqisi2
+ 384 0188 FFF7FEFF 		bl	CyDmaTdSetAddress
+ 385              	.LVL54:
+ 236:main.c        ****         
+ 237:main.c        ****     CyDmaTdSetConfiguration(ShiftReg_DMA_TD[2], 1410-offset, ShiftReg_DMA_TD[3], CY_DMA_TD_INC_DST_
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 12
+
+
+ 386              		.loc 1 237 0
+ 387 018c 0223     		movs	r3, #2
+ 388 018e E278     		ldrb	r2, [r4, #3]	@ zero_extendqisi2
+ 389 0190 40F27D51 		movw	r1, #1405
+ 390 0194 A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2
+ 391 0196 FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 392              	.LVL55:
+ 238:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[2], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 393              		.loc 1 238 0
+ 394 019a 3246     		mov	r2, r6
+ 395 019c 46F25D41 		movw	r1, #25693
+ 396 01a0 A078     		ldrb	r0, [r4, #2]	@ zero_extendqisi2
+ 397 01a2 FFF7FEFF 		bl	CyDmaTdSetAddress
+ 398              	.LVL56:
+ 239:main.c        ****         
+ 240:main.c        ****     CyDmaTdSetConfiguration(ShiftReg_DMA_TD[3], offset, ShiftReg_DMA_TD[0], CY_DMA_TD_INC_DST_ADR);
+ 399              		.loc 1 240 0
+ 400 01a6 0223     		movs	r3, #2
+ 401 01a8 2278     		ldrb	r2, [r4]	@ zero_extendqisi2
+ 402 01aa 0521     		movs	r1, #5
+ 403 01ac E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 404 01ae FFF7FEFF 		bl	CyDmaTdSetConfiguration
+ 405              	.LVL57:
+ 241:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[3], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 406              		.loc 1 241 0
+ 407 01b2 05F51552 		add	r2, r5, #9536
+ 408 01b6 3B32     		adds	r2, r2, #59
+ 409 01b8 92B2     		uxth	r2, r2
+ 410 01ba 46F25D41 		movw	r1, #25693
+ 411 01be E078     		ldrb	r0, [r4, #3]	@ zero_extendqisi2
+ 412 01c0 FFF7FEFF 		bl	CyDmaTdSetAddress
+ 413              	.LVL58:
+ 242:main.c        ****         
+ 243:main.c        ****     
+ 244:main.c        **** 	/*CyDmaTdSetConfiguration(ShiftReg_DMA_TD[0], 4095, ShiftReg_DMA_TD[1], CY_DMA_TD_INC_DST_ADR); 	 
+ 245:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[0], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 246:main.c        ****         
+ 247:main.c        ****     CyDmaTdSetConfiguration(ShiftReg_DMA_TD[1], 4095, ShiftReg_DMA_TD[2], CY_DMA_TD_INC_DST_ADR ); 
+ 248:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[1], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 249:main.c        ****         
+ 250:main.c        ****     CyDmaTdSetConfiguration(ShiftReg_DMA_TD[2], 1410, ShiftReg_DMA_TD[0], CY_DMA_TD_INC_DST_ADR | S
+ 251:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[2], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 252:main.c        ****         
+ 253:main.c        ****         CyDmaTdSetConfiguration(ShiftReg_DMA_TD[3], 100, ShiftReg_DMA_TD[0], CY_DMA_TD_INC_DST_ADR 
+ 254:main.c        ****     CyDmaTdSetAddress(ShiftReg_DMA_TD[3], LO16((uint32)Pixel_ShiftReg_OUT_FIFO_VAL_LSB_PTR), LO16((
+ 255:main.c        ****         */
+ 256:main.c        ****     /* Step 4 : CyDmaTdSetAddress - Configure the lower 16 bit source and destination addresses 
+ 257:main.c        **** 	 * Source address = Lower 16 bits of sineTable array
+ 258:main.c        **** 	 * Destination address = Lower 16 bits of VDAC8_Data_PTR register */
+ 259:main.c        **** 
+ 260:main.c        ****     /* Step 5: Map the TD to the DMA Channel */
+ 261:main.c        ****     CyDmaChSetInitialTd(ShiftReg_DMA_Chan, ShiftReg_DMA_TD[3]); 	
+ 414              		.loc 1 261 0
+ 415 01c4 E178     		ldrb	r1, [r4, #3]	@ zero_extendqisi2
+ 416 01c6 98F80000 		ldrb	r0, [r8]	@ zero_extendqisi2
+ 417 01ca FFF7FEFF 		bl	CyDmaChSetInitialTd
+ 418              	.LVL59:
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 13
+
+
+ 419              	.L14:
+ 262:main.c        **** 	
+ 263:main.c        ****     
+ 264:main.c        ****     /* Step 6: Enable the DMA channel */
+ 265:main.c        ****     while(Pin_8_Read()==0);
+ 420              		.loc 1 265 0 discriminator 1
+ 421 01ce FFF7FEFF 		bl	Pin_8_Read
+ 422              	.LVL60:
+ 423 01d2 0028     		cmp	r0, #0
+ 424 01d4 FBD0     		beq	.L14
+ 425              	.L15:
+ 266:main.c        ****     while(Pin_8_Read()==1);
+ 426              		.loc 1 266 0 discriminator 1
+ 427 01d6 FFF7FEFF 		bl	Pin_8_Read
+ 428              	.LVL61:
+ 429 01da 0128     		cmp	r0, #1
+ 430 01dc FBD0     		beq	.L15
+ 431              	.L16:
+ 267:main.c        ****     while(Pin_8_Read()==0);
+ 432              		.loc 1 267 0 discriminator 1
+ 433 01de FFF7FEFF 		bl	Pin_8_Read
+ 434              	.LVL62:
+ 435 01e2 0028     		cmp	r0, #0
+ 436 01e4 FBD0     		beq	.L16
+ 437              	.L17:
+ 268:main.c        ****     while(Pin_8_Read()==1);
+ 438              		.loc 1 268 0 discriminator 1
+ 439 01e6 FFF7FEFF 		bl	Pin_8_Read
+ 440              	.LVL63:
+ 441 01ea 0128     		cmp	r0, #1
+ 442 01ec FBD0     		beq	.L17
+ 269:main.c        ****     
+ 270:main.c        ****     CyDmaChEnable(ShiftReg_DMA_Chan, 1); 
+ 443              		.loc 1 270 0
+ 444 01ee 0121     		movs	r1, #1
+ 445 01f0 3B4B     		ldr	r3, .L39+16
+ 446 01f2 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 447 01f4 FFF7FEFF 		bl	CyDmaChEnable
+ 448              	.LVL64:
+ 271:main.c        ****     
+ 272:main.c        ****     VDAC8_1_Start();
+ 449              		.loc 1 272 0
+ 450 01f8 FFF7FEFF 		bl	VDAC8_1_Start
+ 451              	.LVL65:
+ 273:main.c        ****     VDAC8_1_SetValue(200);
+ 452              		.loc 1 273 0
+ 453 01fc C820     		movs	r0, #200
+ 454 01fe FFF7FEFF 		bl	VDAC8_1_SetValue
+ 455              	.LVL66:
+ 274:main.c        ****     Comp_1_Start();
+ 456              		.loc 1 274 0
+ 457 0202 FFF7FEFF 		bl	Comp_1_Start
+ 458              	.LVL67:
+ 275:main.c        ****     
+ 276:main.c        ****     VSync_ISR_StartEx(vsyncISR);
+ 459              		.loc 1 276 0
+ 460 0206 3748     		ldr	r0, .L39+20
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 14
+
+
+ 461 0208 FFF7FEFF 		bl	VSync_ISR_StartEx
+ 462              	.LVL68:
+ 277:main.c        ****     
+ 278:main.c        **** 
+ 279:main.c        **** 
+ 280:main.c        **** UART_1_Start();
+ 463              		.loc 1 280 0
+ 464 020c FFF7FEFF 		bl	UART_1_Start
+ 465              	.LVL69:
+ 466              	.L18:
+ 467              	.LBB3:
+ 281:main.c        **** while(1)
+ 282:main.c        **** {
+ 283:main.c        ****     unsigned int xPix,yPix;
+ 284:main.c        **** unsigned int c;
+ 285:main.c        **** unsigned int minX,minY,maxX,maxY;  
+ 286:main.c        ****    // compute bounding box
+ 287:main.c        ****   minX = W;
+ 288:main.c        ****   minY = H;
+ 289:main.c        ****   maxX = 0;
+ 290:main.c        ****   maxY = 0;
+ 291:main.c        ****   int found = 0;
+ 468              		.loc 1 291 0
+ 469 0210 4FF0000A 		mov	r10, #0
+ 290:main.c        ****   int found = 0;
+ 470              		.loc 1 290 0
+ 471 0214 5746     		mov	r7, r10
+ 289:main.c        ****   maxY = 0;
+ 472              		.loc 1 289 0
+ 473 0216 5646     		mov	r6, r10
+ 288:main.c        ****   maxX = 0;
+ 474              		.loc 1 288 0
+ 475 0218 4FF0F008 		mov	r8, #240
+ 287:main.c        ****   minY = H;
+ 476              		.loc 1 287 0
+ 477 021c 4FF4A079 		mov	r9, #320
+ 292:main.c        ****   for(yPix=0;yPix<H;yPix++) {
+ 478              		.loc 1 292 0
+ 479 0220 5546     		mov	r5, r10
+ 480 0222 1DE0     		b	.L19
+ 481              	.LVL70:
+ 482              	.L24:
+ 293:main.c        ****     for(xPix=0;xPix<W;xPix++) {
+ 294:main.c        ****       c = getPixel(xPix,yPix);
+ 483              		.loc 1 294 0
+ 484 0224 2946     		mov	r1, r5
+ 485 0226 2046     		mov	r0, r4
+ 486 0228 FFF7FEFF 		bl	getPixel
+ 487              	.LVL71:
+ 295:main.c        ****       if (c == 1) {
+ 488              		.loc 1 295 0
+ 489 022c 0128     		cmp	r0, #1
+ 490 022e 10D1     		bne	.L20
+ 491              	.LVL72:
+ 296:main.c        ****         found = 1;
+ 297:main.c        ****         if (xPix < minX) {
+ 492              		.loc 1 297 0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 15
+
+
+ 493 0230 4C45     		cmp	r4, r9
+ 494 0232 00D2     		bcs	.L21
+ 298:main.c        ****           minX = xPix;
+ 495              		.loc 1 298 0
+ 496 0234 A146     		mov	r9, r4
+ 497              	.LVL73:
+ 498              	.L21:
+ 299:main.c        ****         }
+ 300:main.c        ****         if (xPix > maxX) {
+ 499              		.loc 1 300 0
+ 500 0236 B442     		cmp	r4, r6
+ 501 0238 00D9     		bls	.L22
+ 301:main.c        ****           maxX = xPix;
+ 502              		.loc 1 301 0
+ 503 023a 2646     		mov	r6, r4
+ 504              	.LVL74:
+ 505              	.L22:
+ 302:main.c        ****         }
+ 303:main.c        ****         if (yPix < minY) {
+ 506              		.loc 1 303 0
+ 507 023c 4545     		cmp	r5, r8
+ 508 023e 00D2     		bcs	.L23
+ 304:main.c        ****           minY = yPix;
+ 509              		.loc 1 304 0
+ 510 0240 A846     		mov	r8, r5
+ 511              	.LVL75:
+ 512              	.L23:
+ 305:main.c        ****         }
+ 306:main.c        ****         if (yPix > maxY) {
+ 513              		.loc 1 306 0
+ 514 0242 BD42     		cmp	r5, r7
+ 515 0244 02D8     		bhi	.L36
+ 296:main.c        ****         if (xPix < minX) {
+ 516              		.loc 1 296 0
+ 517 0246 4FF0010A 		mov	r10, #1
+ 518 024a 02E0     		b	.L20
+ 519              	.L36:
+ 307:main.c        ****           maxY = yPix;
+ 520              		.loc 1 307 0
+ 521 024c 2F46     		mov	r7, r5
+ 522              	.LVL76:
+ 296:main.c        ****         if (xPix < minX) {
+ 523              		.loc 1 296 0
+ 524 024e 4FF0010A 		mov	r10, #1
+ 525              	.LVL77:
+ 526              	.L20:
+ 293:main.c        ****       c = getPixel(xPix,yPix);
+ 527              		.loc 1 293 0 discriminator 2
+ 528 0252 0134     		adds	r4, r4, #1
+ 529              	.LVL78:
+ 530 0254 00E0     		b	.L25
+ 531              	.LVL79:
+ 532              	.L37:
+ 533 0256 0024     		movs	r4, #0
+ 534              	.L25:
+ 535              	.LVL80:
+ 293:main.c        ****       c = getPixel(xPix,yPix);
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 16
+
+
+ 536              		.loc 1 293 0 is_stmt 0 discriminator 1
+ 537 0258 B4F5A07F 		cmp	r4, #320
+ 538 025c E2D3     		bcc	.L24
+ 292:main.c        ****     for(xPix=0;xPix<W;xPix++) {
+ 539              		.loc 1 292 0 is_stmt 1 discriminator 2
+ 540 025e 0135     		adds	r5, r5, #1
+ 541              	.LVL81:
+ 542              	.L19:
+ 292:main.c        ****     for(xPix=0;xPix<W;xPix++) {
+ 543              		.loc 1 292 0 is_stmt 0 discriminator 1
+ 544 0260 EF2D     		cmp	r5, #239
+ 545 0262 F8D9     		bls	.L37
+ 308:main.c        ****         }
+ 309:main.c        ****       }
+ 310:main.c        ****     }
+ 311:main.c        ****   }
+ 312:main.c        **** CyDelay(100);
+ 546              		.loc 1 312 0 is_stmt 1
+ 547 0264 6420     		movs	r0, #100
+ 548 0266 FFF7FEFF 		bl	CyDelay
+ 549              	.LVL82:
+ 313:main.c        **** if(found)
+ 550              		.loc 1 313 0
+ 551 026a BAF1000F 		cmp	r10, #0
+ 552 026e 2AD0     		beq	.L26
+ 314:main.c        **** {
+ 315:main.c        ****     midX = (minX+maxX)/2;
+ 553              		.loc 1 315 0
+ 554 0270 09EB0603 		add	r3, r9, r6
+ 555 0274 5B08     		lsrs	r3, r3, #1
+ 556 0276 1C4A     		ldr	r2, .L39+24
+ 557 0278 1360     		str	r3, [r2]
+ 316:main.c        ****     midY = (minY+maxY)/2;
+ 558              		.loc 1 316 0
+ 559 027a 08EB0702 		add	r2, r8, r7
+ 560 027e 5208     		lsrs	r2, r2, #1
+ 561 0280 1A49     		ldr	r1, .L39+28
+ 562 0282 0A60     		str	r2, [r1]
+ 317:main.c        **** 
+ 318:main.c        ****     if(midX<140)
+ 563              		.loc 1 318 0
+ 564 0284 8B2B     		cmp	r3, #139
+ 565 0286 03DC     		bgt	.L27
+ 319:main.c        ****     {
+ 320:main.c        ****         iprintf("Move Left.");
+ 566              		.loc 1 320 0
+ 567 0288 1948     		ldr	r0, .L39+32
+ 568 028a FFF7FEFF 		bl	iprintf
+ 569              	.LVL83:
+ 570 028e 08E0     		b	.L28
+ 571              	.L27:
+ 321:main.c        ****     }
+ 322:main.c        ****     else if(midX>180)
+ 572              		.loc 1 322 0
+ 573 0290 B42B     		cmp	r3, #180
+ 574 0292 03DD     		ble	.L29
+ 323:main.c        ****     {
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 17
+
+
+ 324:main.c        ****         iprintf("Move Right.");
+ 575              		.loc 1 324 0
+ 576 0294 1748     		ldr	r0, .L39+36
+ 577 0296 FFF7FEFF 		bl	iprintf
+ 578              	.LVL84:
+ 579 029a 02E0     		b	.L28
+ 580              	.L29:
+ 325:main.c        ****     }
+ 326:main.c        ****     else
+ 327:main.c        ****     {
+ 328:main.c        ****         iprintf("Centered X.");
+ 581              		.loc 1 328 0
+ 582 029c 1648     		ldr	r0, .L39+40
+ 583 029e FFF7FEFF 		bl	iprintf
+ 584              	.LVL85:
+ 585              	.L28:
+ 329:main.c        ****     }
+ 330:main.c        ****     
+ 331:main.c        ****     if(midY<100)
+ 586              		.loc 1 331 0
+ 587 02a2 124B     		ldr	r3, .L39+28
+ 588 02a4 1B68     		ldr	r3, [r3]
+ 589 02a6 632B     		cmp	r3, #99
+ 590 02a8 03DC     		bgt	.L30
+ 332:main.c        ****     {
+ 333:main.c        ****         iprintf("\tMove Up.\r\n");
+ 591              		.loc 1 333 0
+ 592 02aa 1448     		ldr	r0, .L39+44
+ 593 02ac FFF7FEFF 		bl	iprintf
+ 594              	.LVL86:
+ 595 02b0 AEE7     		b	.L18
+ 596              	.L30:
+ 334:main.c        ****     }
+ 335:main.c        ****     else if(midY>140)
+ 597              		.loc 1 335 0
+ 598 02b2 8C2B     		cmp	r3, #140
+ 599 02b4 03DD     		ble	.L32
+ 336:main.c        ****     {
+ 337:main.c        ****         iprintf("\tMove Down.\r\n");
+ 600              		.loc 1 337 0
+ 601 02b6 1248     		ldr	r0, .L39+48
+ 602 02b8 FFF7FEFF 		bl	iprintf
+ 603              	.LVL87:
+ 604 02bc A8E7     		b	.L18
+ 605              	.L32:
+ 338:main.c        ****     }
+ 339:main.c        ****     else
+ 340:main.c        ****     {
+ 341:main.c        ****         iprintf("\tCentered Y.\r\n");
+ 606              		.loc 1 341 0
+ 607 02be 1148     		ldr	r0, .L39+52
+ 608 02c0 FFF7FEFF 		bl	iprintf
+ 609              	.LVL88:
+ 610 02c4 A4E7     		b	.L18
+ 611              	.L26:
+ 342:main.c        ****     }
+ 343:main.c        **** }
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 18
+
+
+ 344:main.c        **** else
+ 345:main.c        **** {
+ 346:main.c        ****     iprintf("Nothing Found.\r\n");
+ 612              		.loc 1 346 0
+ 613 02c6 1048     		ldr	r0, .L39+56
+ 614 02c8 FFF7FEFF 		bl	iprintf
+ 615              	.LVL89:
+ 616 02cc A0E7     		b	.L18
+ 617              	.L40:
+ 618 02ce 00BF     		.align	2
+ 619              	.L39:
+ 620 02d0 00000000 		.word	lcdPixels
+ 621 02d4 00000000 		.word	DMA_TD
+ 622 02d8 00000000 		.word	pixelInt
+ 623 02dc 00000000 		.word	ShiftReg_DMA_TD
+ 624 02e0 00000000 		.word	ShiftReg_DMA_Chan
+ 625 02e4 00000000 		.word	vsyncISR
+ 626 02e8 00000000 		.word	midX
+ 627 02ec 00000000 		.word	midY
+ 628 02f0 00000000 		.word	.LC0
+ 629 02f4 0C000000 		.word	.LC1
+ 630 02f8 18000000 		.word	.LC2
+ 631 02fc 24000000 		.word	.LC3
+ 632 0300 30000000 		.word	.LC4
+ 633 0304 40000000 		.word	.LC5
+ 634 0308 50000000 		.word	.LC6
+ 635 030c 00000000 		.word	DMA_Chan
+ 636              	.LBE3:
+ 637              		.cfi_endproc
+ 638              	.LFE66:
+ 639              		.size	main, .-main
+ 640              		.comm	midY,4,4
+ 641              		.comm	midX,4,4
+ 642              		.comm	ShiftReg_DMA_TD,4,4
+ 643              		.comm	ShiftReg_DMA_Chan,1,1
+ 644              		.comm	DMA_TD,3,4
+ 645              		.comm	DMA_Chan,1,1
+ 646              		.global	sineTable
+ 647              		.comm	temp,1,1
+ 648              		.comm	lcdPixels,9600,4
+ 649              		.global	lcdValue
+ 650              		.section	.rodata
+ 651              		.align	2
+ 652              		.type	sineTable, %object
+ 653              		.size	sineTable, 10
+ 654              	sineTable:
+ 655 0000 00       		.byte	0
+ 656 0001 FF       		.byte	-1
+ 657 0002 00       		.byte	0
+ 658 0003 FF       		.byte	-1
+ 659 0004 00       		.byte	0
+ 660 0005 FF       		.byte	-1
+ 661 0006 00       		.byte	0
+ 662 0007 FF       		.byte	-1
+ 663 0008 0000     		.space	2
+ 664              		.data
+ 665              		.align	1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 19
+
+
+ 666              		.type	lcdValue, %object
+ 667              		.size	lcdValue, 2
+ 668              	lcdValue:
+ 669 0000 FF00     		.short	255
+ 670              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 671              		.align	2
+ 672              	.LC0:
+ 673 0000 4D6F7665 		.ascii	"Move Left.\000"
+ 673      204C6566 
+ 673      742E00
+ 674 000b 00       		.space	1
+ 675              	.LC1:
+ 676 000c 4D6F7665 		.ascii	"Move Right.\000"
+ 676      20526967 
+ 676      68742E00 
+ 677              	.LC2:
+ 678 0018 43656E74 		.ascii	"Centered X.\000"
+ 678      65726564 
+ 678      20582E00 
+ 679              	.LC3:
+ 680 0024 094D6F76 		.ascii	"\011Move Up.\015\012\000"
+ 680      65205570 
+ 680      2E0D0A00 
+ 681              	.LC4:
+ 682 0030 094D6F76 		.ascii	"\011Move Down.\015\012\000"
+ 682      6520446F 
+ 682      776E2E0D 
+ 682      0A00
+ 683 003e 0000     		.space	2
+ 684              	.LC5:
+ 685 0040 0943656E 		.ascii	"\011Centered Y.\015\012\000"
+ 685      74657265 
+ 685      6420592E 
+ 685      0D0A00
+ 686 004f 00       		.space	1
+ 687              	.LC6:
+ 688 0050 4E6F7468 		.ascii	"Nothing Found.\015\012\000"
+ 688      696E6720 
+ 688      466F756E 
+ 688      642E0D0A 
+ 688      00
+ 689              		.text
+ 690              	.Letext0:
+ 691              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 692              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 693              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 694              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 695              		.file 6 "Generated_Source\\PSoC5/Pixel_ShiftReg.h"
+ 696              		.file 7 "Generated_Source\\PSoC5/CYDMAC.H"
+ 697              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 698              		.file 9 "iprintf.h"
+ 699              		.file 10 "LCD.h"
+ 700              		.file 11 "Generated_Source\\PSoC5/LCD_CS.h"
+ 701              		.file 12 "Generated_Source\\PSoC5/LCD_RS.h"
+ 702              		.file 13 "Generated_Source\\PSoC5/LCD_WR_REG.h"
+ 703              		.file 14 "Generated_Source\\PSoC5/ShiftReg_1.h"
+ 704              		.file 15 "Generated_Source\\PSoC5/PWM_1.h"
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 20
+
+
+ 705              		.file 16 "Generated_Source\\PSoC5/DMA_dma.h"
+ 706              		.file 17 "Generated_Source\\PSoC5/LCD_Data_Reg.h"
+ 707              		.file 18 "Generated_Source\\PSoC5/Trigger_Reference.h"
+ 708              		.file 19 "Generated_Source\\PSoC5/Trigger_Comp.h"
+ 709              		.file 20 "Generated_Source\\PSoC5/Pixel_ISR.h"
+ 710              		.file 21 "Generated_Source\\PSoC5/Pixel_ShiftReg_1.h"
+ 711              		.file 22 "Generated_Source\\PSoC5/ShiftReg_DMA_dma.h"
+ 712              		.file 23 "Generated_Source\\PSoC5/Pin_8.h"
+ 713              		.file 24 "Generated_Source\\PSoC5/VDAC8_1.h"
+ 714              		.file 25 "Generated_Source\\PSoC5/Comp_1.h"
+ 715              		.file 26 "Generated_Source\\PSoC5/VSync_ISR.h"
+ 716              		.file 27 "Generated_Source\\PSoC5/UART_1.h"
+ 717              		.section	.debug_info,"",%progbits
+ 718              	.Ldebug_info0:
+ 719 0000 51090000 		.4byte	0x951
+ 720 0004 0400     		.2byte	0x4
+ 721 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 722 000a 04       		.byte	0x4
+ 723 000b 01       		.uleb128 0x1
+ 724 000c AE030000 		.4byte	.LASF72
+ 725 0010 0C       		.byte	0xc
+ 726 0011 93020000 		.4byte	.LASF73
+ 727 0015 BD020000 		.4byte	.LASF74
+ 728 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 729 001d 00000000 		.4byte	0
+ 730 0021 00000000 		.4byte	.Ldebug_line0
+ 731 0025 02       		.uleb128 0x2
+ 732 0026 01       		.byte	0x1
+ 733 0027 06       		.byte	0x6
+ 734 0028 51000000 		.4byte	.LASF0
+ 735 002c 02       		.uleb128 0x2
+ 736 002d 01       		.byte	0x1
+ 737 002e 08       		.byte	0x8
+ 738 002f B4010000 		.4byte	.LASF1
+ 739 0033 02       		.uleb128 0x2
+ 740 0034 02       		.byte	0x2
+ 741 0035 05       		.byte	0x5
+ 742 0036 6C000000 		.4byte	.LASF2
+ 743 003a 02       		.uleb128 0x2
+ 744 003b 02       		.byte	0x2
+ 745 003c 07       		.byte	0x7
+ 746 003d 42020000 		.4byte	.LASF3
+ 747 0041 03       		.uleb128 0x3
+ 748 0042 4E030000 		.4byte	.LASF9
+ 749 0046 02       		.byte	0x2
+ 750 0047 3F       		.byte	0x3f
+ 751 0048 4C000000 		.4byte	0x4c
+ 752 004c 02       		.uleb128 0x2
+ 753 004d 04       		.byte	0x4
+ 754 004e 05       		.byte	0x5
+ 755 004f 71010000 		.4byte	.LASF4
+ 756 0053 02       		.uleb128 0x2
+ 757 0054 04       		.byte	0x4
+ 758 0055 07       		.byte	0x7
+ 759 0056 9F020000 		.4byte	.LASF5
+ 760 005a 02       		.uleb128 0x2
+ 761 005b 08       		.byte	0x8
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 21
+
+
+ 762 005c 05       		.byte	0x5
+ 763 005d 54010000 		.4byte	.LASF6
+ 764 0061 02       		.uleb128 0x2
+ 765 0062 08       		.byte	0x8
+ 766 0063 07       		.byte	0x7
+ 767 0064 E7010000 		.4byte	.LASF7
+ 768 0068 04       		.uleb128 0x4
+ 769 0069 04       		.byte	0x4
+ 770 006a 05       		.byte	0x5
+ 771 006b 696E7400 		.ascii	"int\000"
+ 772 006f 02       		.uleb128 0x2
+ 773 0070 04       		.byte	0x4
+ 774 0071 07       		.byte	0x7
+ 775 0072 2C020000 		.4byte	.LASF8
+ 776 0076 03       		.uleb128 0x3
+ 777 0077 5A020000 		.4byte	.LASF10
+ 778 007b 03       		.byte	0x3
+ 779 007c 2C       		.byte	0x2c
+ 780 007d 41000000 		.4byte	0x41
+ 781 0081 05       		.uleb128 0x5
+ 782 0082 32010000 		.4byte	.LASF11
+ 783 0086 04       		.byte	0x4
+ 784 0087 9201     		.2byte	0x192
+ 785 0089 2C000000 		.4byte	0x2c
+ 786 008d 05       		.uleb128 0x5
+ 787 008e 13010000 		.4byte	.LASF12
+ 788 0092 04       		.byte	0x4
+ 789 0093 9301     		.2byte	0x193
+ 790 0095 3A000000 		.4byte	0x3a
+ 791 0099 05       		.uleb128 0x5
+ 792 009a 8C020000 		.4byte	.LASF13
+ 793 009e 04       		.byte	0x4
+ 794 009f 9401     		.2byte	0x194
+ 795 00a1 53000000 		.4byte	0x53
+ 796 00a5 02       		.uleb128 0x2
+ 797 00a6 04       		.byte	0x4
+ 798 00a7 04       		.byte	0x4
+ 799 00a8 4E010000 		.4byte	.LASF14
+ 800 00ac 02       		.uleb128 0x2
+ 801 00ad 08       		.byte	0x8
+ 802 00ae 04       		.byte	0x4
+ 803 00af B1020000 		.4byte	.LASF15
+ 804 00b3 02       		.uleb128 0x2
+ 805 00b4 01       		.byte	0x1
+ 806 00b5 08       		.byte	0x8
+ 807 00b6 55020000 		.4byte	.LASF16
+ 808 00ba 05       		.uleb128 0x5
+ 809 00bb 9A020000 		.4byte	.LASF17
+ 810 00bf 04       		.byte	0x4
+ 811 00c0 3C02     		.2byte	0x23c
+ 812 00c2 C6000000 		.4byte	0xc6
+ 813 00c6 06       		.uleb128 0x6
+ 814 00c7 81000000 		.4byte	0x81
+ 815 00cb 02       		.uleb128 0x2
+ 816 00cc 08       		.byte	0x8
+ 817 00cd 04       		.byte	0x4
+ 818 00ce 9E010000 		.4byte	.LASF18
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 22
+
+
+ 819 00d2 02       		.uleb128 0x2
+ 820 00d3 04       		.byte	0x4
+ 821 00d4 07       		.byte	0x7
+ 822 00d5 9C000000 		.4byte	.LASF19
+ 823 00d9 07       		.uleb128 0x7
+ 824 00da 39020000 		.4byte	.LASF20
+ 825 00de 01       		.byte	0x1
+ 826 00df 2B       		.byte	0x2b
+ 827 00e0 00000000 		.4byte	.LFB64
+ 828 00e4 08000000 		.4byte	.LFE64-.LFB64
+ 829 00e8 01       		.uleb128 0x1
+ 830 00e9 9C       		.byte	0x9c
+ 831 00ea F8000000 		.4byte	0xf8
+ 832 00ee 08       		.uleb128 0x8
+ 833 00ef 06000000 		.4byte	.LVL0
+ 834 00f3 0A080000 		.4byte	0x80a
+ 835 00f7 00       		.byte	0
+ 836 00f8 07       		.uleb128 0x7
+ 837 00f9 48000000 		.4byte	.LASF21
+ 838 00fd 01       		.byte	0x1
+ 839 00fe 31       		.byte	0x31
+ 840 00ff 00000000 		.4byte	.LFB65
+ 841 0103 38000000 		.4byte	.LFE65-.LFB65
+ 842 0107 01       		.uleb128 0x1
+ 843 0108 9C       		.byte	0x9c
+ 844 0109 46010000 		.4byte	0x146
+ 845 010d 09       		.uleb128 0x9
+ 846 010e 0C000000 		.4byte	.LVL1
+ 847 0112 15080000 		.4byte	0x815
+ 848 0116 20010000 		.4byte	0x120
+ 849 011a 0A       		.uleb128 0xa
+ 850 011b 01       		.uleb128 0x1
+ 851 011c 51       		.byte	0x51
+ 852 011d 01       		.uleb128 0x1
+ 853 011e 34       		.byte	0x34
+ 854 011f 00       		.byte	0
+ 855 0120 08       		.uleb128 0x8
+ 856 0121 14000000 		.4byte	.LVL2
+ 857 0125 20080000 		.4byte	0x820
+ 858 0129 09       		.uleb128 0x9
+ 859 012a 22000000 		.4byte	.LVL3
+ 860 012e 2B080000 		.4byte	0x82b
+ 861 0132 3C010000 		.4byte	0x13c
+ 862 0136 0A       		.uleb128 0xa
+ 863 0137 01       		.uleb128 0x1
+ 864 0138 51       		.byte	0x51
+ 865 0139 01       		.uleb128 0x1
+ 866 013a 31       		.byte	0x31
+ 867 013b 00       		.byte	0
+ 868 013c 08       		.uleb128 0x8
+ 869 013d 2C000000 		.4byte	.LVL4
+ 870 0141 36080000 		.4byte	0x836
+ 871 0145 00       		.byte	0
+ 872 0146 0B       		.uleb128 0xb
+ 873 0147 58030000 		.4byte	.LASF75
+ 874 014b 01       		.byte	0x1
+ 875 014c 19       		.byte	0x19
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 23
+
+
+ 876 014d 68000000 		.4byte	0x68
+ 877 0151 00000000 		.4byte	.LFB63
+ 878 0155 24000000 		.4byte	.LFE63-.LFB63
+ 879 0159 01       		.uleb128 0x1
+ 880 015a 9C       		.byte	0x9c
+ 881 015b 89010000 		.4byte	0x189
+ 882 015f 0C       		.uleb128 0xc
+ 883 0160 7800     		.ascii	"x\000"
+ 884 0162 01       		.byte	0x1
+ 885 0163 19       		.byte	0x19
+ 886 0164 6F000000 		.4byte	0x6f
+ 887 0168 00000000 		.4byte	.LLST0
+ 888 016c 0C       		.uleb128 0xc
+ 889 016d 7900     		.ascii	"y\000"
+ 890 016f 01       		.byte	0x1
+ 891 0170 19       		.byte	0x19
+ 892 0171 6F000000 		.4byte	0x6f
+ 893 0175 21000000 		.4byte	.LLST1
+ 894 0179 0D       		.uleb128 0xd
+ 895 017a 6B010000 		.4byte	.LASF22
+ 896 017e 01       		.byte	0x1
+ 897 017f 1B       		.byte	0x1b
+ 898 0180 68000000 		.4byte	0x68
+ 899 0184 42000000 		.4byte	.LLST2
+ 900 0188 00       		.byte	0
+ 901 0189 0E       		.uleb128 0xe
+ 902 018a C2000000 		.4byte	.LASF76
+ 903 018e 01       		.byte	0x1
+ 904 018f 3F       		.byte	0x3f
+ 905 0190 68000000 		.4byte	0x68
+ 906 0194 00000000 		.4byte	.LFB66
+ 907 0198 10030000 		.4byte	.LFE66-.LFB66
+ 908 019c 01       		.uleb128 0x1
+ 909 019d 9C       		.byte	0x9c
+ 910 019e 04070000 		.4byte	0x704
+ 911 01a2 0F       		.uleb128 0xf
+ 912 01a3 7A010000 		.4byte	.LASF23
+ 913 01a7 01       		.byte	0x1
+ 914 01a8 E6       		.byte	0xe6
+ 915 01a9 68000000 		.4byte	0x68
+ 916 01ad 05       		.byte	0x5
+ 917 01ae 10       		.uleb128 0x10
+ 918 01af 22000000 		.4byte	.LBB2
+ 919 01b3 12000000 		.4byte	.LBE2-.LBB2
+ 920 01b7 C9010000 		.4byte	0x1c9
+ 921 01bb 11       		.uleb128 0x11
+ 922 01bc 6900     		.ascii	"i\000"
+ 923 01be 01       		.byte	0x1
+ 924 01bf 6E       		.byte	0x6e
+ 925 01c0 68000000 		.4byte	0x68
+ 926 01c4 64000000 		.4byte	.LLST3
+ 927 01c8 00       		.byte	0
+ 928 01c9 10       		.uleb128 0x10
+ 929 01ca 10020000 		.4byte	.LBB3
+ 930 01ce 00010000 		.4byte	.LBE3-.LBB3
+ 931 01d2 20030000 		.4byte	0x320
+ 932 01d6 12       		.uleb128 0x12
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 24
+
+
+ 933 01d7 D5010000 		.4byte	.LASF24
+ 934 01db 01       		.byte	0x1
+ 935 01dc 1B01     		.2byte	0x11b
+ 936 01de 6F000000 		.4byte	0x6f
+ 937 01e2 83000000 		.4byte	.LLST4
+ 938 01e6 12       		.uleb128 0x12
+ 939 01e7 B8020000 		.4byte	.LASF25
+ 940 01eb 01       		.byte	0x1
+ 941 01ec 1B01     		.2byte	0x11b
+ 942 01ee 6F000000 		.4byte	0x6f
+ 943 01f2 A1000000 		.4byte	.LLST5
+ 944 01f6 13       		.uleb128 0x13
+ 945 01f7 6300     		.ascii	"c\000"
+ 946 01f9 01       		.byte	0x1
+ 947 01fa 1C01     		.2byte	0x11c
+ 948 01fc 6F000000 		.4byte	0x6f
+ 949 0200 C0000000 		.4byte	.LLST6
+ 950 0204 12       		.uleb128 0x12
+ 951 0205 AA010000 		.4byte	.LASF26
+ 952 0209 01       		.byte	0x1
+ 953 020a 1D01     		.2byte	0x11d
+ 954 020c 6F000000 		.4byte	0x6f
+ 955 0210 D3000000 		.4byte	.LLST7
+ 956 0214 12       		.uleb128 0x12
+ 957 0215 AF010000 		.4byte	.LASF27
+ 958 0219 01       		.byte	0x1
+ 959 021a 1D01     		.2byte	0x11d
+ 960 021c 6F000000 		.4byte	0x6f
+ 961 0220 F4000000 		.4byte	.LLST8
+ 962 0224 12       		.uleb128 0x12
+ 963 0225 5D000000 		.4byte	.LASF28
+ 964 0229 01       		.byte	0x1
+ 965 022a 1D01     		.2byte	0x11d
+ 966 022c 6F000000 		.4byte	0x6f
+ 967 0230 14010000 		.4byte	.LLST9
+ 968 0234 12       		.uleb128 0x12
+ 969 0235 62000000 		.4byte	.LASF29
+ 970 0239 01       		.byte	0x1
+ 971 023a 1D01     		.2byte	0x11d
+ 972 023c 6F000000 		.4byte	0x6f
+ 973 0240 33010000 		.4byte	.LLST10
+ 974 0244 12       		.uleb128 0x12
+ 975 0245 1A030000 		.4byte	.LASF30
+ 976 0249 01       		.byte	0x1
+ 977 024a 2301     		.2byte	0x123
+ 978 024c 68000000 		.4byte	0x68
+ 979 0250 5D010000 		.4byte	.LLST11
+ 980 0254 09       		.uleb128 0x9
+ 981 0255 2C020000 		.4byte	.LVL71
+ 982 0259 46010000 		.4byte	0x146
+ 983 025d 6E020000 		.4byte	0x26e
+ 984 0261 0A       		.uleb128 0xa
+ 985 0262 01       		.uleb128 0x1
+ 986 0263 50       		.byte	0x50
+ 987 0264 02       		.uleb128 0x2
+ 988 0265 74       		.byte	0x74
+ 989 0266 00       		.sleb128 0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 25
+
+
+ 990 0267 0A       		.uleb128 0xa
+ 991 0268 01       		.uleb128 0x1
+ 992 0269 51       		.byte	0x51
+ 993 026a 02       		.uleb128 0x2
+ 994 026b 75       		.byte	0x75
+ 995 026c 00       		.sleb128 0
+ 996 026d 00       		.byte	0
+ 997 026e 09       		.uleb128 0x9
+ 998 026f 6A020000 		.4byte	.LVL82
+ 999 0273 41080000 		.4byte	0x841
+ 1000 0277 82020000 		.4byte	0x282
+ 1001 027b 0A       		.uleb128 0xa
+ 1002 027c 01       		.uleb128 0x1
+ 1003 027d 50       		.byte	0x50
+ 1004 027e 02       		.uleb128 0x2
+ 1005 027f 08       		.byte	0x8
+ 1006 0280 64       		.byte	0x64
+ 1007 0281 00       		.byte	0
+ 1008 0282 09       		.uleb128 0x9
+ 1009 0283 8E020000 		.4byte	.LVL83
+ 1010 0287 4C080000 		.4byte	0x84c
+ 1011 028b 99020000 		.4byte	0x299
+ 1012 028f 0A       		.uleb128 0xa
+ 1013 0290 01       		.uleb128 0x1
+ 1014 0291 50       		.byte	0x50
+ 1015 0292 05       		.uleb128 0x5
+ 1016 0293 03       		.byte	0x3
+ 1017 0294 00000000 		.4byte	.LC0
+ 1018 0298 00       		.byte	0
+ 1019 0299 09       		.uleb128 0x9
+ 1020 029a 9A020000 		.4byte	.LVL84
+ 1021 029e 4C080000 		.4byte	0x84c
+ 1022 02a2 B0020000 		.4byte	0x2b0
+ 1023 02a6 0A       		.uleb128 0xa
+ 1024 02a7 01       		.uleb128 0x1
+ 1025 02a8 50       		.byte	0x50
+ 1026 02a9 05       		.uleb128 0x5
+ 1027 02aa 03       		.byte	0x3
+ 1028 02ab 0C000000 		.4byte	.LC1
+ 1029 02af 00       		.byte	0
+ 1030 02b0 09       		.uleb128 0x9
+ 1031 02b1 A2020000 		.4byte	.LVL85
+ 1032 02b5 4C080000 		.4byte	0x84c
+ 1033 02b9 C7020000 		.4byte	0x2c7
+ 1034 02bd 0A       		.uleb128 0xa
+ 1035 02be 01       		.uleb128 0x1
+ 1036 02bf 50       		.byte	0x50
+ 1037 02c0 05       		.uleb128 0x5
+ 1038 02c1 03       		.byte	0x3
+ 1039 02c2 18000000 		.4byte	.LC2
+ 1040 02c6 00       		.byte	0
+ 1041 02c7 09       		.uleb128 0x9
+ 1042 02c8 B0020000 		.4byte	.LVL86
+ 1043 02cc 4C080000 		.4byte	0x84c
+ 1044 02d0 DE020000 		.4byte	0x2de
+ 1045 02d4 0A       		.uleb128 0xa
+ 1046 02d5 01       		.uleb128 0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 26
+
+
+ 1047 02d6 50       		.byte	0x50
+ 1048 02d7 05       		.uleb128 0x5
+ 1049 02d8 03       		.byte	0x3
+ 1050 02d9 24000000 		.4byte	.LC3
+ 1051 02dd 00       		.byte	0
+ 1052 02de 09       		.uleb128 0x9
+ 1053 02df BC020000 		.4byte	.LVL87
+ 1054 02e3 4C080000 		.4byte	0x84c
+ 1055 02e7 F5020000 		.4byte	0x2f5
+ 1056 02eb 0A       		.uleb128 0xa
+ 1057 02ec 01       		.uleb128 0x1
+ 1058 02ed 50       		.byte	0x50
+ 1059 02ee 05       		.uleb128 0x5
+ 1060 02ef 03       		.byte	0x3
+ 1061 02f0 30000000 		.4byte	.LC4
+ 1062 02f4 00       		.byte	0
+ 1063 02f5 09       		.uleb128 0x9
+ 1064 02f6 C4020000 		.4byte	.LVL88
+ 1065 02fa 4C080000 		.4byte	0x84c
+ 1066 02fe 0C030000 		.4byte	0x30c
+ 1067 0302 0A       		.uleb128 0xa
+ 1068 0303 01       		.uleb128 0x1
+ 1069 0304 50       		.byte	0x50
+ 1070 0305 05       		.uleb128 0x5
+ 1071 0306 03       		.byte	0x3
+ 1072 0307 40000000 		.4byte	.LC5
+ 1073 030b 00       		.byte	0
+ 1074 030c 14       		.uleb128 0x14
+ 1075 030d CC020000 		.4byte	.LVL89
+ 1076 0311 4C080000 		.4byte	0x84c
+ 1077 0315 0A       		.uleb128 0xa
+ 1078 0316 01       		.uleb128 0x1
+ 1079 0317 50       		.byte	0x50
+ 1080 0318 05       		.uleb128 0x5
+ 1081 0319 03       		.byte	0x3
+ 1082 031a 50000000 		.4byte	.LC6
+ 1083 031e 00       		.byte	0
+ 1084 031f 00       		.byte	0
+ 1085 0320 08       		.uleb128 0x8
+ 1086 0321 0A000000 		.4byte	.LVL10
+ 1087 0325 57080000 		.4byte	0x857
+ 1088 0329 09       		.uleb128 0x9
+ 1089 032a 10000000 		.4byte	.LVL11
+ 1090 032e 62080000 		.4byte	0x862
+ 1091 0332 3C030000 		.4byte	0x33c
+ 1092 0336 0A       		.uleb128 0xa
+ 1093 0337 01       		.uleb128 0x1
+ 1094 0338 50       		.byte	0x50
+ 1095 0339 01       		.uleb128 0x1
+ 1096 033a 30       		.byte	0x30
+ 1097 033b 00       		.byte	0
+ 1098 033c 09       		.uleb128 0x9
+ 1099 033d 16000000 		.4byte	.LVL12
+ 1100 0341 6D080000 		.4byte	0x86d
+ 1101 0345 4F030000 		.4byte	0x34f
+ 1102 0349 0A       		.uleb128 0xa
+ 1103 034a 01       		.uleb128 0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 27
+
+
+ 1104 034b 50       		.byte	0x50
+ 1105 034c 01       		.uleb128 0x1
+ 1106 034d 31       		.byte	0x31
+ 1107 034e 00       		.byte	0
+ 1108 034f 09       		.uleb128 0x9
+ 1109 0350 1C000000 		.4byte	.LVL13
+ 1110 0354 78080000 		.4byte	0x878
+ 1111 0358 62030000 		.4byte	0x362
+ 1112 035c 0A       		.uleb128 0xa
+ 1113 035d 01       		.uleb128 0x1
+ 1114 035e 50       		.byte	0x50
+ 1115 035f 01       		.uleb128 0x1
+ 1116 0360 30       		.byte	0x30
+ 1117 0361 00       		.byte	0
+ 1118 0362 09       		.uleb128 0x9
+ 1119 0363 22000000 		.4byte	.LVL14
+ 1120 0367 41080000 		.4byte	0x841
+ 1121 036b 76030000 		.4byte	0x376
+ 1122 036f 0A       		.uleb128 0xa
+ 1123 0370 01       		.uleb128 0x1
+ 1124 0371 50       		.byte	0x50
+ 1125 0372 02       		.uleb128 0x2
+ 1126 0373 08       		.byte	0x8
+ 1127 0374 64       		.byte	0x64
+ 1128 0375 00       		.byte	0
+ 1129 0376 09       		.uleb128 0x9
+ 1130 0377 3A000000 		.4byte	.LVL17
+ 1131 037b 62080000 		.4byte	0x862
+ 1132 037f 89030000 		.4byte	0x389
+ 1133 0383 0A       		.uleb128 0xa
+ 1134 0384 01       		.uleb128 0x1
+ 1135 0385 50       		.byte	0x50
+ 1136 0386 01       		.uleb128 0x1
+ 1137 0387 30       		.byte	0x30
+ 1138 0388 00       		.byte	0
+ 1139 0389 09       		.uleb128 0x9
+ 1140 038a 40000000 		.4byte	.LVL18
+ 1141 038e 6D080000 		.4byte	0x86d
+ 1142 0392 9C030000 		.4byte	0x39c
+ 1143 0396 0A       		.uleb128 0xa
+ 1144 0397 01       		.uleb128 0x1
+ 1145 0398 50       		.byte	0x50
+ 1146 0399 01       		.uleb128 0x1
+ 1147 039a 31       		.byte	0x31
+ 1148 039b 00       		.byte	0
+ 1149 039c 09       		.uleb128 0x9
+ 1150 039d 46000000 		.4byte	.LVL19
+ 1151 03a1 78080000 		.4byte	0x878
+ 1152 03a5 AF030000 		.4byte	0x3af
+ 1153 03a9 0A       		.uleb128 0xa
+ 1154 03aa 01       		.uleb128 0x1
+ 1155 03ab 50       		.byte	0x50
+ 1156 03ac 01       		.uleb128 0x1
+ 1157 03ad 30       		.byte	0x30
+ 1158 03ae 00       		.byte	0
+ 1159 03af 08       		.uleb128 0x8
+ 1160 03b0 4A000000 		.4byte	.LVL20
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 28
+
+
+ 1161 03b4 83080000 		.4byte	0x883
+ 1162 03b8 08       		.uleb128 0x8
+ 1163 03b9 4E000000 		.4byte	.LVL21
+ 1164 03bd 8E080000 		.4byte	0x88e
+ 1165 03c1 09       		.uleb128 0x9
+ 1166 03c2 62000000 		.4byte	.LVL22
+ 1167 03c6 99080000 		.4byte	0x899
+ 1168 03ca E6030000 		.4byte	0x3e6
+ 1169 03ce 0A       		.uleb128 0xa
+ 1170 03cf 01       		.uleb128 0x1
+ 1171 03d0 50       		.byte	0x50
+ 1172 03d1 01       		.uleb128 0x1
+ 1173 03d2 31       		.byte	0x31
+ 1174 03d3 0A       		.uleb128 0xa
+ 1175 03d4 01       		.uleb128 0x1
+ 1176 03d5 51       		.byte	0x51
+ 1177 03d6 01       		.uleb128 0x1
+ 1178 03d7 31       		.byte	0x31
+ 1179 03d8 0A       		.uleb128 0xa
+ 1180 03d9 01       		.uleb128 0x1
+ 1181 03da 52       		.byte	0x52
+ 1182 03db 02       		.uleb128 0x2
+ 1183 03dc 79       		.byte	0x79
+ 1184 03dd 00       		.sleb128 0
+ 1185 03de 0A       		.uleb128 0xa
+ 1186 03df 01       		.uleb128 0x1
+ 1187 03e0 53       		.byte	0x53
+ 1188 03e1 03       		.uleb128 0x3
+ 1189 03e2 0A       		.byte	0xa
+ 1190 03e3 0040     		.2byte	0x4000
+ 1191 03e5 00       		.byte	0
+ 1192 03e6 08       		.uleb128 0x8
+ 1193 03e7 6E000000 		.4byte	.LVL23
+ 1194 03eb A4080000 		.4byte	0x8a4
+ 1195 03ef 08       		.uleb128 0x8
+ 1196 03f0 76000000 		.4byte	.LVL24
+ 1197 03f4 A4080000 		.4byte	0x8a4
+ 1198 03f8 08       		.uleb128 0x8
+ 1199 03f9 7C000000 		.4byte	.LVL25
+ 1200 03fd A4080000 		.4byte	0x8a4
+ 1201 0401 09       		.uleb128 0x9
+ 1202 0402 8C000000 		.4byte	.LVL26
+ 1203 0406 AF080000 		.4byte	0x8af
+ 1204 040a 1B040000 		.4byte	0x41b
+ 1205 040e 0A       		.uleb128 0xa
+ 1206 040f 01       		.uleb128 0x1
+ 1207 0410 51       		.byte	0x51
+ 1208 0411 03       		.uleb128 0x3
+ 1209 0412 0A       		.byte	0xa
+ 1210 0413 FF0F     		.2byte	0xfff
+ 1211 0415 0A       		.uleb128 0xa
+ 1212 0416 01       		.uleb128 0x1
+ 1213 0417 53       		.byte	0x53
+ 1214 0418 01       		.uleb128 0x1
+ 1215 0419 31       		.byte	0x31
+ 1216 041a 00       		.byte	0
+ 1217 041b 09       		.uleb128 0x9
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 29
+
+
+ 1218 041c 9A000000 		.4byte	.LVL27
+ 1219 0420 BA080000 		.4byte	0x8ba
+ 1220 0424 36040000 		.4byte	0x436
+ 1221 0428 0A       		.uleb128 0xa
+ 1222 0429 01       		.uleb128 0x1
+ 1223 042a 51       		.byte	0x51
+ 1224 042b 02       		.uleb128 0x2
+ 1225 042c 75       		.byte	0x75
+ 1226 042d 00       		.sleb128 0
+ 1227 042e 0A       		.uleb128 0xa
+ 1228 042f 01       		.uleb128 0x1
+ 1229 0430 52       		.byte	0x52
+ 1230 0431 03       		.uleb128 0x3
+ 1231 0432 0A       		.byte	0xa
+ 1232 0433 4A65     		.2byte	0x654a
+ 1233 0435 00       		.byte	0
+ 1234 0436 09       		.uleb128 0x9
+ 1235 0437 A8000000 		.4byte	.LVL28
+ 1236 043b AF080000 		.4byte	0x8af
+ 1237 043f 50040000 		.4byte	0x450
+ 1238 0443 0A       		.uleb128 0xa
+ 1239 0444 01       		.uleb128 0x1
+ 1240 0445 51       		.byte	0x51
+ 1241 0446 03       		.uleb128 0x3
+ 1242 0447 0A       		.byte	0xa
+ 1243 0448 FF0F     		.2byte	0xfff
+ 1244 044a 0A       		.uleb128 0xa
+ 1245 044b 01       		.uleb128 0x1
+ 1246 044c 53       		.byte	0x53
+ 1247 044d 01       		.uleb128 0x1
+ 1248 044e 31       		.byte	0x31
+ 1249 044f 00       		.byte	0
+ 1250 0450 09       		.uleb128 0x9
+ 1251 0451 BA000000 		.4byte	.LVL29
+ 1252 0455 BA080000 		.4byte	0x8ba
+ 1253 0459 6B040000 		.4byte	0x46b
+ 1254 045d 0A       		.uleb128 0xa
+ 1255 045e 01       		.uleb128 0x1
+ 1256 045f 51       		.byte	0x51
+ 1257 0460 02       		.uleb128 0x2
+ 1258 0461 77       		.byte	0x77
+ 1259 0462 00       		.sleb128 0
+ 1260 0463 0A       		.uleb128 0xa
+ 1261 0464 01       		.uleb128 0x1
+ 1262 0465 52       		.byte	0x52
+ 1263 0466 03       		.uleb128 0x3
+ 1264 0467 0A       		.byte	0xa
+ 1265 0468 4A65     		.2byte	0x654a
+ 1266 046a 00       		.byte	0
+ 1267 046b 09       		.uleb128 0x9
+ 1268 046c C8000000 		.4byte	.LVL30
+ 1269 0470 AF080000 		.4byte	0x8af
+ 1270 0474 85040000 		.4byte	0x485
+ 1271 0478 0A       		.uleb128 0xa
+ 1272 0479 01       		.uleb128 0x1
+ 1273 047a 51       		.byte	0x51
+ 1274 047b 03       		.uleb128 0x3
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 30
+
+
+ 1275 047c 0A       		.byte	0xa
+ 1276 047d 8205     		.2byte	0x582
+ 1277 047f 0A       		.uleb128 0xa
+ 1278 0480 01       		.uleb128 0x1
+ 1279 0481 53       		.byte	0x53
+ 1280 0482 01       		.uleb128 0x1
+ 1281 0483 35       		.byte	0x35
+ 1282 0484 00       		.byte	0
+ 1283 0485 09       		.uleb128 0x9
+ 1284 0486 DC000000 		.4byte	.LVL31
+ 1285 048a BA080000 		.4byte	0x8ba
+ 1286 048e A0040000 		.4byte	0x4a0
+ 1287 0492 0A       		.uleb128 0xa
+ 1288 0493 01       		.uleb128 0x1
+ 1289 0494 51       		.byte	0x51
+ 1290 0495 02       		.uleb128 0x2
+ 1291 0496 76       		.byte	0x76
+ 1292 0497 00       		.sleb128 0
+ 1293 0498 0A       		.uleb128 0xa
+ 1294 0499 01       		.uleb128 0x1
+ 1295 049a 52       		.byte	0x52
+ 1296 049b 03       		.uleb128 0x3
+ 1297 049c 0A       		.byte	0xa
+ 1298 049d 4A65     		.2byte	0x654a
+ 1299 049f 00       		.byte	0
+ 1300 04a0 08       		.uleb128 0x8
+ 1301 04a1 E6000000 		.4byte	.LVL32
+ 1302 04a5 36080000 		.4byte	0x836
+ 1303 04a9 09       		.uleb128 0x9
+ 1304 04aa F0000000 		.4byte	.LVL33
+ 1305 04ae 2B080000 		.4byte	0x82b
+ 1306 04b2 BC040000 		.4byte	0x4bc
+ 1307 04b6 0A       		.uleb128 0xa
+ 1308 04b7 01       		.uleb128 0x1
+ 1309 04b8 51       		.byte	0x51
+ 1310 04b9 01       		.uleb128 0x1
+ 1311 04ba 31       		.byte	0x31
+ 1312 04bb 00       		.byte	0
+ 1313 04bc 09       		.uleb128 0x9
+ 1314 04bd F6000000 		.4byte	.LVL34
+ 1315 04c1 41080000 		.4byte	0x841
+ 1316 04c5 D0040000 		.4byte	0x4d0
+ 1317 04c9 0A       		.uleb128 0xa
+ 1318 04ca 01       		.uleb128 0x1
+ 1319 04cb 50       		.byte	0x50
+ 1320 04cc 02       		.uleb128 0x2
+ 1321 04cd 08       		.byte	0x8
+ 1322 04ce 64       		.byte	0x64
+ 1323 04cf 00       		.byte	0
+ 1324 04d0 09       		.uleb128 0x9
+ 1325 04d1 FC000000 		.4byte	.LVL35
+ 1326 04d5 C5080000 		.4byte	0x8c5
+ 1327 04d9 E3040000 		.4byte	0x4e3
+ 1328 04dd 0A       		.uleb128 0xa
+ 1329 04de 01       		.uleb128 0x1
+ 1330 04df 50       		.byte	0x50
+ 1331 04e0 01       		.uleb128 0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 31
+
+
+ 1332 04e1 30       		.byte	0x30
+ 1333 04e2 00       		.byte	0
+ 1334 04e3 09       		.uleb128 0x9
+ 1335 04e4 02010000 		.4byte	.LVL36
+ 1336 04e8 78080000 		.4byte	0x878
+ 1337 04ec F6040000 		.4byte	0x4f6
+ 1338 04f0 0A       		.uleb128 0xa
+ 1339 04f1 01       		.uleb128 0x1
+ 1340 04f2 50       		.byte	0x50
+ 1341 04f3 01       		.uleb128 0x1
+ 1342 04f4 38       		.byte	0x38
+ 1343 04f5 00       		.byte	0
+ 1344 04f6 09       		.uleb128 0x9
+ 1345 04f7 08010000 		.4byte	.LVL37
+ 1346 04fb 78080000 		.4byte	0x878
+ 1347 04ff 09050000 		.4byte	0x509
+ 1348 0503 0A       		.uleb128 0xa
+ 1349 0504 01       		.uleb128 0x1
+ 1350 0505 50       		.byte	0x50
+ 1351 0506 01       		.uleb128 0x1
+ 1352 0507 30       		.byte	0x30
+ 1353 0508 00       		.byte	0
+ 1354 0509 09       		.uleb128 0x9
+ 1355 050a 0E010000 		.4byte	.LVL38
+ 1356 050e 78080000 		.4byte	0x878
+ 1357 0512 1C050000 		.4byte	0x51c
+ 1358 0516 0A       		.uleb128 0xa
+ 1359 0517 01       		.uleb128 0x1
+ 1360 0518 50       		.byte	0x50
+ 1361 0519 01       		.uleb128 0x1
+ 1362 051a 38       		.byte	0x38
+ 1363 051b 00       		.byte	0
+ 1364 051c 08       		.uleb128 0x8
+ 1365 051d 12010000 		.4byte	.LVL39
+ 1366 0521 D0080000 		.4byte	0x8d0
+ 1367 0525 08       		.uleb128 0x8
+ 1368 0526 16010000 		.4byte	.LVL40
+ 1369 052a DB080000 		.4byte	0x8db
+ 1370 052e 09       		.uleb128 0x9
+ 1371 052f 1C010000 		.4byte	.LVL41
+ 1372 0533 E6080000 		.4byte	0x8e6
+ 1373 0537 45050000 		.4byte	0x545
+ 1374 053b 0A       		.uleb128 0xa
+ 1375 053c 01       		.uleb128 0x1
+ 1376 053d 50       		.byte	0x50
+ 1377 053e 05       		.uleb128 0x5
+ 1378 053f 03       		.byte	0x3
+ 1379 0540 00000000 		.4byte	pixelInt
+ 1380 0544 00       		.byte	0
+ 1381 0545 08       		.uleb128 0x8
+ 1382 0546 20010000 		.4byte	.LVL42
+ 1383 054a F1080000 		.4byte	0x8f1
+ 1384 054e 08       		.uleb128 0x8
+ 1385 054f 24010000 		.4byte	.LVL43
+ 1386 0553 FC080000 		.4byte	0x8fc
+ 1387 0557 08       		.uleb128 0x8
+ 1388 0558 28010000 		.4byte	.LVL44
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 32
+
+
+ 1389 055c 0A080000 		.4byte	0x80a
+ 1390 0560 09       		.uleb128 0x9
+ 1391 0561 36010000 		.4byte	.LVL45
+ 1392 0565 07090000 		.4byte	0x907
+ 1393 0569 85050000 		.4byte	0x585
+ 1394 056d 0A       		.uleb128 0xa
+ 1395 056e 01       		.uleb128 0x1
+ 1396 056f 50       		.byte	0x50
+ 1397 0570 01       		.uleb128 0x1
+ 1398 0571 31       		.byte	0x31
+ 1399 0572 0A       		.uleb128 0xa
+ 1400 0573 01       		.uleb128 0x1
+ 1401 0574 51       		.byte	0x51
+ 1402 0575 01       		.uleb128 0x1
+ 1403 0576 31       		.byte	0x31
+ 1404 0577 0A       		.uleb128 0xa
+ 1405 0578 01       		.uleb128 0x1
+ 1406 0579 52       		.byte	0x52
+ 1407 057a 03       		.uleb128 0x3
+ 1408 057b 0A       		.byte	0xa
+ 1409 057c 0040     		.2byte	0x4000
+ 1410 057e 0A       		.uleb128 0xa
+ 1411 057f 01       		.uleb128 0x1
+ 1412 0580 53       		.byte	0x53
+ 1413 0581 02       		.uleb128 0x2
+ 1414 0582 79       		.byte	0x79
+ 1415 0583 00       		.sleb128 0
+ 1416 0584 00       		.byte	0
+ 1417 0585 08       		.uleb128 0x8
+ 1418 0586 42010000 		.4byte	.LVL46
+ 1419 058a A4080000 		.4byte	0x8a4
+ 1420 058e 08       		.uleb128 0x8
+ 1421 058f 4A010000 		.4byte	.LVL47
+ 1422 0593 A4080000 		.4byte	0x8a4
+ 1423 0597 08       		.uleb128 0x8
+ 1424 0598 50010000 		.4byte	.LVL48
+ 1425 059c A4080000 		.4byte	0x8a4
+ 1426 05a0 08       		.uleb128 0x8
+ 1427 05a1 56010000 		.4byte	.LVL49
+ 1428 05a5 A4080000 		.4byte	0x8a4
+ 1429 05a9 09       		.uleb128 0x9
+ 1430 05aa 66010000 		.4byte	.LVL51
+ 1431 05ae AF080000 		.4byte	0x8af
+ 1432 05b2 C3050000 		.4byte	0x5c3
+ 1433 05b6 0A       		.uleb128 0xa
+ 1434 05b7 01       		.uleb128 0x1
+ 1435 05b8 51       		.byte	0x51
+ 1436 05b9 03       		.uleb128 0x3
+ 1437 05ba 0A       		.byte	0xa
+ 1438 05bb FF0F     		.2byte	0xfff
+ 1439 05bd 0A       		.uleb128 0xa
+ 1440 05be 01       		.uleb128 0x1
+ 1441 05bf 53       		.byte	0x53
+ 1442 05c0 01       		.uleb128 0x1
+ 1443 05c1 32       		.byte	0x32
+ 1444 05c2 00       		.byte	0
+ 1445 05c3 09       		.uleb128 0x9
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 33
+
+
+ 1446 05c4 72010000 		.4byte	.LVL52
+ 1447 05c8 BA080000 		.4byte	0x8ba
+ 1448 05cc DE050000 		.4byte	0x5de
+ 1449 05d0 0A       		.uleb128 0xa
+ 1450 05d1 01       		.uleb128 0x1
+ 1451 05d2 51       		.byte	0x51
+ 1452 05d3 03       		.uleb128 0x3
+ 1453 05d4 0A       		.byte	0xa
+ 1454 05d5 5D64     		.2byte	0x645d
+ 1455 05d7 0A       		.uleb128 0xa
+ 1456 05d8 01       		.uleb128 0x1
+ 1457 05d9 52       		.byte	0x52
+ 1458 05da 02       		.uleb128 0x2
+ 1459 05db 75       		.byte	0x75
+ 1460 05dc 00       		.sleb128 0
+ 1461 05dd 00       		.byte	0
+ 1462 05de 09       		.uleb128 0x9
+ 1463 05df 80010000 		.4byte	.LVL53
+ 1464 05e3 AF080000 		.4byte	0x8af
+ 1465 05e7 F8050000 		.4byte	0x5f8
+ 1466 05eb 0A       		.uleb128 0xa
+ 1467 05ec 01       		.uleb128 0x1
+ 1468 05ed 51       		.byte	0x51
+ 1469 05ee 03       		.uleb128 0x3
+ 1470 05ef 0A       		.byte	0xa
+ 1471 05f0 FF0F     		.2byte	0xfff
+ 1472 05f2 0A       		.uleb128 0xa
+ 1473 05f3 01       		.uleb128 0x1
+ 1474 05f4 53       		.byte	0x53
+ 1475 05f5 01       		.uleb128 0x1
+ 1476 05f6 32       		.byte	0x32
+ 1477 05f7 00       		.byte	0
+ 1478 05f8 09       		.uleb128 0x9
+ 1479 05f9 8C010000 		.4byte	.LVL54
+ 1480 05fd BA080000 		.4byte	0x8ba
+ 1481 0601 13060000 		.4byte	0x613
+ 1482 0605 0A       		.uleb128 0xa
+ 1483 0606 01       		.uleb128 0x1
+ 1484 0607 51       		.byte	0x51
+ 1485 0608 03       		.uleb128 0x3
+ 1486 0609 0A       		.byte	0xa
+ 1487 060a 5D64     		.2byte	0x645d
+ 1488 060c 0A       		.uleb128 0xa
+ 1489 060d 01       		.uleb128 0x1
+ 1490 060e 52       		.byte	0x52
+ 1491 060f 02       		.uleb128 0x2
+ 1492 0610 77       		.byte	0x77
+ 1493 0611 00       		.sleb128 0
+ 1494 0612 00       		.byte	0
+ 1495 0613 09       		.uleb128 0x9
+ 1496 0614 9A010000 		.4byte	.LVL55
+ 1497 0618 AF080000 		.4byte	0x8af
+ 1498 061c 2D060000 		.4byte	0x62d
+ 1499 0620 0A       		.uleb128 0xa
+ 1500 0621 01       		.uleb128 0x1
+ 1501 0622 51       		.byte	0x51
+ 1502 0623 03       		.uleb128 0x3
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 34
+
+
+ 1503 0624 0A       		.byte	0xa
+ 1504 0625 7D05     		.2byte	0x57d
+ 1505 0627 0A       		.uleb128 0xa
+ 1506 0628 01       		.uleb128 0x1
+ 1507 0629 53       		.byte	0x53
+ 1508 062a 01       		.uleb128 0x1
+ 1509 062b 32       		.byte	0x32
+ 1510 062c 00       		.byte	0
+ 1511 062d 09       		.uleb128 0x9
+ 1512 062e A6010000 		.4byte	.LVL56
+ 1513 0632 BA080000 		.4byte	0x8ba
+ 1514 0636 48060000 		.4byte	0x648
+ 1515 063a 0A       		.uleb128 0xa
+ 1516 063b 01       		.uleb128 0x1
+ 1517 063c 51       		.byte	0x51
+ 1518 063d 03       		.uleb128 0x3
+ 1519 063e 0A       		.byte	0xa
+ 1520 063f 5D64     		.2byte	0x645d
+ 1521 0641 0A       		.uleb128 0xa
+ 1522 0642 01       		.uleb128 0x1
+ 1523 0643 52       		.byte	0x52
+ 1524 0644 02       		.uleb128 0x2
+ 1525 0645 76       		.byte	0x76
+ 1526 0646 00       		.sleb128 0
+ 1527 0647 00       		.byte	0
+ 1528 0648 09       		.uleb128 0x9
+ 1529 0649 B2010000 		.4byte	.LVL57
+ 1530 064d AF080000 		.4byte	0x8af
+ 1531 0651 60060000 		.4byte	0x660
+ 1532 0655 0A       		.uleb128 0xa
+ 1533 0656 01       		.uleb128 0x1
+ 1534 0657 51       		.byte	0x51
+ 1535 0658 01       		.uleb128 0x1
+ 1536 0659 35       		.byte	0x35
+ 1537 065a 0A       		.uleb128 0xa
+ 1538 065b 01       		.uleb128 0x1
+ 1539 065c 53       		.byte	0x53
+ 1540 065d 01       		.uleb128 0x1
+ 1541 065e 32       		.byte	0x32
+ 1542 065f 00       		.byte	0
+ 1543 0660 09       		.uleb128 0x9
+ 1544 0661 C4010000 		.4byte	.LVL58
+ 1545 0665 BA080000 		.4byte	0x8ba
+ 1546 0669 7D060000 		.4byte	0x67d
+ 1547 066d 0A       		.uleb128 0xa
+ 1548 066e 01       		.uleb128 0x1
+ 1549 066f 51       		.byte	0x51
+ 1550 0670 03       		.uleb128 0x3
+ 1551 0671 0A       		.byte	0xa
+ 1552 0672 5D64     		.2byte	0x645d
+ 1553 0674 0A       		.uleb128 0xa
+ 1554 0675 01       		.uleb128 0x1
+ 1555 0676 52       		.byte	0x52
+ 1556 0677 04       		.uleb128 0x4
+ 1557 0678 75       		.byte	0x75
+ 1558 0679 FBCA00   		.sleb128 9595
+ 1559 067c 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 35
+
+
+ 1560 067d 08       		.uleb128 0x8
+ 1561 067e CE010000 		.4byte	.LVL59
+ 1562 0682 36080000 		.4byte	0x836
+ 1563 0686 08       		.uleb128 0x8
+ 1564 0687 D2010000 		.4byte	.LVL60
+ 1565 068b 12090000 		.4byte	0x912
+ 1566 068f 08       		.uleb128 0x8
+ 1567 0690 DA010000 		.4byte	.LVL61
+ 1568 0694 12090000 		.4byte	0x912
+ 1569 0698 08       		.uleb128 0x8
+ 1570 0699 E2010000 		.4byte	.LVL62
+ 1571 069d 12090000 		.4byte	0x912
+ 1572 06a1 08       		.uleb128 0x8
+ 1573 06a2 EA010000 		.4byte	.LVL63
+ 1574 06a6 12090000 		.4byte	0x912
+ 1575 06aa 09       		.uleb128 0x9
+ 1576 06ab F8010000 		.4byte	.LVL64
+ 1577 06af 2B080000 		.4byte	0x82b
+ 1578 06b3 BD060000 		.4byte	0x6bd
+ 1579 06b7 0A       		.uleb128 0xa
+ 1580 06b8 01       		.uleb128 0x1
+ 1581 06b9 51       		.byte	0x51
+ 1582 06ba 01       		.uleb128 0x1
+ 1583 06bb 31       		.byte	0x31
+ 1584 06bc 00       		.byte	0
+ 1585 06bd 08       		.uleb128 0x8
+ 1586 06be FC010000 		.4byte	.LVL65
+ 1587 06c2 1D090000 		.4byte	0x91d
+ 1588 06c6 09       		.uleb128 0x9
+ 1589 06c7 02020000 		.4byte	.LVL66
+ 1590 06cb 28090000 		.4byte	0x928
+ 1591 06cf DA060000 		.4byte	0x6da
+ 1592 06d3 0A       		.uleb128 0xa
+ 1593 06d4 01       		.uleb128 0x1
+ 1594 06d5 50       		.byte	0x50
+ 1595 06d6 02       		.uleb128 0x2
+ 1596 06d7 09       		.byte	0x9
+ 1597 06d8 C8       		.byte	0xc8
+ 1598 06d9 00       		.byte	0
+ 1599 06da 08       		.uleb128 0x8
+ 1600 06db 06020000 		.4byte	.LVL67
+ 1601 06df 33090000 		.4byte	0x933
+ 1602 06e3 09       		.uleb128 0x9
+ 1603 06e4 0C020000 		.4byte	.LVL68
+ 1604 06e8 3E090000 		.4byte	0x93e
+ 1605 06ec FA060000 		.4byte	0x6fa
+ 1606 06f0 0A       		.uleb128 0xa
+ 1607 06f1 01       		.uleb128 0x1
+ 1608 06f2 50       		.byte	0x50
+ 1609 06f3 05       		.uleb128 0x5
+ 1610 06f4 03       		.byte	0x3
+ 1611 06f5 00000000 		.4byte	vsyncISR
+ 1612 06f9 00       		.byte	0
+ 1613 06fa 08       		.uleb128 0x8
+ 1614 06fb 10020000 		.4byte	.LVL69
+ 1615 06ff 49090000 		.4byte	0x949
+ 1616 0703 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 36
+
+
+ 1617 0704 15       		.uleb128 0x15
+ 1618 0705 A1030000 		.4byte	.LASF31
+ 1619 0709 05       		.byte	0x5
+ 1620 070a 1207     		.2byte	0x712
+ 1621 070c 10070000 		.4byte	0x710
+ 1622 0710 06       		.uleb128 0x6
+ 1623 0711 76000000 		.4byte	0x76
+ 1624 0715 16       		.uleb128 0x16
+ 1625 0716 38010000 		.4byte	.LASF32
+ 1626 071a 01       		.byte	0x1
+ 1627 071b 13       		.byte	0x13
+ 1628 071c 8D000000 		.4byte	0x8d
+ 1629 0720 05       		.uleb128 0x5
+ 1630 0721 03       		.byte	0x3
+ 1631 0722 00000000 		.4byte	lcdValue
+ 1632 0726 17       		.uleb128 0x17
+ 1633 0727 81000000 		.4byte	0x81
+ 1634 072b 37070000 		.4byte	0x737
+ 1635 072f 18       		.uleb128 0x18
+ 1636 0730 D2000000 		.4byte	0xd2
+ 1637 0734 7F25     		.2byte	0x257f
+ 1638 0736 00       		.byte	0
+ 1639 0737 16       		.uleb128 0x16
+ 1640 0738 28010000 		.4byte	.LASF33
+ 1641 073c 01       		.byte	0x1
+ 1642 073d 15       		.byte	0x15
+ 1643 073e 26070000 		.4byte	0x726
+ 1644 0742 05       		.uleb128 0x5
+ 1645 0743 03       		.byte	0x3
+ 1646 0744 00000000 		.4byte	lcdPixels
+ 1647 0748 16       		.uleb128 0x16
+ 1648 0749 67000000 		.4byte	.LASF34
+ 1649 074d 01       		.byte	0x1
+ 1650 074e 16       		.byte	0x16
+ 1651 074f 81000000 		.4byte	0x81
+ 1652 0753 05       		.uleb128 0x5
+ 1653 0754 03       		.byte	0x3
+ 1654 0755 00000000 		.4byte	temp
+ 1655 0759 17       		.uleb128 0x17
+ 1656 075a 69070000 		.4byte	0x769
+ 1657 075e 69070000 		.4byte	0x769
+ 1658 0762 19       		.uleb128 0x19
+ 1659 0763 D2000000 		.4byte	0xd2
+ 1660 0767 09       		.byte	0x9
+ 1661 0768 00       		.byte	0
+ 1662 0769 1A       		.uleb128 0x1a
+ 1663 076a 81000000 		.4byte	0x81
+ 1664 076e 16       		.uleb128 0x16
+ 1665 076f 20030000 		.4byte	.LASF35
+ 1666 0773 01       		.byte	0x1
+ 1667 0774 23       		.byte	0x23
+ 1668 0775 7F070000 		.4byte	0x77f
+ 1669 0779 05       		.uleb128 0x5
+ 1670 077a 03       		.byte	0x3
+ 1671 077b 00000000 		.4byte	sineTable
+ 1672 077f 1A       		.uleb128 0x1a
+ 1673 0780 59070000 		.4byte	0x759
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 37
+
+
+ 1674 0784 16       		.uleb128 0x16
+ 1675 0785 62010000 		.4byte	.LASF36
+ 1676 0789 01       		.byte	0x1
+ 1677 078a 25       		.byte	0x25
+ 1678 078b 81000000 		.4byte	0x81
+ 1679 078f 05       		.uleb128 0x5
+ 1680 0790 03       		.byte	0x3
+ 1681 0791 00000000 		.4byte	DMA_Chan
+ 1682 0795 17       		.uleb128 0x17
+ 1683 0796 81000000 		.4byte	0x81
+ 1684 079a A5070000 		.4byte	0x7a5
+ 1685 079e 19       		.uleb128 0x19
+ 1686 079f D2000000 		.4byte	0xd2
+ 1687 07a3 02       		.byte	0x2
+ 1688 07a4 00       		.byte	0
+ 1689 07a5 16       		.uleb128 0x16
+ 1690 07a6 86010000 		.4byte	.LASF37
+ 1691 07aa 01       		.byte	0x1
+ 1692 07ab 26       		.byte	0x26
+ 1693 07ac 95070000 		.4byte	0x795
+ 1694 07b0 05       		.uleb128 0x5
+ 1695 07b1 03       		.byte	0x3
+ 1696 07b2 00000000 		.4byte	DMA_TD
+ 1697 07b6 16       		.uleb128 0x16
+ 1698 07b7 10000000 		.4byte	.LASF38
+ 1699 07bb 01       		.byte	0x1
+ 1700 07bc 27       		.byte	0x27
+ 1701 07bd 81000000 		.4byte	0x81
+ 1702 07c1 05       		.uleb128 0x5
+ 1703 07c2 03       		.byte	0x3
+ 1704 07c3 00000000 		.4byte	ShiftReg_DMA_Chan
+ 1705 07c7 17       		.uleb128 0x17
+ 1706 07c8 81000000 		.4byte	0x81
+ 1707 07cc D7070000 		.4byte	0x7d7
+ 1708 07d0 19       		.uleb128 0x19
+ 1709 07d1 D2000000 		.4byte	0xd2
+ 1710 07d5 03       		.byte	0x3
+ 1711 07d6 00       		.byte	0
+ 1712 07d7 16       		.uleb128 0x16
+ 1713 07d8 DA000000 		.4byte	.LASF39
+ 1714 07dc 01       		.byte	0x1
+ 1715 07dd 28       		.byte	0x28
+ 1716 07de C7070000 		.4byte	0x7c7
+ 1717 07e2 05       		.uleb128 0x5
+ 1718 07e3 03       		.byte	0x3
+ 1719 07e4 00000000 		.4byte	ShiftReg_DMA_TD
+ 1720 07e8 16       		.uleb128 0x16
+ 1721 07e9 2A030000 		.4byte	.LASF40
+ 1722 07ed 01       		.byte	0x1
+ 1723 07ee 3C       		.byte	0x3c
+ 1724 07ef 68000000 		.4byte	0x68
+ 1725 07f3 05       		.uleb128 0x5
+ 1726 07f4 03       		.byte	0x3
+ 1727 07f5 00000000 		.4byte	midX
+ 1728 07f9 16       		.uleb128 0x16
+ 1729 07fa 81010000 		.4byte	.LASF41
+ 1730 07fe 01       		.byte	0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 38
+
+
+ 1731 07ff 3D       		.byte	0x3d
+ 1732 0800 68000000 		.4byte	0x68
+ 1733 0804 05       		.uleb128 0x5
+ 1734 0805 03       		.byte	0x3
+ 1735 0806 00000000 		.4byte	midY
+ 1736 080a 1B       		.uleb128 0x1b
+ 1737 080b FE010000 		.4byte	.LASF42
+ 1738 080f FE010000 		.4byte	.LASF42
+ 1739 0813 06       		.byte	0x6
+ 1740 0814 47       		.byte	0x47
+ 1741 0815 1B       		.uleb128 0x1b
+ 1742 0816 A5000000 		.4byte	.LASF43
+ 1743 081a A5000000 		.4byte	.LASF43
+ 1744 081e 07       		.byte	0x7
+ 1745 081f 30       		.byte	0x30
+ 1746 0820 1B       		.uleb128 0x1b
+ 1747 0821 2F030000 		.4byte	.LASF44
+ 1748 0825 2F030000 		.4byte	.LASF44
+ 1749 0829 07       		.byte	0x7
+ 1750 082a 31       		.byte	0x31
+ 1751 082b 1B       		.uleb128 0x1b
+ 1752 082c 8E000000 		.4byte	.LASF45
+ 1753 0830 8E000000 		.4byte	.LASF45
+ 1754 0834 07       		.byte	0x7
+ 1755 0835 29       		.byte	0x29
+ 1756 0836 1B       		.uleb128 0x1b
+ 1757 0837 8D030000 		.4byte	.LASF46
+ 1758 083b 8D030000 		.4byte	.LASF46
+ 1759 083f 07       		.byte	0x7
+ 1760 0840 2F       		.byte	0x2f
+ 1761 0841 1B       		.uleb128 0x1b
+ 1762 0842 3C040000 		.4byte	.LASF47
+ 1763 0846 3C040000 		.4byte	.LASF47
+ 1764 084a 08       		.byte	0x8
+ 1765 084b 76       		.byte	0x76
+ 1766 084c 1B       		.uleb128 0x1b
+ 1767 084d 34000000 		.4byte	.LASF48
+ 1768 0851 34000000 		.4byte	.LASF48
+ 1769 0855 09       		.byte	0x9
+ 1770 0856 08       		.byte	0x8
+ 1771 0857 1B       		.uleb128 0x1b
+ 1772 0858 44040000 		.4byte	.LASF49
+ 1773 085c 44040000 		.4byte	.LASF49
+ 1774 0860 0A       		.byte	0xa
+ 1775 0861 11       		.byte	0x11
+ 1776 0862 1B       		.uleb128 0x1b
+ 1777 0863 41030000 		.4byte	.LASF50
+ 1778 0867 41030000 		.4byte	.LASF50
+ 1779 086b 0B       		.byte	0xb
+ 1780 086c 26       		.byte	0x26
+ 1781 086d 1B       		.uleb128 0x1b
+ 1782 086e DA010000 		.4byte	.LASF51
+ 1783 0872 DA010000 		.4byte	.LASF51
+ 1784 0876 0C       		.byte	0xc
+ 1785 0877 26       		.byte	0x26
+ 1786 0878 1B       		.uleb128 0x1b
+ 1787 0879 61040000 		.4byte	.LASF52
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 39
+
+
+ 1788 087d 61040000 		.4byte	.LASF52
+ 1789 0881 0D       		.byte	0xd
+ 1790 0882 2F       		.byte	0x2f
+ 1791 0883 1B       		.uleb128 0x1b
+ 1792 0884 61030000 		.4byte	.LASF53
+ 1793 0888 61030000 		.4byte	.LASF53
+ 1794 088c 0E       		.byte	0xe
+ 1795 088d 3C       		.byte	0x3c
+ 1796 088e 1B       		.uleb128 0x1b
+ 1797 088f 3C000000 		.4byte	.LASF54
+ 1798 0893 3C000000 		.4byte	.LASF54
+ 1799 0897 0F       		.byte	0xf
+ 1800 0898 92       		.byte	0x92
+ 1801 0899 1B       		.uleb128 0x1b
+ 1802 089a 7A020000 		.4byte	.LASF55
+ 1803 089e 7A020000 		.4byte	.LASF55
+ 1804 08a2 10       		.byte	0x10
+ 1805 08a3 1E       		.byte	0x1e
+ 1806 08a4 1B       		.uleb128 0x1b
+ 1807 08a5 00000000 		.4byte	.LASF56
+ 1808 08a9 00000000 		.4byte	.LASF56
+ 1809 08ad 07       		.byte	0x7
+ 1810 08ae 38       		.byte	0x38
+ 1811 08af 1B       		.uleb128 0x1b
+ 1812 08b0 76000000 		.4byte	.LASF57
+ 1813 08b4 76000000 		.4byte	.LASF57
+ 1814 08b8 07       		.byte	0x7
+ 1815 08b9 3B       		.byte	0x3b
+ 1816 08ba 1B       		.uleb128 0x1b
+ 1817 08bb 22000000 		.4byte	.LASF58
+ 1818 08bf 22000000 		.4byte	.LASF58
+ 1819 08c3 07       		.byte	0x7
+ 1820 08c4 3F       		.byte	0x3f
+ 1821 08c5 1B       		.uleb128 0x1b
+ 1822 08c6 C7000000 		.4byte	.LASF59
+ 1823 08ca C7000000 		.4byte	.LASF59
+ 1824 08ce 11       		.byte	0x11
+ 1825 08cf 2F       		.byte	0x2f
+ 1826 08d0 1B       		.uleb128 0x1b
+ 1827 08d1 62020000 		.4byte	.LASF60
+ 1828 08d5 62020000 		.4byte	.LASF60
+ 1829 08d9 12       		.byte	0x12
+ 1830 08da 33       		.byte	0x33
+ 1831 08db 1B       		.uleb128 0x1b
+ 1832 08dc C2010000 		.4byte	.LASF61
+ 1833 08e0 C2010000 		.4byte	.LASF61
+ 1834 08e4 13       		.byte	0x13
+ 1835 08e5 3F       		.byte	0x3f
+ 1836 08e6 1B       		.uleb128 0x1b
+ 1837 08e7 01010000 		.4byte	.LASF62
+ 1838 08eb 01010000 		.4byte	.LASF62
+ 1839 08ef 14       		.byte	0x14
+ 1840 08f0 18       		.byte	0x18
+ 1841 08f1 1B       		.uleb128 0x1b
+ 1842 08f2 4C040000 		.4byte	.LASF63
+ 1843 08f6 4C040000 		.4byte	.LASF63
+ 1844 08fa 06       		.byte	0x6
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 40
+
+
+ 1845 08fb 3C       		.byte	0x3c
+ 1846 08fc 1B       		.uleb128 0x1b
+ 1847 08fd EA000000 		.4byte	.LASF64
+ 1848 0901 EA000000 		.4byte	.LASF64
+ 1849 0905 15       		.byte	0x15
+ 1850 0906 3C       		.byte	0x3c
+ 1851 0907 1B       		.uleb128 0x1b
+ 1852 0908 72030000 		.4byte	.LASF65
+ 1853 090c 72030000 		.4byte	.LASF65
+ 1854 0910 16       		.byte	0x16
+ 1855 0911 1E       		.byte	0x1e
+ 1856 0912 1B       		.uleb128 0x1b
+ 1857 0913 B7000000 		.4byte	.LASF66
+ 1858 0917 B7000000 		.4byte	.LASF66
+ 1859 091b 17       		.byte	0x17
+ 1860 091c 29       		.byte	0x29
+ 1861 091d 1B       		.uleb128 0x1b
+ 1862 091e 1A010000 		.4byte	.LASF67
+ 1863 0922 1A010000 		.4byte	.LASF67
+ 1864 0926 18       		.byte	0x18
+ 1865 0927 33       		.byte	0x33
+ 1866 0928 1B       		.uleb128 0x1b
+ 1867 0929 8D010000 		.4byte	.LASF68
+ 1868 092d 8D010000 		.4byte	.LASF68
+ 1869 0931 18       		.byte	0x18
+ 1870 0932 37       		.byte	0x37
+ 1871 0933 1B       		.uleb128 0x1b
+ 1872 0934 72040000 		.4byte	.LASF69
+ 1873 0938 72040000 		.4byte	.LASF69
+ 1874 093c 19       		.byte	0x19
+ 1875 093d 3F       		.byte	0x3f
+ 1876 093e 1B       		.uleb128 0x1b
+ 1877 093f 1A020000 		.4byte	.LASF70
+ 1878 0943 1A020000 		.4byte	.LASF70
+ 1879 0947 1A       		.byte	0x1a
+ 1880 0948 18       		.byte	0x18
+ 1881 0949 1B       		.uleb128 0x1b
+ 1882 094a 41010000 		.4byte	.LASF71
+ 1883 094e 41010000 		.4byte	.LASF71
+ 1884 0952 1B       		.byte	0x1b
+ 1885 0953 54       		.byte	0x54
+ 1886 0954 00       		.byte	0
+ 1887              		.section	.debug_abbrev,"",%progbits
+ 1888              	.Ldebug_abbrev0:
+ 1889 0000 01       		.uleb128 0x1
+ 1890 0001 11       		.uleb128 0x11
+ 1891 0002 01       		.byte	0x1
+ 1892 0003 25       		.uleb128 0x25
+ 1893 0004 0E       		.uleb128 0xe
+ 1894 0005 13       		.uleb128 0x13
+ 1895 0006 0B       		.uleb128 0xb
+ 1896 0007 03       		.uleb128 0x3
+ 1897 0008 0E       		.uleb128 0xe
+ 1898 0009 1B       		.uleb128 0x1b
+ 1899 000a 0E       		.uleb128 0xe
+ 1900 000b 55       		.uleb128 0x55
+ 1901 000c 17       		.uleb128 0x17
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 41
+
+
+ 1902 000d 11       		.uleb128 0x11
+ 1903 000e 01       		.uleb128 0x1
+ 1904 000f 10       		.uleb128 0x10
+ 1905 0010 17       		.uleb128 0x17
+ 1906 0011 00       		.byte	0
+ 1907 0012 00       		.byte	0
+ 1908 0013 02       		.uleb128 0x2
+ 1909 0014 24       		.uleb128 0x24
+ 1910 0015 00       		.byte	0
+ 1911 0016 0B       		.uleb128 0xb
+ 1912 0017 0B       		.uleb128 0xb
+ 1913 0018 3E       		.uleb128 0x3e
+ 1914 0019 0B       		.uleb128 0xb
+ 1915 001a 03       		.uleb128 0x3
+ 1916 001b 0E       		.uleb128 0xe
+ 1917 001c 00       		.byte	0
+ 1918 001d 00       		.byte	0
+ 1919 001e 03       		.uleb128 0x3
+ 1920 001f 16       		.uleb128 0x16
+ 1921 0020 00       		.byte	0
+ 1922 0021 03       		.uleb128 0x3
+ 1923 0022 0E       		.uleb128 0xe
+ 1924 0023 3A       		.uleb128 0x3a
+ 1925 0024 0B       		.uleb128 0xb
+ 1926 0025 3B       		.uleb128 0x3b
+ 1927 0026 0B       		.uleb128 0xb
+ 1928 0027 49       		.uleb128 0x49
+ 1929 0028 13       		.uleb128 0x13
+ 1930 0029 00       		.byte	0
+ 1931 002a 00       		.byte	0
+ 1932 002b 04       		.uleb128 0x4
+ 1933 002c 24       		.uleb128 0x24
+ 1934 002d 00       		.byte	0
+ 1935 002e 0B       		.uleb128 0xb
+ 1936 002f 0B       		.uleb128 0xb
+ 1937 0030 3E       		.uleb128 0x3e
+ 1938 0031 0B       		.uleb128 0xb
+ 1939 0032 03       		.uleb128 0x3
+ 1940 0033 08       		.uleb128 0x8
+ 1941 0034 00       		.byte	0
+ 1942 0035 00       		.byte	0
+ 1943 0036 05       		.uleb128 0x5
+ 1944 0037 16       		.uleb128 0x16
+ 1945 0038 00       		.byte	0
+ 1946 0039 03       		.uleb128 0x3
+ 1947 003a 0E       		.uleb128 0xe
+ 1948 003b 3A       		.uleb128 0x3a
+ 1949 003c 0B       		.uleb128 0xb
+ 1950 003d 3B       		.uleb128 0x3b
+ 1951 003e 05       		.uleb128 0x5
+ 1952 003f 49       		.uleb128 0x49
+ 1953 0040 13       		.uleb128 0x13
+ 1954 0041 00       		.byte	0
+ 1955 0042 00       		.byte	0
+ 1956 0043 06       		.uleb128 0x6
+ 1957 0044 35       		.uleb128 0x35
+ 1958 0045 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 42
+
+
+ 1959 0046 49       		.uleb128 0x49
+ 1960 0047 13       		.uleb128 0x13
+ 1961 0048 00       		.byte	0
+ 1962 0049 00       		.byte	0
+ 1963 004a 07       		.uleb128 0x7
+ 1964 004b 2E       		.uleb128 0x2e
+ 1965 004c 01       		.byte	0x1
+ 1966 004d 3F       		.uleb128 0x3f
+ 1967 004e 19       		.uleb128 0x19
+ 1968 004f 03       		.uleb128 0x3
+ 1969 0050 0E       		.uleb128 0xe
+ 1970 0051 3A       		.uleb128 0x3a
+ 1971 0052 0B       		.uleb128 0xb
+ 1972 0053 3B       		.uleb128 0x3b
+ 1973 0054 0B       		.uleb128 0xb
+ 1974 0055 27       		.uleb128 0x27
+ 1975 0056 19       		.uleb128 0x19
+ 1976 0057 11       		.uleb128 0x11
+ 1977 0058 01       		.uleb128 0x1
+ 1978 0059 12       		.uleb128 0x12
+ 1979 005a 06       		.uleb128 0x6
+ 1980 005b 40       		.uleb128 0x40
+ 1981 005c 18       		.uleb128 0x18
+ 1982 005d 9742     		.uleb128 0x2117
+ 1983 005f 19       		.uleb128 0x19
+ 1984 0060 01       		.uleb128 0x1
+ 1985 0061 13       		.uleb128 0x13
+ 1986 0062 00       		.byte	0
+ 1987 0063 00       		.byte	0
+ 1988 0064 08       		.uleb128 0x8
+ 1989 0065 898201   		.uleb128 0x4109
+ 1990 0068 00       		.byte	0
+ 1991 0069 11       		.uleb128 0x11
+ 1992 006a 01       		.uleb128 0x1
+ 1993 006b 31       		.uleb128 0x31
+ 1994 006c 13       		.uleb128 0x13
+ 1995 006d 00       		.byte	0
+ 1996 006e 00       		.byte	0
+ 1997 006f 09       		.uleb128 0x9
+ 1998 0070 898201   		.uleb128 0x4109
+ 1999 0073 01       		.byte	0x1
+ 2000 0074 11       		.uleb128 0x11
+ 2001 0075 01       		.uleb128 0x1
+ 2002 0076 31       		.uleb128 0x31
+ 2003 0077 13       		.uleb128 0x13
+ 2004 0078 01       		.uleb128 0x1
+ 2005 0079 13       		.uleb128 0x13
+ 2006 007a 00       		.byte	0
+ 2007 007b 00       		.byte	0
+ 2008 007c 0A       		.uleb128 0xa
+ 2009 007d 8A8201   		.uleb128 0x410a
+ 2010 0080 00       		.byte	0
+ 2011 0081 02       		.uleb128 0x2
+ 2012 0082 18       		.uleb128 0x18
+ 2013 0083 9142     		.uleb128 0x2111
+ 2014 0085 18       		.uleb128 0x18
+ 2015 0086 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 43
+
+
+ 2016 0087 00       		.byte	0
+ 2017 0088 0B       		.uleb128 0xb
+ 2018 0089 2E       		.uleb128 0x2e
+ 2019 008a 01       		.byte	0x1
+ 2020 008b 3F       		.uleb128 0x3f
+ 2021 008c 19       		.uleb128 0x19
+ 2022 008d 03       		.uleb128 0x3
+ 2023 008e 0E       		.uleb128 0xe
+ 2024 008f 3A       		.uleb128 0x3a
+ 2025 0090 0B       		.uleb128 0xb
+ 2026 0091 3B       		.uleb128 0x3b
+ 2027 0092 0B       		.uleb128 0xb
+ 2028 0093 27       		.uleb128 0x27
+ 2029 0094 19       		.uleb128 0x19
+ 2030 0095 49       		.uleb128 0x49
+ 2031 0096 13       		.uleb128 0x13
+ 2032 0097 11       		.uleb128 0x11
+ 2033 0098 01       		.uleb128 0x1
+ 2034 0099 12       		.uleb128 0x12
+ 2035 009a 06       		.uleb128 0x6
+ 2036 009b 40       		.uleb128 0x40
+ 2037 009c 18       		.uleb128 0x18
+ 2038 009d 9742     		.uleb128 0x2117
+ 2039 009f 19       		.uleb128 0x19
+ 2040 00a0 01       		.uleb128 0x1
+ 2041 00a1 13       		.uleb128 0x13
+ 2042 00a2 00       		.byte	0
+ 2043 00a3 00       		.byte	0
+ 2044 00a4 0C       		.uleb128 0xc
+ 2045 00a5 05       		.uleb128 0x5
+ 2046 00a6 00       		.byte	0
+ 2047 00a7 03       		.uleb128 0x3
+ 2048 00a8 08       		.uleb128 0x8
+ 2049 00a9 3A       		.uleb128 0x3a
+ 2050 00aa 0B       		.uleb128 0xb
+ 2051 00ab 3B       		.uleb128 0x3b
+ 2052 00ac 0B       		.uleb128 0xb
+ 2053 00ad 49       		.uleb128 0x49
+ 2054 00ae 13       		.uleb128 0x13
+ 2055 00af 02       		.uleb128 0x2
+ 2056 00b0 17       		.uleb128 0x17
+ 2057 00b1 00       		.byte	0
+ 2058 00b2 00       		.byte	0
+ 2059 00b3 0D       		.uleb128 0xd
+ 2060 00b4 34       		.uleb128 0x34
+ 2061 00b5 00       		.byte	0
+ 2062 00b6 03       		.uleb128 0x3
+ 2063 00b7 0E       		.uleb128 0xe
+ 2064 00b8 3A       		.uleb128 0x3a
+ 2065 00b9 0B       		.uleb128 0xb
+ 2066 00ba 3B       		.uleb128 0x3b
+ 2067 00bb 0B       		.uleb128 0xb
+ 2068 00bc 49       		.uleb128 0x49
+ 2069 00bd 13       		.uleb128 0x13
+ 2070 00be 02       		.uleb128 0x2
+ 2071 00bf 17       		.uleb128 0x17
+ 2072 00c0 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 44
+
+
+ 2073 00c1 00       		.byte	0
+ 2074 00c2 0E       		.uleb128 0xe
+ 2075 00c3 2E       		.uleb128 0x2e
+ 2076 00c4 01       		.byte	0x1
+ 2077 00c5 3F       		.uleb128 0x3f
+ 2078 00c6 19       		.uleb128 0x19
+ 2079 00c7 03       		.uleb128 0x3
+ 2080 00c8 0E       		.uleb128 0xe
+ 2081 00c9 3A       		.uleb128 0x3a
+ 2082 00ca 0B       		.uleb128 0xb
+ 2083 00cb 3B       		.uleb128 0x3b
+ 2084 00cc 0B       		.uleb128 0xb
+ 2085 00cd 27       		.uleb128 0x27
+ 2086 00ce 19       		.uleb128 0x19
+ 2087 00cf 49       		.uleb128 0x49
+ 2088 00d0 13       		.uleb128 0x13
+ 2089 00d1 8701     		.uleb128 0x87
+ 2090 00d3 19       		.uleb128 0x19
+ 2091 00d4 11       		.uleb128 0x11
+ 2092 00d5 01       		.uleb128 0x1
+ 2093 00d6 12       		.uleb128 0x12
+ 2094 00d7 06       		.uleb128 0x6
+ 2095 00d8 40       		.uleb128 0x40
+ 2096 00d9 18       		.uleb128 0x18
+ 2097 00da 9742     		.uleb128 0x2117
+ 2098 00dc 19       		.uleb128 0x19
+ 2099 00dd 01       		.uleb128 0x1
+ 2100 00de 13       		.uleb128 0x13
+ 2101 00df 00       		.byte	0
+ 2102 00e0 00       		.byte	0
+ 2103 00e1 0F       		.uleb128 0xf
+ 2104 00e2 34       		.uleb128 0x34
+ 2105 00e3 00       		.byte	0
+ 2106 00e4 03       		.uleb128 0x3
+ 2107 00e5 0E       		.uleb128 0xe
+ 2108 00e6 3A       		.uleb128 0x3a
+ 2109 00e7 0B       		.uleb128 0xb
+ 2110 00e8 3B       		.uleb128 0x3b
+ 2111 00e9 0B       		.uleb128 0xb
+ 2112 00ea 49       		.uleb128 0x49
+ 2113 00eb 13       		.uleb128 0x13
+ 2114 00ec 1C       		.uleb128 0x1c
+ 2115 00ed 0B       		.uleb128 0xb
+ 2116 00ee 00       		.byte	0
+ 2117 00ef 00       		.byte	0
+ 2118 00f0 10       		.uleb128 0x10
+ 2119 00f1 0B       		.uleb128 0xb
+ 2120 00f2 01       		.byte	0x1
+ 2121 00f3 11       		.uleb128 0x11
+ 2122 00f4 01       		.uleb128 0x1
+ 2123 00f5 12       		.uleb128 0x12
+ 2124 00f6 06       		.uleb128 0x6
+ 2125 00f7 01       		.uleb128 0x1
+ 2126 00f8 13       		.uleb128 0x13
+ 2127 00f9 00       		.byte	0
+ 2128 00fa 00       		.byte	0
+ 2129 00fb 11       		.uleb128 0x11
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 45
+
+
+ 2130 00fc 34       		.uleb128 0x34
+ 2131 00fd 00       		.byte	0
+ 2132 00fe 03       		.uleb128 0x3
+ 2133 00ff 08       		.uleb128 0x8
+ 2134 0100 3A       		.uleb128 0x3a
+ 2135 0101 0B       		.uleb128 0xb
+ 2136 0102 3B       		.uleb128 0x3b
+ 2137 0103 0B       		.uleb128 0xb
+ 2138 0104 49       		.uleb128 0x49
+ 2139 0105 13       		.uleb128 0x13
+ 2140 0106 02       		.uleb128 0x2
+ 2141 0107 17       		.uleb128 0x17
+ 2142 0108 00       		.byte	0
+ 2143 0109 00       		.byte	0
+ 2144 010a 12       		.uleb128 0x12
+ 2145 010b 34       		.uleb128 0x34
+ 2146 010c 00       		.byte	0
+ 2147 010d 03       		.uleb128 0x3
+ 2148 010e 0E       		.uleb128 0xe
+ 2149 010f 3A       		.uleb128 0x3a
+ 2150 0110 0B       		.uleb128 0xb
+ 2151 0111 3B       		.uleb128 0x3b
+ 2152 0112 05       		.uleb128 0x5
+ 2153 0113 49       		.uleb128 0x49
+ 2154 0114 13       		.uleb128 0x13
+ 2155 0115 02       		.uleb128 0x2
+ 2156 0116 17       		.uleb128 0x17
+ 2157 0117 00       		.byte	0
+ 2158 0118 00       		.byte	0
+ 2159 0119 13       		.uleb128 0x13
+ 2160 011a 34       		.uleb128 0x34
+ 2161 011b 00       		.byte	0
+ 2162 011c 03       		.uleb128 0x3
+ 2163 011d 08       		.uleb128 0x8
+ 2164 011e 3A       		.uleb128 0x3a
+ 2165 011f 0B       		.uleb128 0xb
+ 2166 0120 3B       		.uleb128 0x3b
+ 2167 0121 05       		.uleb128 0x5
+ 2168 0122 49       		.uleb128 0x49
+ 2169 0123 13       		.uleb128 0x13
+ 2170 0124 02       		.uleb128 0x2
+ 2171 0125 17       		.uleb128 0x17
+ 2172 0126 00       		.byte	0
+ 2173 0127 00       		.byte	0
+ 2174 0128 14       		.uleb128 0x14
+ 2175 0129 898201   		.uleb128 0x4109
+ 2176 012c 01       		.byte	0x1
+ 2177 012d 11       		.uleb128 0x11
+ 2178 012e 01       		.uleb128 0x1
+ 2179 012f 31       		.uleb128 0x31
+ 2180 0130 13       		.uleb128 0x13
+ 2181 0131 00       		.byte	0
+ 2182 0132 00       		.byte	0
+ 2183 0133 15       		.uleb128 0x15
+ 2184 0134 34       		.uleb128 0x34
+ 2185 0135 00       		.byte	0
+ 2186 0136 03       		.uleb128 0x3
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 46
+
+
+ 2187 0137 0E       		.uleb128 0xe
+ 2188 0138 3A       		.uleb128 0x3a
+ 2189 0139 0B       		.uleb128 0xb
+ 2190 013a 3B       		.uleb128 0x3b
+ 2191 013b 05       		.uleb128 0x5
+ 2192 013c 49       		.uleb128 0x49
+ 2193 013d 13       		.uleb128 0x13
+ 2194 013e 3F       		.uleb128 0x3f
+ 2195 013f 19       		.uleb128 0x19
+ 2196 0140 3C       		.uleb128 0x3c
+ 2197 0141 19       		.uleb128 0x19
+ 2198 0142 00       		.byte	0
+ 2199 0143 00       		.byte	0
+ 2200 0144 16       		.uleb128 0x16
+ 2201 0145 34       		.uleb128 0x34
+ 2202 0146 00       		.byte	0
+ 2203 0147 03       		.uleb128 0x3
+ 2204 0148 0E       		.uleb128 0xe
+ 2205 0149 3A       		.uleb128 0x3a
+ 2206 014a 0B       		.uleb128 0xb
+ 2207 014b 3B       		.uleb128 0x3b
+ 2208 014c 0B       		.uleb128 0xb
+ 2209 014d 49       		.uleb128 0x49
+ 2210 014e 13       		.uleb128 0x13
+ 2211 014f 3F       		.uleb128 0x3f
+ 2212 0150 19       		.uleb128 0x19
+ 2213 0151 02       		.uleb128 0x2
+ 2214 0152 18       		.uleb128 0x18
+ 2215 0153 00       		.byte	0
+ 2216 0154 00       		.byte	0
+ 2217 0155 17       		.uleb128 0x17
+ 2218 0156 01       		.uleb128 0x1
+ 2219 0157 01       		.byte	0x1
+ 2220 0158 49       		.uleb128 0x49
+ 2221 0159 13       		.uleb128 0x13
+ 2222 015a 01       		.uleb128 0x1
+ 2223 015b 13       		.uleb128 0x13
+ 2224 015c 00       		.byte	0
+ 2225 015d 00       		.byte	0
+ 2226 015e 18       		.uleb128 0x18
+ 2227 015f 21       		.uleb128 0x21
+ 2228 0160 00       		.byte	0
+ 2229 0161 49       		.uleb128 0x49
+ 2230 0162 13       		.uleb128 0x13
+ 2231 0163 2F       		.uleb128 0x2f
+ 2232 0164 05       		.uleb128 0x5
+ 2233 0165 00       		.byte	0
+ 2234 0166 00       		.byte	0
+ 2235 0167 19       		.uleb128 0x19
+ 2236 0168 21       		.uleb128 0x21
+ 2237 0169 00       		.byte	0
+ 2238 016a 49       		.uleb128 0x49
+ 2239 016b 13       		.uleb128 0x13
+ 2240 016c 2F       		.uleb128 0x2f
+ 2241 016d 0B       		.uleb128 0xb
+ 2242 016e 00       		.byte	0
+ 2243 016f 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 47
+
+
+ 2244 0170 1A       		.uleb128 0x1a
+ 2245 0171 26       		.uleb128 0x26
+ 2246 0172 00       		.byte	0
+ 2247 0173 49       		.uleb128 0x49
+ 2248 0174 13       		.uleb128 0x13
+ 2249 0175 00       		.byte	0
+ 2250 0176 00       		.byte	0
+ 2251 0177 1B       		.uleb128 0x1b
+ 2252 0178 2E       		.uleb128 0x2e
+ 2253 0179 00       		.byte	0
+ 2254 017a 3F       		.uleb128 0x3f
+ 2255 017b 19       		.uleb128 0x19
+ 2256 017c 3C       		.uleb128 0x3c
+ 2257 017d 19       		.uleb128 0x19
+ 2258 017e 6E       		.uleb128 0x6e
+ 2259 017f 0E       		.uleb128 0xe
+ 2260 0180 03       		.uleb128 0x3
+ 2261 0181 0E       		.uleb128 0xe
+ 2262 0182 3A       		.uleb128 0x3a
+ 2263 0183 0B       		.uleb128 0xb
+ 2264 0184 3B       		.uleb128 0x3b
+ 2265 0185 0B       		.uleb128 0xb
+ 2266 0186 00       		.byte	0
+ 2267 0187 00       		.byte	0
+ 2268 0188 00       		.byte	0
+ 2269              		.section	.debug_loc,"",%progbits
+ 2270              	.Ldebug_loc0:
+ 2271              	.LLST0:
+ 2272 0000 00000000 		.4byte	.LVL5
+ 2273 0004 14000000 		.4byte	.LVL7
+ 2274 0008 0100     		.2byte	0x1
+ 2275 000a 50       		.byte	0x50
+ 2276 000b 14000000 		.4byte	.LVL7
+ 2277 000f 24000000 		.4byte	.LFE63
+ 2278 0013 0400     		.2byte	0x4
+ 2279 0015 F3       		.byte	0xf3
+ 2280 0016 01       		.uleb128 0x1
+ 2281 0017 50       		.byte	0x50
+ 2282 0018 9F       		.byte	0x9f
+ 2283 0019 00000000 		.4byte	0
+ 2284 001d 00000000 		.4byte	0
+ 2285              	.LLST1:
+ 2286 0021 00000000 		.4byte	.LVL5
+ 2287 0025 04000000 		.4byte	.LVL6
+ 2288 0029 0100     		.2byte	0x1
+ 2289 002b 51       		.byte	0x51
+ 2290 002c 04000000 		.4byte	.LVL6
+ 2291 0030 24000000 		.4byte	.LFE63
+ 2292 0034 0400     		.2byte	0x4
+ 2293 0036 F3       		.byte	0xf3
+ 2294 0037 01       		.uleb128 0x1
+ 2295 0038 51       		.byte	0x51
+ 2296 0039 9F       		.byte	0x9f
+ 2297 003a 00000000 		.4byte	0
+ 2298 003e 00000000 		.4byte	0
+ 2299              	.LLST2:
+ 2300 0042 18000000 		.4byte	.LVL8
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 48
+
+
+ 2301 0046 1C000000 		.4byte	.LVL9
+ 2302 004a 0500     		.2byte	0x5
+ 2303 004c 70       		.byte	0x70
+ 2304 004d 00       		.sleb128 0
+ 2305 004e 31       		.byte	0x31
+ 2306 004f 1A       		.byte	0x1a
+ 2307 0050 9F       		.byte	0x9f
+ 2308 0051 1C000000 		.4byte	.LVL9
+ 2309 0055 24000000 		.4byte	.LFE63
+ 2310 0059 0100     		.2byte	0x1
+ 2311 005b 50       		.byte	0x50
+ 2312 005c 00000000 		.4byte	0
+ 2313 0060 00000000 		.4byte	0
+ 2314              	.LLST3:
+ 2315 0064 22000000 		.4byte	.LVL14
+ 2316 0068 26000000 		.4byte	.LVL15
+ 2317 006c 0200     		.2byte	0x2
+ 2318 006e 30       		.byte	0x30
+ 2319 006f 9F       		.byte	0x9f
+ 2320 0070 26000000 		.4byte	.LVL15
+ 2321 0074 39000000 		.4byte	.LVL17-1
+ 2322 0078 0100     		.2byte	0x1
+ 2323 007a 53       		.byte	0x53
+ 2324 007b 00000000 		.4byte	0
+ 2325 007f 00000000 		.4byte	0
+ 2326              	.LLST4:
+ 2327 0083 24020000 		.4byte	.LVL70
+ 2328 0087 56020000 		.4byte	.LVL79
+ 2329 008b 0100     		.2byte	0x1
+ 2330 008d 54       		.byte	0x54
+ 2331 008e 58020000 		.4byte	.LVL80
+ 2332 0092 60020000 		.4byte	.LVL81
+ 2333 0096 0100     		.2byte	0x1
+ 2334 0098 54       		.byte	0x54
+ 2335 0099 00000000 		.4byte	0
+ 2336 009d 00000000 		.4byte	0
+ 2337              	.LLST5:
+ 2338 00a1 10020000 		.4byte	.LVL69
+ 2339 00a5 24020000 		.4byte	.LVL70
+ 2340 00a9 0200     		.2byte	0x2
+ 2341 00ab 30       		.byte	0x30
+ 2342 00ac 9F       		.byte	0x9f
+ 2343 00ad 24020000 		.4byte	.LVL70
+ 2344 00b1 10030000 		.4byte	.LFE66
+ 2345 00b5 0100     		.2byte	0x1
+ 2346 00b7 55       		.byte	0x55
+ 2347 00b8 00000000 		.4byte	0
+ 2348 00bc 00000000 		.4byte	0
+ 2349              	.LLST6:
+ 2350 00c0 2C020000 		.4byte	.LVL71
+ 2351 00c4 56020000 		.4byte	.LVL79
+ 2352 00c8 0100     		.2byte	0x1
+ 2353 00ca 50       		.byte	0x50
+ 2354 00cb 00000000 		.4byte	0
+ 2355 00cf 00000000 		.4byte	0
+ 2356              	.LLST7:
+ 2357 00d3 10020000 		.4byte	.LVL69
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 49
+
+
+ 2358 00d7 24020000 		.4byte	.LVL70
+ 2359 00db 0400     		.2byte	0x4
+ 2360 00dd 0A       		.byte	0xa
+ 2361 00de 4001     		.2byte	0x140
+ 2362 00e0 9F       		.byte	0x9f
+ 2363 00e1 24020000 		.4byte	.LVL70
+ 2364 00e5 10030000 		.4byte	.LFE66
+ 2365 00e9 0100     		.2byte	0x1
+ 2366 00eb 59       		.byte	0x59
+ 2367 00ec 00000000 		.4byte	0
+ 2368 00f0 00000000 		.4byte	0
+ 2369              	.LLST8:
+ 2370 00f4 10020000 		.4byte	.LVL69
+ 2371 00f8 24020000 		.4byte	.LVL70
+ 2372 00fc 0300     		.2byte	0x3
+ 2373 00fe 08       		.byte	0x8
+ 2374 00ff F0       		.byte	0xf0
+ 2375 0100 9F       		.byte	0x9f
+ 2376 0101 24020000 		.4byte	.LVL70
+ 2377 0105 10030000 		.4byte	.LFE66
+ 2378 0109 0100     		.2byte	0x1
+ 2379 010b 58       		.byte	0x58
+ 2380 010c 00000000 		.4byte	0
+ 2381 0110 00000000 		.4byte	0
+ 2382              	.LLST9:
+ 2383 0114 10020000 		.4byte	.LVL69
+ 2384 0118 24020000 		.4byte	.LVL70
+ 2385 011c 0200     		.2byte	0x2
+ 2386 011e 30       		.byte	0x30
+ 2387 011f 9F       		.byte	0x9f
+ 2388 0120 24020000 		.4byte	.LVL70
+ 2389 0124 10030000 		.4byte	.LFE66
+ 2390 0128 0100     		.2byte	0x1
+ 2391 012a 56       		.byte	0x56
+ 2392 012b 00000000 		.4byte	0
+ 2393 012f 00000000 		.4byte	0
+ 2394              	.LLST10:
+ 2395 0133 10020000 		.4byte	.LVL69
+ 2396 0137 24020000 		.4byte	.LVL70
+ 2397 013b 0200     		.2byte	0x2
+ 2398 013d 30       		.byte	0x30
+ 2399 013e 9F       		.byte	0x9f
+ 2400 013f 24020000 		.4byte	.LVL70
+ 2401 0143 4E020000 		.4byte	.LVL76
+ 2402 0147 0100     		.2byte	0x1
+ 2403 0149 57       		.byte	0x57
+ 2404 014a 52020000 		.4byte	.LVL77
+ 2405 014e 10030000 		.4byte	.LFE66
+ 2406 0152 0100     		.2byte	0x1
+ 2407 0154 57       		.byte	0x57
+ 2408 0155 00000000 		.4byte	0
+ 2409 0159 00000000 		.4byte	0
+ 2410              	.LLST11:
+ 2411 015d 10020000 		.4byte	.LVL69
+ 2412 0161 24020000 		.4byte	.LVL70
+ 2413 0165 0200     		.2byte	0x2
+ 2414 0167 30       		.byte	0x30
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 50
+
+
+ 2415 0168 9F       		.byte	0x9f
+ 2416 0169 24020000 		.4byte	.LVL70
+ 2417 016d 30020000 		.4byte	.LVL72
+ 2418 0171 0100     		.2byte	0x1
+ 2419 0173 5A       		.byte	0x5a
+ 2420 0174 30020000 		.4byte	.LVL72
+ 2421 0178 52020000 		.4byte	.LVL77
+ 2422 017c 0200     		.2byte	0x2
+ 2423 017e 31       		.byte	0x31
+ 2424 017f 9F       		.byte	0x9f
+ 2425 0180 52020000 		.4byte	.LVL77
+ 2426 0184 10030000 		.4byte	.LFE66
+ 2427 0188 0100     		.2byte	0x1
+ 2428 018a 5A       		.byte	0x5a
+ 2429 018b 00000000 		.4byte	0
+ 2430 018f 00000000 		.4byte	0
+ 2431              		.section	.debug_aranges,"",%progbits
+ 2432 0000 34000000 		.4byte	0x34
+ 2433 0004 0200     		.2byte	0x2
+ 2434 0006 00000000 		.4byte	.Ldebug_info0
+ 2435 000a 04       		.byte	0x4
+ 2436 000b 00       		.byte	0
+ 2437 000c 0000     		.2byte	0
+ 2438 000e 0000     		.2byte	0
+ 2439 0010 00000000 		.4byte	.LFB64
+ 2440 0014 08000000 		.4byte	.LFE64-.LFB64
+ 2441 0018 00000000 		.4byte	.LFB65
+ 2442 001c 38000000 		.4byte	.LFE65-.LFB65
+ 2443 0020 00000000 		.4byte	.LFB63
+ 2444 0024 24000000 		.4byte	.LFE63-.LFB63
+ 2445 0028 00000000 		.4byte	.LFB66
+ 2446 002c 10030000 		.4byte	.LFE66-.LFB66
+ 2447 0030 00000000 		.4byte	0
+ 2448 0034 00000000 		.4byte	0
+ 2449              		.section	.debug_ranges,"",%progbits
+ 2450              	.Ldebug_ranges0:
+ 2451 0000 00000000 		.4byte	.LFB64
+ 2452 0004 08000000 		.4byte	.LFE64
+ 2453 0008 00000000 		.4byte	.LFB65
+ 2454 000c 38000000 		.4byte	.LFE65
+ 2455 0010 00000000 		.4byte	.LFB63
+ 2456 0014 24000000 		.4byte	.LFE63
+ 2457 0018 00000000 		.4byte	.LFB66
+ 2458 001c 10030000 		.4byte	.LFE66
+ 2459 0020 00000000 		.4byte	0
+ 2460 0024 00000000 		.4byte	0
+ 2461              		.section	.debug_line,"",%progbits
+ 2462              	.Ldebug_line0:
+ 2463 0000 8E030000 		.section	.debug_str,"MS",%progbits,1
+ 2463      02009202 
+ 2463      00000201 
+ 2463      FB0E0D00 
+ 2463      01010101 
+ 2464              	.LASF56:
+ 2465 0000 4379446D 		.ascii	"CyDmaTdAllocate\000"
+ 2465      61546441 
+ 2465      6C6C6F63 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 51
+
+
+ 2465      61746500 
+ 2466              	.LASF38:
+ 2467 0010 53686966 		.ascii	"ShiftReg_DMA_Chan\000"
+ 2467      74526567 
+ 2467      5F444D41 
+ 2467      5F436861 
+ 2467      6E00
+ 2468              	.LASF58:
+ 2469 0022 4379446D 		.ascii	"CyDmaTdSetAddress\000"
+ 2469      61546453 
+ 2469      65744164 
+ 2469      64726573 
+ 2469      7300
+ 2470              	.LASF48:
+ 2471 0034 69707269 		.ascii	"iprintf\000"
+ 2471      6E746600 
+ 2472              	.LASF54:
+ 2473 003c 50574D5F 		.ascii	"PWM_1_Start\000"
+ 2473      315F5374 
+ 2473      61727400 
+ 2474              	.LASF21:
+ 2475 0048 7673796E 		.ascii	"vsyncISR\000"
+ 2475      63495352 
+ 2475      00
+ 2476              	.LASF0:
+ 2477 0051 7369676E 		.ascii	"signed char\000"
+ 2477      65642063 
+ 2477      68617200 
+ 2478              	.LASF28:
+ 2479 005d 6D617858 		.ascii	"maxX\000"
+ 2479      00
+ 2480              	.LASF29:
+ 2481 0062 6D617859 		.ascii	"maxY\000"
+ 2481      00
+ 2482              	.LASF34:
+ 2483 0067 74656D70 		.ascii	"temp\000"
+ 2483      00
+ 2484              	.LASF2:
+ 2485 006c 73686F72 		.ascii	"short int\000"
+ 2485      7420696E 
+ 2485      7400
+ 2486              	.LASF57:
+ 2487 0076 4379446D 		.ascii	"CyDmaTdSetConfiguration\000"
+ 2487      61546453 
+ 2487      6574436F 
+ 2487      6E666967 
+ 2487      75726174 
+ 2488              	.LASF45:
+ 2489 008e 4379446D 		.ascii	"CyDmaChEnable\000"
+ 2489      61436845 
+ 2489      6E61626C 
+ 2489      6500
+ 2490              	.LASF19:
+ 2491 009c 73697A65 		.ascii	"sizetype\000"
+ 2491      74797065 
+ 2491      00
+ 2492              	.LASF43:
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 52
+
+
+ 2493 00a5 4379446D 		.ascii	"CyDmaChSetRequest\000"
+ 2493      61436853 
+ 2493      65745265 
+ 2493      71756573 
+ 2493      7400
+ 2494              	.LASF66:
+ 2495 00b7 50696E5F 		.ascii	"Pin_8_Read\000"
+ 2495      385F5265 
+ 2495      616400
+ 2496              	.LASF76:
+ 2497 00c2 6D61696E 		.ascii	"main\000"
+ 2497      00
+ 2498              	.LASF59:
+ 2499 00c7 4C43445F 		.ascii	"LCD_Data_Reg_Write\000"
+ 2499      44617461 
+ 2499      5F526567 
+ 2499      5F577269 
+ 2499      746500
+ 2500              	.LASF39:
+ 2501 00da 53686966 		.ascii	"ShiftReg_DMA_TD\000"
+ 2501      74526567 
+ 2501      5F444D41 
+ 2501      5F544400 
+ 2502              	.LASF64:
+ 2503 00ea 50697865 		.ascii	"Pixel_ShiftReg_1_Start\000"
+ 2503      6C5F5368 
+ 2503      69667452 
+ 2503      65675F31 
+ 2503      5F537461 
+ 2504              	.LASF62:
+ 2505 0101 50697865 		.ascii	"Pixel_ISR_StartEx\000"
+ 2505      6C5F4953 
+ 2505      525F5374 
+ 2505      61727445 
+ 2505      7800
+ 2506              	.LASF12:
+ 2507 0113 75696E74 		.ascii	"uint16\000"
+ 2507      313600
+ 2508              	.LASF67:
+ 2509 011a 56444143 		.ascii	"VDAC8_1_Start\000"
+ 2509      385F315F 
+ 2509      53746172 
+ 2509      7400
+ 2510              	.LASF33:
+ 2511 0128 6C636450 		.ascii	"lcdPixels\000"
+ 2511      6978656C 
+ 2511      7300
+ 2512              	.LASF11:
+ 2513 0132 75696E74 		.ascii	"uint8\000"
+ 2513      3800
+ 2514              	.LASF32:
+ 2515 0138 6C636456 		.ascii	"lcdValue\000"
+ 2515      616C7565 
+ 2515      00
+ 2516              	.LASF71:
+ 2517 0141 55415254 		.ascii	"UART_1_Start\000"
+ 2517      5F315F53 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 53
+
+
+ 2517      74617274 
+ 2517      00
+ 2518              	.LASF14:
+ 2519 014e 666C6F61 		.ascii	"float\000"
+ 2519      7400
+ 2520              	.LASF6:
+ 2521 0154 6C6F6E67 		.ascii	"long long int\000"
+ 2521      206C6F6E 
+ 2521      6720696E 
+ 2521      7400
+ 2522              	.LASF36:
+ 2523 0162 444D415F 		.ascii	"DMA_Chan\000"
+ 2523      4368616E 
+ 2523      00
+ 2524              	.LASF22:
+ 2525 016b 70697865 		.ascii	"pixel\000"
+ 2525      6C00
+ 2526              	.LASF4:
+ 2527 0171 6C6F6E67 		.ascii	"long int\000"
+ 2527      20696E74 
+ 2527      00
+ 2528              	.LASF23:
+ 2529 017a 6F666673 		.ascii	"offset\000"
+ 2529      657400
+ 2530              	.LASF41:
+ 2531 0181 6D696459 		.ascii	"midY\000"
+ 2531      00
+ 2532              	.LASF37:
+ 2533 0186 444D415F 		.ascii	"DMA_TD\000"
+ 2533      544400
+ 2534              	.LASF68:
+ 2535 018d 56444143 		.ascii	"VDAC8_1_SetValue\000"
+ 2535      385F315F 
+ 2535      53657456 
+ 2535      616C7565 
+ 2535      00
+ 2536              	.LASF18:
+ 2537 019e 6C6F6E67 		.ascii	"long double\000"
+ 2537      20646F75 
+ 2537      626C6500 
+ 2538              	.LASF26:
+ 2539 01aa 6D696E58 		.ascii	"minX\000"
+ 2539      00
+ 2540              	.LASF27:
+ 2541 01af 6D696E59 		.ascii	"minY\000"
+ 2541      00
+ 2542              	.LASF1:
+ 2543 01b4 756E7369 		.ascii	"unsigned char\000"
+ 2543      676E6564 
+ 2543      20636861 
+ 2543      7200
+ 2544              	.LASF61:
+ 2545 01c2 54726967 		.ascii	"Trigger_Comp_Start\000"
+ 2545      6765725F 
+ 2545      436F6D70 
+ 2545      5F537461 
+ 2545      727400
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 54
+
+
+ 2546              	.LASF24:
+ 2547 01d5 78506978 		.ascii	"xPix\000"
+ 2547      00
+ 2548              	.LASF51:
+ 2549 01da 4C43445F 		.ascii	"LCD_RS_Write\000"
+ 2549      52535F57 
+ 2549      72697465 
+ 2549      00
+ 2550              	.LASF7:
+ 2551 01e7 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2551      206C6F6E 
+ 2551      6720756E 
+ 2551      7369676E 
+ 2551      65642069 
+ 2552              	.LASF42:
+ 2553 01fe 50697865 		.ascii	"Pixel_ShiftReg_GetIntStatus\000"
+ 2553      6C5F5368 
+ 2553      69667452 
+ 2553      65675F47 
+ 2553      6574496E 
+ 2554              	.LASF70:
+ 2555 021a 5653796E 		.ascii	"VSync_ISR_StartEx\000"
+ 2555      635F4953 
+ 2555      525F5374 
+ 2555      61727445 
+ 2555      7800
+ 2556              	.LASF8:
+ 2557 022c 756E7369 		.ascii	"unsigned int\000"
+ 2557      676E6564 
+ 2557      20696E74 
+ 2557      00
+ 2558              	.LASF20:
+ 2559 0239 70697865 		.ascii	"pixelInt\000"
+ 2559      6C496E74 
+ 2559      00
+ 2560              	.LASF3:
+ 2561 0242 73686F72 		.ascii	"short unsigned int\000"
+ 2561      7420756E 
+ 2561      7369676E 
+ 2561      65642069 
+ 2561      6E7400
+ 2562              	.LASF16:
+ 2563 0255 63686172 		.ascii	"char\000"
+ 2563      00
+ 2564              	.LASF10:
+ 2565 025a 696E7433 		.ascii	"int32_t\000"
+ 2565      325F7400 
+ 2566              	.LASF60:
+ 2567 0262 54726967 		.ascii	"Trigger_Reference_Start\000"
+ 2567      6765725F 
+ 2567      52656665 
+ 2567      72656E63 
+ 2567      655F5374 
+ 2568              	.LASF55:
+ 2569 027a 444D415F 		.ascii	"DMA_DmaInitialize\000"
+ 2569      446D6149 
+ 2569      6E697469 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 55
+
+
+ 2569      616C697A 
+ 2569      6500
+ 2570              	.LASF13:
+ 2571 028c 75696E74 		.ascii	"uint32\000"
+ 2571      333200
+ 2572              	.LASF73:
+ 2573 0293 6D61696E 		.ascii	"main.c\000"
+ 2573      2E6300
+ 2574              	.LASF17:
+ 2575 029a 72656738 		.ascii	"reg8\000"
+ 2575      00
+ 2576              	.LASF5:
+ 2577 029f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2577      20756E73 
+ 2577      69676E65 
+ 2577      6420696E 
+ 2577      7400
+ 2578              	.LASF15:
+ 2579 02b1 646F7562 		.ascii	"double\000"
+ 2579      6C6500
+ 2580              	.LASF25:
+ 2581 02b8 79506978 		.ascii	"yPix\000"
+ 2581      00
+ 2582              	.LASF74:
+ 2583 02bd 433A5C55 		.ascii	"C:\\Users\\jrdia\\OneDrive\\Sync\\Documents\\GitHub"
+ 2583      73657273 
+ 2583      5C6A7264 
+ 2583      69615C4F 
+ 2583      6E654472 
+ 2584 02ea 5C50536F 		.ascii	"\\PSoC-Composite-Decoder\\Composite_Decoder.cydsn\000"
+ 2584      432D436F 
+ 2584      6D706F73 
+ 2584      6974652D 
+ 2584      4465636F 
+ 2585              	.LASF30:
+ 2586 031a 666F756E 		.ascii	"found\000"
+ 2586      6400
+ 2587              	.LASF35:
+ 2588 0320 73696E65 		.ascii	"sineTable\000"
+ 2588      5461626C 
+ 2588      6500
+ 2589              	.LASF40:
+ 2590 032a 6D696458 		.ascii	"midX\000"
+ 2590      00
+ 2591              	.LASF44:
+ 2592 032f 4379446D 		.ascii	"CyDmaChGetRequest\000"
+ 2592      61436847 
+ 2592      65745265 
+ 2592      71756573 
+ 2592      7400
+ 2593              	.LASF50:
+ 2594 0341 4C43445F 		.ascii	"LCD_CS_Write\000"
+ 2594      43535F57 
+ 2594      72697465 
+ 2594      00
+ 2595              	.LASF9:
+ 2596 034e 5F5F696E 		.ascii	"__int32_t\000"
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 56
+
+
+ 2596      7433325F 
+ 2596      7400
+ 2597              	.LASF75:
+ 2598 0358 67657450 		.ascii	"getPixel\000"
+ 2598      6978656C 
+ 2598      00
+ 2599              	.LASF53:
+ 2600 0361 53686966 		.ascii	"ShiftReg_1_Start\000"
+ 2600      74526567 
+ 2600      5F315F53 
+ 2600      74617274 
+ 2600      00
+ 2601              	.LASF65:
+ 2602 0372 53686966 		.ascii	"ShiftReg_DMA_DmaInitialize\000"
+ 2602      74526567 
+ 2602      5F444D41 
+ 2602      5F446D61 
+ 2602      496E6974 
+ 2603              	.LASF46:
+ 2604 038d 4379446D 		.ascii	"CyDmaChSetInitialTd\000"
+ 2604      61436853 
+ 2604      6574496E 
+ 2604      69746961 
+ 2604      6C546400 
+ 2605              	.LASF31:
+ 2606 03a1 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2606      52784275 
+ 2606      66666572 
+ 2606      00
+ 2607              	.LASF72:
+ 2608 03ae 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2608      43313120 
+ 2608      352E342E 
+ 2608      31203230 
+ 2608      31363036 
+ 2609 03e1 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2609      20726576 
+ 2609      6973696F 
+ 2609      6E203233 
+ 2609      37373135 
+ 2610 0414 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2610      66756E63 
+ 2610      74696F6E 
+ 2610      2D736563 
+ 2610      74696F6E 
+ 2611              	.LASF47:
+ 2612 043c 43794465 		.ascii	"CyDelay\000"
+ 2612      6C617900 
+ 2613              	.LASF49:
+ 2614 0444 696E6974 		.ascii	"initLCD\000"
+ 2614      4C434400 
+ 2615              	.LASF63:
+ 2616 044c 50697865 		.ascii	"Pixel_ShiftReg_Start\000"
+ 2616      6C5F5368 
+ 2616      69667452 
+ 2616      65675F53 
+ 2616      74617274 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cc1Uv4Iv.s 			page 57
+
+
+ 2617              	.LASF52:
+ 2618 0461 4C43445F 		.ascii	"LCD_WR_REG_Write\000"
+ 2618      57525F52 
+ 2618      45475F57 
+ 2618      72697465 
+ 2618      00
+ 2619              	.LASF69:
+ 2620 0472 436F6D70 		.ascii	"Comp_1_Start\000"
+ 2620      5F315F53 
+ 2620      74617274 
+ 2620      00
+ 2621              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

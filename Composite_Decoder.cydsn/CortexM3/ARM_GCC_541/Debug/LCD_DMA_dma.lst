@@ -1,0 +1,982 @@
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"LCD_DMA_dma.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.LCD_DMA_DmaInitialize,"ax",%progbits
+  20              		.align	2
+  21              		.global	LCD_DMA_DmaInitialize
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	LCD_DMA_DmaInitialize, %function
+  25              	LCD_DMA_DmaInitialize:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\LCD_DMA_dma.c"
+   1:Generated_Source\PSoC5/LCD_DMA_dma.c **** /***************************************************************************
+   2:Generated_Source\PSoC5/LCD_DMA_dma.c **** * File Name: LCD_DMA_dma.c  
+   3:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Version 1.70
+   4:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+   5:Generated_Source\PSoC5/LCD_DMA_dma.c **** *  Description:
+   6:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   Provides an API for the DMAC component. The API includes functions
+   7:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   for the DMA controller, DMA channels and Transfer Descriptors.
+   8:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+   9:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+  10:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   Note:
+  11:Generated_Source\PSoC5/LCD_DMA_dma.c **** *     This module requires the developer to finish or fill in the auto
+  12:Generated_Source\PSoC5/LCD_DMA_dma.c **** *     generated funcions and setup the dma channel and TD's.
+  13:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+  14:Generated_Source\PSoC5/LCD_DMA_dma.c **** ********************************************************************************
+  15:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Copyright 2008-2010, Cypress Semiconductor Corporation.  All rights reserved.
+  16:Generated_Source\PSoC5/LCD_DMA_dma.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  17:Generated_Source\PSoC5/LCD_DMA_dma.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  18:Generated_Source\PSoC5/LCD_DMA_dma.c **** * the software package with which this file was provided.
+  19:Generated_Source\PSoC5/LCD_DMA_dma.c **** ********************************************************************************/
+  20:Generated_Source\PSoC5/LCD_DMA_dma.c **** #include <CYLIB.H>
+  21:Generated_Source\PSoC5/LCD_DMA_dma.c **** #include <CYDMAC.H>
+  22:Generated_Source\PSoC5/LCD_DMA_dma.c **** #include <LCD_DMA_dma.H>
+  23:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+  24:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+  25:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+  26:Generated_Source\PSoC5/LCD_DMA_dma.c **** /****************************************************************************
+  27:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  28:Generated_Source\PSoC5/LCD_DMA_dma.c **** * The following defines are available in Cyfitter.h
+  29:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  30:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 2
+
+
+  31:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  32:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__DRQ_CTL_REG
+  33:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  34:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  35:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__DRQ_NUMBER
+  36:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  37:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Number of TD's used by this channel.
+  38:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__NUMBEROF_TDS
+  39:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  40:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Priority of this channel.
+  41:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__PRIORITY
+  42:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  43:Generated_Source\PSoC5/LCD_DMA_dma.c **** * True if LCD_DMA_TERMIN_SEL is used.
+  44:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__TERMIN_EN
+  45:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  46:Generated_Source\PSoC5/LCD_DMA_dma.c **** * TERMIN interrupt line to signal terminate.
+  47:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__TERMIN_SEL
+  48:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  49:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  50:Generated_Source\PSoC5/LCD_DMA_dma.c **** * True if LCD_DMA_TERMOUT0_SEL is used.
+  51:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__TERMOUT0_EN
+  52:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  53:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  54:Generated_Source\PSoC5/LCD_DMA_dma.c **** * TERMOUT0 interrupt line to signal completion.
+  55:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__TERMOUT0_SEL
+  56:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  57:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  58:Generated_Source\PSoC5/LCD_DMA_dma.c **** * True if LCD_DMA_TERMOUT1_SEL is used.
+  59:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__TERMOUT1_EN
+  60:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  61:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  62:Generated_Source\PSoC5/LCD_DMA_dma.c **** * TERMOUT1 interrupt line to signal completion.
+  63:Generated_Source\PSoC5/LCD_DMA_dma.c **** * LCD_DMA__TERMOUT1_SEL
+  64:Generated_Source\PSoC5/LCD_DMA_dma.c **** * 
+  65:Generated_Source\PSoC5/LCD_DMA_dma.c **** ****************************************************************************/
+  66:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+  67:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+  68:Generated_Source\PSoC5/LCD_DMA_dma.c **** /* Zero based index of LCD_DMA dma channel */
+  69:Generated_Source\PSoC5/LCD_DMA_dma.c **** uint8 LCD_DMA_DmaHandle = DMA_INVALID_CHANNEL;
+  70:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+  71:Generated_Source\PSoC5/LCD_DMA_dma.c **** /*********************************************************************
+  72:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Function Name: uint8 LCD_DMA_DmaInitalize
+  73:Generated_Source\PSoC5/LCD_DMA_dma.c **** **********************************************************************
+  74:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Summary:
+  75:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   Allocates and initialises a channel of the DMAC to be used by the
+  76:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   caller.
+  77:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+  78:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Parameters:
+  79:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   BurstCount.
+  80:Generated_Source\PSoC5/LCD_DMA_dma.c **** *       
+  81:Generated_Source\PSoC5/LCD_DMA_dma.c **** *       
+  82:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   ReqestPerBurst.
+  83:Generated_Source\PSoC5/LCD_DMA_dma.c **** *       
+  84:Generated_Source\PSoC5/LCD_DMA_dma.c **** *       
+  85:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   UpperSrcAddress.
+  86:Generated_Source\PSoC5/LCD_DMA_dma.c **** *       
+  87:Generated_Source\PSoC5/LCD_DMA_dma.c **** *       
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 3
+
+
+  88:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   UpperDestAddress.
+  89:Generated_Source\PSoC5/LCD_DMA_dma.c **** *       
+  90:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+  91:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Return:
+  92:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   The channel that can be used by the caller for DMA activity.
+  93:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   DMA_INVALID_CHANNEL (0xFF) if there are no channels left. 
+  94:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+  95:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+  96:Generated_Source\PSoC5/LCD_DMA_dma.c **** *******************************************************************/
+  97:Generated_Source\PSoC5/LCD_DMA_dma.c **** uint8 LCD_DMA_DmaInitialize(uint8 BurstCount, uint8 ReqestPerBurst, uint16 UpperSrcAddress, uint16 
+  98:Generated_Source\PSoC5/LCD_DMA_dma.c **** {
+  28              		.loc 1 98 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  34              		.cfi_def_cfa_offset 20
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 83B0     		sub	sp, sp, #12
+  41              		.cfi_def_cfa_offset 32
+  42 0004 1646     		mov	r6, r2
+  43 0006 1F46     		mov	r7, r3
+  99:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+ 100:Generated_Source\PSoC5/LCD_DMA_dma.c ****     /* Allocate a DMA channel. */
+ 101:Generated_Source\PSoC5/LCD_DMA_dma.c ****     LCD_DMA_DmaHandle = (uint8)LCD_DMA__DRQ_NUMBER;
+  44              		.loc 1 101 0
+  45 0008 0B4D     		ldr	r5, .L3
+  46 000a 0024     		movs	r4, #0
+  47 000c 2C70     		strb	r4, [r5]
+ 102:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+ 103:Generated_Source\PSoC5/LCD_DMA_dma.c ****     /* Configure the channel. */
+ 104:Generated_Source\PSoC5/LCD_DMA_dma.c ****     (void)CyDmaChSetConfiguration(LCD_DMA_DmaHandle,
+  48              		.loc 1 104 0
+  49 000e 0194     		str	r4, [sp, #4]
+  50 0010 0094     		str	r4, [sp]
+  51 0012 2346     		mov	r3, r4
+  52              	.LVL1:
+  53 0014 0A46     		mov	r2, r1
+  54              	.LVL2:
+  55 0016 0146     		mov	r1, r0
+  56              	.LVL3:
+  57 0018 2046     		mov	r0, r4
+  58              	.LVL4:
+  59 001a FFF7FEFF 		bl	CyDmaChSetConfiguration
+  60              	.LVL5:
+ 105:Generated_Source\PSoC5/LCD_DMA_dma.c ****                                   BurstCount,
+ 106:Generated_Source\PSoC5/LCD_DMA_dma.c ****                                   ReqestPerBurst,
+ 107:Generated_Source\PSoC5/LCD_DMA_dma.c ****                                   (uint8)LCD_DMA__TERMOUT0_SEL,
+ 108:Generated_Source\PSoC5/LCD_DMA_dma.c ****                                   (uint8)LCD_DMA__TERMOUT1_SEL,
+ 109:Generated_Source\PSoC5/LCD_DMA_dma.c ****                                   (uint8)LCD_DMA__TERMIN_SEL);
+ 110:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+ 111:Generated_Source\PSoC5/LCD_DMA_dma.c ****     /* Set the extended address for the transfers */
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 4
+
+
+ 112:Generated_Source\PSoC5/LCD_DMA_dma.c ****     (void)CyDmaChSetExtendedAddress(LCD_DMA_DmaHandle, UpperSrcAddress, UpperDestAddress);
+  61              		.loc 1 112 0
+  62 001e 3A46     		mov	r2, r7
+  63 0020 3146     		mov	r1, r6
+  64 0022 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+  65 0024 FFF7FEFF 		bl	CyDmaChSetExtendedAddress
+  66              	.LVL6:
+ 113:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+ 114:Generated_Source\PSoC5/LCD_DMA_dma.c ****     /* Set the priority for this channel */
+ 115:Generated_Source\PSoC5/LCD_DMA_dma.c ****     (void)CyDmaChPriority(LCD_DMA_DmaHandle, (uint8)LCD_DMA__PRIORITY);
+  67              		.loc 1 115 0
+  68 0028 2146     		mov	r1, r4
+  69 002a 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+  70 002c FFF7FEFF 		bl	CyDmaChPriority
+  71              	.LVL7:
+ 116:Generated_Source\PSoC5/LCD_DMA_dma.c ****     
+ 117:Generated_Source\PSoC5/LCD_DMA_dma.c ****     return LCD_DMA_DmaHandle;
+ 118:Generated_Source\PSoC5/LCD_DMA_dma.c **** }
+  72              		.loc 1 118 0
+  73 0030 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+  74 0032 03B0     		add	sp, sp, #12
+  75              		.cfi_def_cfa_offset 20
+  76              		@ sp needed
+  77 0034 F0BD     		pop	{r4, r5, r6, r7, pc}
+  78              	.L4:
+  79 0036 00BF     		.align	2
+  80              	.L3:
+  81 0038 00000000 		.word	.LANCHOR0
+  82              		.cfi_endproc
+  83              	.LFE0:
+  84              		.size	LCD_DMA_DmaInitialize, .-LCD_DMA_DmaInitialize
+  85              		.section	.text.LCD_DMA_DmaRelease,"ax",%progbits
+  86              		.align	2
+  87              		.global	LCD_DMA_DmaRelease
+  88              		.thumb
+  89              		.thumb_func
+  90              		.type	LCD_DMA_DmaRelease, %function
+  91              	LCD_DMA_DmaRelease:
+  92              	.LFB1:
+ 119:Generated_Source\PSoC5/LCD_DMA_dma.c **** 
+ 120:Generated_Source\PSoC5/LCD_DMA_dma.c **** /*********************************************************************
+ 121:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Function Name: void LCD_DMA_DmaRelease
+ 122:Generated_Source\PSoC5/LCD_DMA_dma.c **** **********************************************************************
+ 123:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Summary:
+ 124:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   Frees the channel associated with LCD_DMA.
+ 125:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+ 126:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+ 127:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Parameters:
+ 128:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   void.
+ 129:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+ 130:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+ 131:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+ 132:Generated_Source\PSoC5/LCD_DMA_dma.c **** * Return:
+ 133:Generated_Source\PSoC5/LCD_DMA_dma.c **** *   void.
+ 134:Generated_Source\PSoC5/LCD_DMA_dma.c **** *
+ 135:Generated_Source\PSoC5/LCD_DMA_dma.c **** *******************************************************************/
+ 136:Generated_Source\PSoC5/LCD_DMA_dma.c **** void LCD_DMA_DmaRelease(void) 
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 5
+
+
+ 137:Generated_Source\PSoC5/LCD_DMA_dma.c **** {
+  93              		.loc 1 137 0
+  94              		.cfi_startproc
+  95              		@ args = 0, pretend = 0, frame = 0
+  96              		@ frame_needed = 0, uses_anonymous_args = 0
+  97 0000 08B5     		push	{r3, lr}
+  98              		.cfi_def_cfa_offset 8
+  99              		.cfi_offset 3, -8
+ 100              		.cfi_offset 14, -4
+ 138:Generated_Source\PSoC5/LCD_DMA_dma.c ****     /* Disable the channel */
+ 139:Generated_Source\PSoC5/LCD_DMA_dma.c ****     (void)CyDmaChDisable(LCD_DMA_DmaHandle);
+ 101              		.loc 1 139 0
+ 102 0002 024B     		ldr	r3, .L7
+ 103 0004 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 104 0006 FFF7FEFF 		bl	CyDmaChDisable
+ 105              	.LVL8:
+ 106 000a 08BD     		pop	{r3, pc}
+ 107              	.L8:
+ 108              		.align	2
+ 109              	.L7:
+ 110 000c 00000000 		.word	.LANCHOR0
+ 111              		.cfi_endproc
+ 112              	.LFE1:
+ 113              		.size	LCD_DMA_DmaRelease, .-LCD_DMA_DmaRelease
+ 114              		.global	LCD_DMA_DmaHandle
+ 115              		.data
+ 116              		.set	.LANCHOR0,. + 0
+ 117              		.type	LCD_DMA_DmaHandle, %object
+ 118              		.size	LCD_DMA_DmaHandle, 1
+ 119              	LCD_DMA_DmaHandle:
+ 120 0000 FF       		.byte	-1
+ 121              		.text
+ 122              	.Letext0:
+ 123              		.file 2 "Generated_Source\\PSoC5/cytypes.h"
+ 124              		.file 3 "Generated_Source\\PSoC5/CYDMAC.H"
+ 125              		.section	.debug_info,"",%progbits
+ 126              	.Ldebug_info0:
+ 127 0000 A7010000 		.4byte	0x1a7
+ 128 0004 0400     		.2byte	0x4
+ 129 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 130 000a 04       		.byte	0x4
+ 131 000b 01       		.uleb128 0x1
+ 132 000c 7B000000 		.4byte	.LASF24
+ 133 0010 0C       		.byte	0xc
+ 134 0011 CA010000 		.4byte	.LASF25
+ 135 0015 2C010000 		.4byte	.LASF26
+ 136 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 137 001d 00000000 		.4byte	0
+ 138 0021 00000000 		.4byte	.Ldebug_line0
+ 139 0025 02       		.uleb128 0x2
+ 140 0026 04       		.byte	0x4
+ 141 0027 05       		.byte	0x5
+ 142 0028 696E7400 		.ascii	"int\000"
+ 143 002c 03       		.uleb128 0x3
+ 144 002d 04       		.byte	0x4
+ 145 002e 07       		.byte	0x7
+ 146 002f A6010000 		.4byte	.LASF0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 6
+
+
+ 147 0033 03       		.uleb128 0x3
+ 148 0034 08       		.byte	0x8
+ 149 0035 05       		.byte	0x5
+ 150 0036 09020000 		.4byte	.LASF1
+ 151 003a 03       		.uleb128 0x3
+ 152 003b 08       		.byte	0x8
+ 153 003c 04       		.byte	0x4
+ 154 003d 5F020000 		.4byte	.LASF2
+ 155 0041 03       		.uleb128 0x3
+ 156 0042 01       		.byte	0x1
+ 157 0043 06       		.byte	0x6
+ 158 0044 6B020000 		.4byte	.LASF3
+ 159 0048 03       		.uleb128 0x3
+ 160 0049 01       		.byte	0x1
+ 161 004a 08       		.byte	0x8
+ 162 004b 6D000000 		.4byte	.LASF4
+ 163 004f 03       		.uleb128 0x3
+ 164 0050 02       		.byte	0x2
+ 165 0051 05       		.byte	0x5
+ 166 0052 36020000 		.4byte	.LASF5
+ 167 0056 03       		.uleb128 0x3
+ 168 0057 02       		.byte	0x2
+ 169 0058 07       		.byte	0x7
+ 170 0059 41000000 		.4byte	.LASF6
+ 171 005d 03       		.uleb128 0x3
+ 172 005e 04       		.byte	0x4
+ 173 005f 05       		.byte	0x5
+ 174 0060 40020000 		.4byte	.LASF7
+ 175 0064 03       		.uleb128 0x3
+ 176 0065 04       		.byte	0x4
+ 177 0066 07       		.byte	0x7
+ 178 0067 14010000 		.4byte	.LASF8
+ 179 006b 03       		.uleb128 0x3
+ 180 006c 08       		.byte	0x8
+ 181 006d 07       		.byte	0x7
+ 182 006e B3010000 		.4byte	.LASF9
+ 183 0072 03       		.uleb128 0x3
+ 184 0073 04       		.byte	0x4
+ 185 0074 07       		.byte	0x7
+ 186 0075 00020000 		.4byte	.LASF10
+ 187 0079 03       		.uleb128 0x3
+ 188 007a 01       		.byte	0x1
+ 189 007b 08       		.byte	0x8
+ 190 007c 31020000 		.4byte	.LASF11
+ 191 0080 04       		.uleb128 0x4
+ 192 0081 26010000 		.4byte	.LASF12
+ 193 0085 02       		.byte	0x2
+ 194 0086 9201     		.2byte	0x192
+ 195 0088 48000000 		.4byte	0x48
+ 196 008c 04       		.uleb128 0x4
+ 197 008d 9F010000 		.4byte	.LASF13
+ 198 0091 02       		.byte	0x2
+ 199 0092 9301     		.2byte	0x193
+ 200 0094 56000000 		.4byte	0x56
+ 201 0098 03       		.uleb128 0x3
+ 202 0099 04       		.byte	0x4
+ 203 009a 04       		.byte	0x4
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 7
+
+
+ 204 009b 67000000 		.4byte	.LASF14
+ 205 009f 03       		.uleb128 0x3
+ 206 00a0 08       		.byte	0x8
+ 207 00a1 04       		.byte	0x4
+ 208 00a2 98010000 		.4byte	.LASF15
+ 209 00a6 05       		.uleb128 0x5
+ 210 00a7 49020000 		.4byte	.LASF27
+ 211 00ab 01       		.byte	0x1
+ 212 00ac 61       		.byte	0x61
+ 213 00ad 80000000 		.4byte	0x80
+ 214 00b1 00000000 		.4byte	.LFB0
+ 215 00b5 3C000000 		.4byte	.LFE0-.LFB0
+ 216 00b9 01       		.uleb128 0x1
+ 217 00ba 9C       		.byte	0x9c
+ 218 00bb 4E010000 		.4byte	0x14e
+ 219 00bf 06       		.uleb128 0x6
+ 220 00c0 09010000 		.4byte	.LASF16
+ 221 00c4 01       		.byte	0x1
+ 222 00c5 61       		.byte	0x61
+ 223 00c6 80000000 		.4byte	0x80
+ 224 00ca 00000000 		.4byte	.LLST0
+ 225 00ce 06       		.uleb128 0x6
+ 226 00cf 32000000 		.4byte	.LASF17
+ 227 00d3 01       		.byte	0x1
+ 228 00d4 61       		.byte	0x61
+ 229 00d5 80000000 		.4byte	0x80
+ 230 00d9 21000000 		.4byte	.LLST1
+ 231 00dd 06       		.uleb128 0x6
+ 232 00de 12000000 		.4byte	.LASF18
+ 233 00e2 01       		.byte	0x1
+ 234 00e3 61       		.byte	0x61
+ 235 00e4 8C000000 		.4byte	0x8c
+ 236 00e8 42000000 		.4byte	.LLST2
+ 237 00ec 06       		.uleb128 0x6
+ 238 00ed EF010000 		.4byte	.LASF19
+ 239 00f1 01       		.byte	0x1
+ 240 00f2 61       		.byte	0x61
+ 241 00f3 8C000000 		.4byte	0x8c
+ 242 00f7 63000000 		.4byte	.LLST3
+ 243 00fb 07       		.uleb128 0x7
+ 244 00fc 1E000000 		.4byte	.LVL5
+ 245 0100 7E010000 		.4byte	0x17e
+ 246 0104 23010000 		.4byte	0x123
+ 247 0108 08       		.uleb128 0x8
+ 248 0109 01       		.uleb128 0x1
+ 249 010a 50       		.byte	0x50
+ 250 010b 02       		.uleb128 0x2
+ 251 010c 74       		.byte	0x74
+ 252 010d 00       		.sleb128 0
+ 253 010e 08       		.uleb128 0x8
+ 254 010f 01       		.uleb128 0x1
+ 255 0110 53       		.byte	0x53
+ 256 0111 02       		.uleb128 0x2
+ 257 0112 74       		.byte	0x74
+ 258 0113 00       		.sleb128 0
+ 259 0114 08       		.uleb128 0x8
+ 260 0115 02       		.uleb128 0x2
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 8
+
+
+ 261 0116 7D       		.byte	0x7d
+ 262 0117 00       		.sleb128 0
+ 263 0118 02       		.uleb128 0x2
+ 264 0119 74       		.byte	0x74
+ 265 011a 00       		.sleb128 0
+ 266 011b 08       		.uleb128 0x8
+ 267 011c 02       		.uleb128 0x2
+ 268 011d 7D       		.byte	0x7d
+ 269 011e 04       		.sleb128 4
+ 270 011f 02       		.uleb128 0x2
+ 271 0120 74       		.byte	0x74
+ 272 0121 00       		.sleb128 0
+ 273 0122 00       		.byte	0
+ 274 0123 07       		.uleb128 0x7
+ 275 0124 28000000 		.4byte	.LVL6
+ 276 0128 89010000 		.4byte	0x189
+ 277 012c 3D010000 		.4byte	0x13d
+ 278 0130 08       		.uleb128 0x8
+ 279 0131 01       		.uleb128 0x1
+ 280 0132 51       		.byte	0x51
+ 281 0133 02       		.uleb128 0x2
+ 282 0134 76       		.byte	0x76
+ 283 0135 00       		.sleb128 0
+ 284 0136 08       		.uleb128 0x8
+ 285 0137 01       		.uleb128 0x1
+ 286 0138 52       		.byte	0x52
+ 287 0139 02       		.uleb128 0x2
+ 288 013a 77       		.byte	0x77
+ 289 013b 00       		.sleb128 0
+ 290 013c 00       		.byte	0
+ 291 013d 09       		.uleb128 0x9
+ 292 013e 30000000 		.4byte	.LVL7
+ 293 0142 94010000 		.4byte	0x194
+ 294 0146 08       		.uleb128 0x8
+ 295 0147 01       		.uleb128 0x1
+ 296 0148 51       		.byte	0x51
+ 297 0149 02       		.uleb128 0x2
+ 298 014a 74       		.byte	0x74
+ 299 014b 00       		.sleb128 0
+ 300 014c 00       		.byte	0
+ 301 014d 00       		.byte	0
+ 302 014e 0A       		.uleb128 0xa
+ 303 014f 54000000 		.4byte	.LASF28
+ 304 0153 01       		.byte	0x1
+ 305 0154 88       		.byte	0x88
+ 306 0155 00000000 		.4byte	.LFB1
+ 307 0159 10000000 		.4byte	.LFE1-.LFB1
+ 308 015d 01       		.uleb128 0x1
+ 309 015e 9C       		.byte	0x9c
+ 310 015f 6D010000 		.4byte	0x16d
+ 311 0163 0B       		.uleb128 0xb
+ 312 0164 0A000000 		.4byte	.LVL8
+ 313 0168 9F010000 		.4byte	0x19f
+ 314 016c 00       		.byte	0
+ 315 016d 0C       		.uleb128 0xc
+ 316 016e 00000000 		.4byte	.LASF29
+ 317 0172 01       		.byte	0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 9
+
+
+ 318 0173 45       		.byte	0x45
+ 319 0174 80000000 		.4byte	0x80
+ 320 0178 05       		.uleb128 0x5
+ 321 0179 03       		.byte	0x3
+ 322 017a 00000000 		.4byte	LCD_DMA_DmaHandle
+ 323 017e 0D       		.uleb128 0xd
+ 324 017f 86020000 		.4byte	.LASF20
+ 325 0183 86020000 		.4byte	.LASF20
+ 326 0187 03       		.byte	0x3
+ 327 0188 33       		.byte	0x33
+ 328 0189 0D       		.uleb128 0xd
+ 329 018a 17020000 		.4byte	.LASF21
+ 330 018e 17020000 		.4byte	.LASF21
+ 331 0192 03       		.byte	0x3
+ 332 0193 2D       		.byte	0x2d
+ 333 0194 0D       		.uleb128 0xd
+ 334 0195 22000000 		.4byte	.LASF22
+ 335 0199 22000000 		.4byte	.LASF22
+ 336 019d 03       		.byte	0x3
+ 337 019e 2C       		.byte	0x2c
+ 338 019f 0D       		.uleb128 0xd
+ 339 01a0 77020000 		.4byte	.LASF23
+ 340 01a4 77020000 		.4byte	.LASF23
+ 341 01a8 03       		.byte	0x3
+ 342 01a9 2A       		.byte	0x2a
+ 343 01aa 00       		.byte	0
+ 344              		.section	.debug_abbrev,"",%progbits
+ 345              	.Ldebug_abbrev0:
+ 346 0000 01       		.uleb128 0x1
+ 347 0001 11       		.uleb128 0x11
+ 348 0002 01       		.byte	0x1
+ 349 0003 25       		.uleb128 0x25
+ 350 0004 0E       		.uleb128 0xe
+ 351 0005 13       		.uleb128 0x13
+ 352 0006 0B       		.uleb128 0xb
+ 353 0007 03       		.uleb128 0x3
+ 354 0008 0E       		.uleb128 0xe
+ 355 0009 1B       		.uleb128 0x1b
+ 356 000a 0E       		.uleb128 0xe
+ 357 000b 55       		.uleb128 0x55
+ 358 000c 17       		.uleb128 0x17
+ 359 000d 11       		.uleb128 0x11
+ 360 000e 01       		.uleb128 0x1
+ 361 000f 10       		.uleb128 0x10
+ 362 0010 17       		.uleb128 0x17
+ 363 0011 00       		.byte	0
+ 364 0012 00       		.byte	0
+ 365 0013 02       		.uleb128 0x2
+ 366 0014 24       		.uleb128 0x24
+ 367 0015 00       		.byte	0
+ 368 0016 0B       		.uleb128 0xb
+ 369 0017 0B       		.uleb128 0xb
+ 370 0018 3E       		.uleb128 0x3e
+ 371 0019 0B       		.uleb128 0xb
+ 372 001a 03       		.uleb128 0x3
+ 373 001b 08       		.uleb128 0x8
+ 374 001c 00       		.byte	0
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 10
+
+
+ 375 001d 00       		.byte	0
+ 376 001e 03       		.uleb128 0x3
+ 377 001f 24       		.uleb128 0x24
+ 378 0020 00       		.byte	0
+ 379 0021 0B       		.uleb128 0xb
+ 380 0022 0B       		.uleb128 0xb
+ 381 0023 3E       		.uleb128 0x3e
+ 382 0024 0B       		.uleb128 0xb
+ 383 0025 03       		.uleb128 0x3
+ 384 0026 0E       		.uleb128 0xe
+ 385 0027 00       		.byte	0
+ 386 0028 00       		.byte	0
+ 387 0029 04       		.uleb128 0x4
+ 388 002a 16       		.uleb128 0x16
+ 389 002b 00       		.byte	0
+ 390 002c 03       		.uleb128 0x3
+ 391 002d 0E       		.uleb128 0xe
+ 392 002e 3A       		.uleb128 0x3a
+ 393 002f 0B       		.uleb128 0xb
+ 394 0030 3B       		.uleb128 0x3b
+ 395 0031 05       		.uleb128 0x5
+ 396 0032 49       		.uleb128 0x49
+ 397 0033 13       		.uleb128 0x13
+ 398 0034 00       		.byte	0
+ 399 0035 00       		.byte	0
+ 400 0036 05       		.uleb128 0x5
+ 401 0037 2E       		.uleb128 0x2e
+ 402 0038 01       		.byte	0x1
+ 403 0039 3F       		.uleb128 0x3f
+ 404 003a 19       		.uleb128 0x19
+ 405 003b 03       		.uleb128 0x3
+ 406 003c 0E       		.uleb128 0xe
+ 407 003d 3A       		.uleb128 0x3a
+ 408 003e 0B       		.uleb128 0xb
+ 409 003f 3B       		.uleb128 0x3b
+ 410 0040 0B       		.uleb128 0xb
+ 411 0041 27       		.uleb128 0x27
+ 412 0042 19       		.uleb128 0x19
+ 413 0043 49       		.uleb128 0x49
+ 414 0044 13       		.uleb128 0x13
+ 415 0045 11       		.uleb128 0x11
+ 416 0046 01       		.uleb128 0x1
+ 417 0047 12       		.uleb128 0x12
+ 418 0048 06       		.uleb128 0x6
+ 419 0049 40       		.uleb128 0x40
+ 420 004a 18       		.uleb128 0x18
+ 421 004b 9742     		.uleb128 0x2117
+ 422 004d 19       		.uleb128 0x19
+ 423 004e 01       		.uleb128 0x1
+ 424 004f 13       		.uleb128 0x13
+ 425 0050 00       		.byte	0
+ 426 0051 00       		.byte	0
+ 427 0052 06       		.uleb128 0x6
+ 428 0053 05       		.uleb128 0x5
+ 429 0054 00       		.byte	0
+ 430 0055 03       		.uleb128 0x3
+ 431 0056 0E       		.uleb128 0xe
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 11
+
+
+ 432 0057 3A       		.uleb128 0x3a
+ 433 0058 0B       		.uleb128 0xb
+ 434 0059 3B       		.uleb128 0x3b
+ 435 005a 0B       		.uleb128 0xb
+ 436 005b 49       		.uleb128 0x49
+ 437 005c 13       		.uleb128 0x13
+ 438 005d 02       		.uleb128 0x2
+ 439 005e 17       		.uleb128 0x17
+ 440 005f 00       		.byte	0
+ 441 0060 00       		.byte	0
+ 442 0061 07       		.uleb128 0x7
+ 443 0062 898201   		.uleb128 0x4109
+ 444 0065 01       		.byte	0x1
+ 445 0066 11       		.uleb128 0x11
+ 446 0067 01       		.uleb128 0x1
+ 447 0068 31       		.uleb128 0x31
+ 448 0069 13       		.uleb128 0x13
+ 449 006a 01       		.uleb128 0x1
+ 450 006b 13       		.uleb128 0x13
+ 451 006c 00       		.byte	0
+ 452 006d 00       		.byte	0
+ 453 006e 08       		.uleb128 0x8
+ 454 006f 8A8201   		.uleb128 0x410a
+ 455 0072 00       		.byte	0
+ 456 0073 02       		.uleb128 0x2
+ 457 0074 18       		.uleb128 0x18
+ 458 0075 9142     		.uleb128 0x2111
+ 459 0077 18       		.uleb128 0x18
+ 460 0078 00       		.byte	0
+ 461 0079 00       		.byte	0
+ 462 007a 09       		.uleb128 0x9
+ 463 007b 898201   		.uleb128 0x4109
+ 464 007e 01       		.byte	0x1
+ 465 007f 11       		.uleb128 0x11
+ 466 0080 01       		.uleb128 0x1
+ 467 0081 31       		.uleb128 0x31
+ 468 0082 13       		.uleb128 0x13
+ 469 0083 00       		.byte	0
+ 470 0084 00       		.byte	0
+ 471 0085 0A       		.uleb128 0xa
+ 472 0086 2E       		.uleb128 0x2e
+ 473 0087 01       		.byte	0x1
+ 474 0088 3F       		.uleb128 0x3f
+ 475 0089 19       		.uleb128 0x19
+ 476 008a 03       		.uleb128 0x3
+ 477 008b 0E       		.uleb128 0xe
+ 478 008c 3A       		.uleb128 0x3a
+ 479 008d 0B       		.uleb128 0xb
+ 480 008e 3B       		.uleb128 0x3b
+ 481 008f 0B       		.uleb128 0xb
+ 482 0090 27       		.uleb128 0x27
+ 483 0091 19       		.uleb128 0x19
+ 484 0092 11       		.uleb128 0x11
+ 485 0093 01       		.uleb128 0x1
+ 486 0094 12       		.uleb128 0x12
+ 487 0095 06       		.uleb128 0x6
+ 488 0096 40       		.uleb128 0x40
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 12
+
+
+ 489 0097 18       		.uleb128 0x18
+ 490 0098 9742     		.uleb128 0x2117
+ 491 009a 19       		.uleb128 0x19
+ 492 009b 01       		.uleb128 0x1
+ 493 009c 13       		.uleb128 0x13
+ 494 009d 00       		.byte	0
+ 495 009e 00       		.byte	0
+ 496 009f 0B       		.uleb128 0xb
+ 497 00a0 898201   		.uleb128 0x4109
+ 498 00a3 00       		.byte	0
+ 499 00a4 11       		.uleb128 0x11
+ 500 00a5 01       		.uleb128 0x1
+ 501 00a6 31       		.uleb128 0x31
+ 502 00a7 13       		.uleb128 0x13
+ 503 00a8 00       		.byte	0
+ 504 00a9 00       		.byte	0
+ 505 00aa 0C       		.uleb128 0xc
+ 506 00ab 34       		.uleb128 0x34
+ 507 00ac 00       		.byte	0
+ 508 00ad 03       		.uleb128 0x3
+ 509 00ae 0E       		.uleb128 0xe
+ 510 00af 3A       		.uleb128 0x3a
+ 511 00b0 0B       		.uleb128 0xb
+ 512 00b1 3B       		.uleb128 0x3b
+ 513 00b2 0B       		.uleb128 0xb
+ 514 00b3 49       		.uleb128 0x49
+ 515 00b4 13       		.uleb128 0x13
+ 516 00b5 3F       		.uleb128 0x3f
+ 517 00b6 19       		.uleb128 0x19
+ 518 00b7 02       		.uleb128 0x2
+ 519 00b8 18       		.uleb128 0x18
+ 520 00b9 00       		.byte	0
+ 521 00ba 00       		.byte	0
+ 522 00bb 0D       		.uleb128 0xd
+ 523 00bc 2E       		.uleb128 0x2e
+ 524 00bd 00       		.byte	0
+ 525 00be 3F       		.uleb128 0x3f
+ 526 00bf 19       		.uleb128 0x19
+ 527 00c0 3C       		.uleb128 0x3c
+ 528 00c1 19       		.uleb128 0x19
+ 529 00c2 6E       		.uleb128 0x6e
+ 530 00c3 0E       		.uleb128 0xe
+ 531 00c4 03       		.uleb128 0x3
+ 532 00c5 0E       		.uleb128 0xe
+ 533 00c6 3A       		.uleb128 0x3a
+ 534 00c7 0B       		.uleb128 0xb
+ 535 00c8 3B       		.uleb128 0x3b
+ 536 00c9 0B       		.uleb128 0xb
+ 537 00ca 00       		.byte	0
+ 538 00cb 00       		.byte	0
+ 539 00cc 00       		.byte	0
+ 540              		.section	.debug_loc,"",%progbits
+ 541              	.Ldebug_loc0:
+ 542              	.LLST0:
+ 543 0000 00000000 		.4byte	.LVL0
+ 544 0004 1A000000 		.4byte	.LVL4
+ 545 0008 0100     		.2byte	0x1
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 13
+
+
+ 546 000a 50       		.byte	0x50
+ 547 000b 1A000000 		.4byte	.LVL4
+ 548 000f 3C000000 		.4byte	.LFE0
+ 549 0013 0400     		.2byte	0x4
+ 550 0015 F3       		.byte	0xf3
+ 551 0016 01       		.uleb128 0x1
+ 552 0017 50       		.byte	0x50
+ 553 0018 9F       		.byte	0x9f
+ 554 0019 00000000 		.4byte	0
+ 555 001d 00000000 		.4byte	0
+ 556              	.LLST1:
+ 557 0021 00000000 		.4byte	.LVL0
+ 558 0025 18000000 		.4byte	.LVL3
+ 559 0029 0100     		.2byte	0x1
+ 560 002b 51       		.byte	0x51
+ 561 002c 18000000 		.4byte	.LVL3
+ 562 0030 3C000000 		.4byte	.LFE0
+ 563 0034 0400     		.2byte	0x4
+ 564 0036 F3       		.byte	0xf3
+ 565 0037 01       		.uleb128 0x1
+ 566 0038 51       		.byte	0x51
+ 567 0039 9F       		.byte	0x9f
+ 568 003a 00000000 		.4byte	0
+ 569 003e 00000000 		.4byte	0
+ 570              	.LLST2:
+ 571 0042 00000000 		.4byte	.LVL0
+ 572 0046 16000000 		.4byte	.LVL2
+ 573 004a 0100     		.2byte	0x1
+ 574 004c 52       		.byte	0x52
+ 575 004d 16000000 		.4byte	.LVL2
+ 576 0051 3C000000 		.4byte	.LFE0
+ 577 0055 0400     		.2byte	0x4
+ 578 0057 F3       		.byte	0xf3
+ 579 0058 01       		.uleb128 0x1
+ 580 0059 52       		.byte	0x52
+ 581 005a 9F       		.byte	0x9f
+ 582 005b 00000000 		.4byte	0
+ 583 005f 00000000 		.4byte	0
+ 584              	.LLST3:
+ 585 0063 00000000 		.4byte	.LVL0
+ 586 0067 14000000 		.4byte	.LVL1
+ 587 006b 0100     		.2byte	0x1
+ 588 006d 53       		.byte	0x53
+ 589 006e 14000000 		.4byte	.LVL1
+ 590 0072 3C000000 		.4byte	.LFE0
+ 591 0076 0400     		.2byte	0x4
+ 592 0078 F3       		.byte	0xf3
+ 593 0079 01       		.uleb128 0x1
+ 594 007a 53       		.byte	0x53
+ 595 007b 9F       		.byte	0x9f
+ 596 007c 00000000 		.4byte	0
+ 597 0080 00000000 		.4byte	0
+ 598              		.section	.debug_aranges,"",%progbits
+ 599 0000 24000000 		.4byte	0x24
+ 600 0004 0200     		.2byte	0x2
+ 601 0006 00000000 		.4byte	.Ldebug_info0
+ 602 000a 04       		.byte	0x4
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 14
+
+
+ 603 000b 00       		.byte	0
+ 604 000c 0000     		.2byte	0
+ 605 000e 0000     		.2byte	0
+ 606 0010 00000000 		.4byte	.LFB0
+ 607 0014 3C000000 		.4byte	.LFE0-.LFB0
+ 608 0018 00000000 		.4byte	.LFB1
+ 609 001c 10000000 		.4byte	.LFE1-.LFB1
+ 610 0020 00000000 		.4byte	0
+ 611 0024 00000000 		.4byte	0
+ 612              		.section	.debug_ranges,"",%progbits
+ 613              	.Ldebug_ranges0:
+ 614 0000 00000000 		.4byte	.LFB0
+ 615 0004 3C000000 		.4byte	.LFE0
+ 616 0008 00000000 		.4byte	.LFB1
+ 617 000c 10000000 		.4byte	.LFE1
+ 618 0010 00000000 		.4byte	0
+ 619 0014 00000000 		.4byte	0
+ 620              		.section	.debug_line,"",%progbits
+ 621              	.Ldebug_line0:
+ 622 0000 80000000 		.section	.debug_str,"MS",%progbits,1
+ 622      02005400 
+ 622      00000201 
+ 622      FB0E0D00 
+ 622      01010101 
+ 623              	.LASF29:
+ 624 0000 4C43445F 		.ascii	"LCD_DMA_DmaHandle\000"
+ 624      444D415F 
+ 624      446D6148 
+ 624      616E646C 
+ 624      6500
+ 625              	.LASF18:
+ 626 0012 55707065 		.ascii	"UpperSrcAddress\000"
+ 626      72537263 
+ 626      41646472 
+ 626      65737300 
+ 627              	.LASF22:
+ 628 0022 4379446D 		.ascii	"CyDmaChPriority\000"
+ 628      61436850 
+ 628      72696F72 
+ 628      69747900 
+ 629              	.LASF17:
+ 630 0032 52657165 		.ascii	"ReqestPerBurst\000"
+ 630      73745065 
+ 630      72427572 
+ 630      737400
+ 631              	.LASF6:
+ 632 0041 73686F72 		.ascii	"short unsigned int\000"
+ 632      7420756E 
+ 632      7369676E 
+ 632      65642069 
+ 632      6E7400
+ 633              	.LASF28:
+ 634 0054 4C43445F 		.ascii	"LCD_DMA_DmaRelease\000"
+ 634      444D415F 
+ 634      446D6152 
+ 634      656C6561 
+ 634      736500
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 15
+
+
+ 635              	.LASF14:
+ 636 0067 666C6F61 		.ascii	"float\000"
+ 636      7400
+ 637              	.LASF4:
+ 638 006d 756E7369 		.ascii	"unsigned char\000"
+ 638      676E6564 
+ 638      20636861 
+ 638      7200
+ 639              	.LASF24:
+ 640 007b 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 640      43313120 
+ 640      352E342E 
+ 640      31203230 
+ 640      31363036 
+ 641 00ae 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 641      20726576 
+ 641      6973696F 
+ 641      6E203233 
+ 641      37373135 
+ 642 00e1 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 642      66756E63 
+ 642      74696F6E 
+ 642      2D736563 
+ 642      74696F6E 
+ 643              	.LASF16:
+ 644 0109 42757273 		.ascii	"BurstCount\000"
+ 644      74436F75 
+ 644      6E7400
+ 645              	.LASF8:
+ 646 0114 6C6F6E67 		.ascii	"long unsigned int\000"
+ 646      20756E73 
+ 646      69676E65 
+ 646      6420696E 
+ 646      7400
+ 647              	.LASF12:
+ 648 0126 75696E74 		.ascii	"uint8\000"
+ 648      3800
+ 649              	.LASF26:
+ 650 012c 433A5C55 		.ascii	"C:\\Users\\jrdia\\OneDrive\\Sync\\Documents\\Projec"
+ 650      73657273 
+ 650      5C6A7264 
+ 650      69615C4F 
+ 650      6E654472 
+ 651 0159 74735C4D 		.ascii	"ts\\Moving 5DOF\\PSoC Code\\5DOF_Controller\\5DOF_C"
+ 651      6F76696E 
+ 651      67203544 
+ 651      4F465C50 
+ 651      536F4320 
+ 652 0188 6F6E7472 		.ascii	"ontroller.cydsn\000"
+ 652      6F6C6C65 
+ 652      722E6379 
+ 652      64736E00 
+ 653              	.LASF15:
+ 654 0198 646F7562 		.ascii	"double\000"
+ 654      6C6500
+ 655              	.LASF13:
+ 656 019f 75696E74 		.ascii	"uint16\000"
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 16
+
+
+ 656      313600
+ 657              	.LASF0:
+ 658 01a6 756E7369 		.ascii	"unsigned int\000"
+ 658      676E6564 
+ 658      20696E74 
+ 658      00
+ 659              	.LASF9:
+ 660 01b3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 660      206C6F6E 
+ 660      6720756E 
+ 660      7369676E 
+ 660      65642069 
+ 661              	.LASF25:
+ 662 01ca 47656E65 		.ascii	"Generated_Source\\PSoC5\\LCD_DMA_dma.c\000"
+ 662      72617465 
+ 662      645F536F 
+ 662      75726365 
+ 662      5C50536F 
+ 663              	.LASF19:
+ 664 01ef 55707065 		.ascii	"UpperDestAddress\000"
+ 664      72446573 
+ 664      74416464 
+ 664      72657373 
+ 664      00
+ 665              	.LASF10:
+ 666 0200 73697A65 		.ascii	"sizetype\000"
+ 666      74797065 
+ 666      00
+ 667              	.LASF1:
+ 668 0209 6C6F6E67 		.ascii	"long long int\000"
+ 668      206C6F6E 
+ 668      6720696E 
+ 668      7400
+ 669              	.LASF21:
+ 670 0217 4379446D 		.ascii	"CyDmaChSetExtendedAddress\000"
+ 670      61436853 
+ 670      65744578 
+ 670      74656E64 
+ 670      65644164 
+ 671              	.LASF11:
+ 672 0231 63686172 		.ascii	"char\000"
+ 672      00
+ 673              	.LASF5:
+ 674 0236 73686F72 		.ascii	"short int\000"
+ 674      7420696E 
+ 674      7400
+ 675              	.LASF7:
+ 676 0240 6C6F6E67 		.ascii	"long int\000"
+ 676      20696E74 
+ 676      00
+ 677              	.LASF27:
+ 678 0249 4C43445F 		.ascii	"LCD_DMA_DmaInitialize\000"
+ 678      444D415F 
+ 678      446D6149 
+ 678      6E697469 
+ 678      616C697A 
+ 679              	.LASF2:
+ARM GAS  C:\Users\jrdia\AppData\Local\Temp\cchgaiMz.s 			page 17
+
+
+ 680 025f 6C6F6E67 		.ascii	"long double\000"
+ 680      20646F75 
+ 680      626C6500 
+ 681              	.LASF3:
+ 682 026b 7369676E 		.ascii	"signed char\000"
+ 682      65642063 
+ 682      68617200 
+ 683              	.LASF23:
+ 684 0277 4379446D 		.ascii	"CyDmaChDisable\000"
+ 684      61436844 
+ 684      69736162 
+ 684      6C6500
+ 685              	.LASF20:
+ 686 0286 4379446D 		.ascii	"CyDmaChSetConfiguration\000"
+ 686      61436853 
+ 686      6574436F 
+ 686      6E666967 
+ 686      75726174 
+ 687              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
